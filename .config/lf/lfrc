@@ -1,0 +1,253 @@
+# vim: ft=sh
+
+# Preview
+set previewer preview
+set cleaner clear_img.sh
+
+# Basic Settings
+set shell zsh
+set shellopts '-euy'
+set ifs "\n"
+set mouse
+set findlen 0
+set scrolloff 8
+set nodrawbox
+set icons
+set ignorecase
+set incsearch
+set timefmt '_2 Jan 2006 15:04'
+set promptfmt "\033[1;35;3m[ lf ] \033[1;32;3m%u \033[38;5;15min \033[34;3m%w\033[0m"
+set dircounts
+
+%[ $LF_LEVEL -eq 1 ] || notify-send "Warning!" "You're in a nested lf instance!"
+
+cmd autoratios ${{
+    w=$(tput cols)
+    if [ $w -le 80 ]; then
+        lf -remote "send $id set ratios 1:2"
+    elif [ $w -le 160 ]; then
+        lf -remote "send $id set ratios 1:2:3"
+    else
+        lf -remote "send $id set ratios 2:3:5"
+    fi
+}}
+autoratios
+
+cmd open ${{
+    open "$f"
+}}
+
+cmd decrypt !{{
+    gpg --decrypt -o "${f%.*}" "$f"
+}}
+
+cmd check-sig !{{
+    gpg --verify "$f"
+}}
+
+cmd encrypt !{{
+    printf "User ID for signing: "
+    read local_uid
+    gpg --encrypt --sign -u "$local_uid" -o "${f}.gpg"
+}}
+
+cmd encrypt-armored !{{
+    printf "User ID for signing: "
+    read local_uid
+    gpg --encrypt --sign --armor -u "$local_uid" -o "${f}.asc"
+}}
+
+cmd mkdir %{{
+    set -f
+    printf " Directory Name: "
+    read ans
+    mkdir -p -- "$ans"
+    lf -remote "send $id select \"$ans\""
+}}
+
+cmd mkfile ${{
+    set -f
+    printf "File Name: "
+    read ans
+    touch $ans
+    $EDITOR $ans
+}}
+
+cmd chmod %{{
+    printf " Mode Bits: "
+    read ans
+
+    for file in "$fx"; do
+        chmod $ans "$file"
+    done
+
+    lf -remote 'send reload'
+}}
+
+cmd sudomkfile ${{
+    printf "File Name: "
+    read ans
+    doas touch $ans
+    doasedit $ans
+}}
+
+cmd bulk-rename ${{
+    vimv --git -- $(basename -a -- $fx)
+
+    lf -remote "send $id load"
+    lf -remote "send $id unselect"
+}}
+
+cmd fzf_jump ${{
+    res="$(fd . -H --maxdepth=8 --exclude .git --exclude .cache | fzf --reverse --header='Jump to location')" || exit 0
+    if [ -f "$res" ]; then
+        cmd="select"
+        lf -remote "send $id $cmd \"$res\""
+        lf -remote "send $id open"
+    elif [ -d "$res" ]; then
+        cmd="cd"
+        lf -remote "send $id $cmd \"$res\""
+    fi
+    lf -remote "send $id 'redraw'"
+}}
+
+# archive bindings
+cmd extract ${{
+    extract $f
+}}
+
+# compress current file or selected files with zip
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}
+
+cmd du !dua i "${f%/*}"
+
+# compress current file or selected files with tar and gunzip
+cmd targz ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    tar czf $1.tar.gz $1
+    rm -rf $1
+}}
+
+# Trash cli bindings
+cmd trash ${{
+    files=$(printf "$fx" | tr '\n' ';')
+    while [ "$files" ]; do
+        file=${files%%;*}
+        trash-put "$(basename "$file")"
+        if [ "$files" = "$file" ]; then
+            files=''
+        else
+            files="${files#*;}"
+        fi
+    done
+}}
+
+cmd clear_trash %trash-empty
+
+cmd restore_trash $trash-restore
+
+cmd edit $setsid -f $TERMINAL -e $EDITOR "$f"
+
+# progress in paste command
+cmd paste-async %{{
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    shift
+    case "$mode" in
+        copy) cp -rn -- "$@" .;;
+        move) mv -n -- "$@" .;;
+    esac
+    rm ~/.local/share/lf/files
+    lf -remote "send clear"
+}}
+
+
+# Bindings
+# Remove some defaults
+map m
+map n
+map "'"
+map '"'
+map d
+map c
+
+# archive Mappings
+map az zip
+map at tar
+map ag targz
+map ab targz
+map ae extract
+
+# Trash Mappings
+map dd trash
+map tc clear_trash
+map tr restore_trash
+
+# Basic Functions
+map . set hidden!
+map e edit
+map D delete
+map p paste-async
+map P paste
+map x cut
+map y copy
+map <enter> open
+map <delete> trash
+map mf mkfile
+map mr sudomkfile
+map md mkdir
+map ch chmod
+map f fzf_jump
+map r bulk-rename
+map H top
+map L bottom
+map R reload; redraw
+map C clear
+map U unselect
+map <m-up>    up
+map <m-down>  down
+map <m-1> open
+map <m-2> updir
+map <m-3> $$SHELL
+map gi $lazygit .
+map au autoratios
+map zp set preview!
+map <esc> cmd-escape
+
+
+## MOVEMENT ##
+
+# Home
+map gv cd ~/vids
+map gp cd ~/pics
+map gw cd ~/pics/wallpapers
+map gd cd ~/docs
+map gD cd ~/dloads
+map gr cd ~/repos
+
+# Uni
+map gun cd ~/uni/
+map gua cd ~/uni/anno2/algoritmi
+map gul cd ~/uni/anno2/linguaggi
+map gud cd ~/uni/anno2/database
+map guf cd ~/uni/anno2/fondamenti
+map gup cd ~/uni/anno3/pweb
+
+# System
+map gbn cd ~/.local/bin
+map gm cd /media
+map gl cd ~/.local
+map gc cd ~/.config
+map gE cd /etc
+map gU. cd /usr
+map gUs cd /usr/share
+map gtr cd ~/.local/share/Trash/files
+map gus $lf -remote "send $id cd /run/media/$USER"

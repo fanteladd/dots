@@ -1,0 +1,11 @@
+[Unit]
+Description="Sync Vaultwarden database (timer)"
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=2h
+Persistent=true
+Unit=bwsync.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,11 @@
+{
+    "fqdn": "",
+    "interface": "wlan0",
+    "port": 0,
+    "keepAlive": false,
+    "path": "",
+    "secure": false,
+    "tls-key": "",
+    "tls-cert": "",
+    "output": "/home/davide/dloads"
+}

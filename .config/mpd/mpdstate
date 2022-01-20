@@ -1,0 +1,61 @@
+sw_volume: 100
+audio_device_state:1:pulse audio
+state: pause
+current: 15
+time: 54.844000
+random: 0
+repeat: 1
+single: 0
+consume: 0
+crossfade: 0
+mixrampdb: 0.000000
+mixrampdelay: -1.000000
+playlist_begin
+0:Metallica/1984 - Ride The Lightning/01.-Fight Fire With Fire.flac
+1:Slipknot/Slipknot/02. (SIC).flac
+2:Between the Buried and Me/Colors/01 - Foam Born (A) The Backtrack.flac
+3:Between the Buried and Me/Colors/02 - (B) The Decade Of Statues.flac
+4:Between the Buried and Me/Colors/03 - Informal Gluttony.flac
+5:Between the Buried and Me/Colors/04 - Sun Of Nothing.flac
+6:Between the Buried and Me/Colors/05 - Ants Of The Sky.flac
+7:Between the Buried and Me/Colors/06 - Prequel To The Sequel.flac
+8:Between the Buried and Me/Colors/07 - Viridian.flac
+9:Between the Buried and Me/Colors/08 - White Walls.flac
+10:TesseracT/2011 - One/01 - Lament.flac
+11:TesseracT/2011 - One/02 - Nascent.flac
+12:TesseracT/2011 - One/03 - Concealing Fate Part One - Acceptance.flac
+13:TesseracT/2011 - One/04 - Concealing Fate Part Two - Deception.flac
+14:TesseracT/2011 - One/05 - Concealing Fate Part Three - The Impossible.flac
+15:TesseracT/2011 - One/06 - Concealing Fate Part Four - Perfection.flac
+16:TesseracT/2011 - One/07 - Concealing Fate Part Five - Epiphany.flac
+17:TesseracT/2011 - One/08 - Concealing Fate Part Six - Origin.flac
+18:TesseracT/2011 - One/09 - Sunrise.flac
+19:TesseracT/2011 - One/10 - April.flac
+20:TesseracT/2011 - One/11 - Eden.flac
+21:TesseracT/2013 - Altered State/01 - Proxy.flac
+22:TesseracT/2013 - Altered State/02 - Retrospect.flac
+23:TesseracT/2013 - Altered State/03 - Resist.flac
+24:TesseracT/2013 - Altered State/04 - Nocturne.flac
+25:TesseracT/2013 - Altered State/05 - Exile.flac
+26:TesseracT/2013 - Altered State/06 - Eclipse.flac
+27:TesseracT/2013 - Altered State/07 - Palingenesis.flac
+28:TesseracT/2013 - Altered State/08 - Calabi-Yau.flac
+29:TesseracT/2013 - Altered State/09 - Singularity.flac
+30:TesseracT/2013 - Altered State/10 - Embers.flac
+31:TesseracT/2015 - Polaris/01 - Dystopia.flac
+32:TesseracT/2015 - Polaris/02 - Hexes.flac
+33:TesseracT/2015 - Polaris/03 - Survival.flac
+34:TesseracT/2015 - Polaris/04 - Tourniquet.flac
+35:TesseracT/2015 - Polaris/05 - Utopia.flac
+36:TesseracT/2015 - Polaris/06 - Phoenix.flac
+37:TesseracT/2015 - Polaris/07 - Messenger.flac
+38:TesseracT/2015 - Polaris/08 - Cages.flac
+39:TesseracT/2015 - Polaris/09 - Seven Names.flac
+40:TesseracT/2018 - Sonder/01. Luminary.flac
+41:TesseracT/2018 - Sonder/02. King.flac
+42:TesseracT/2018 - Sonder/03. Orbital.flac
+43:TesseracT/2018 - Sonder/04. Juno.flac
+44:TesseracT/2018 - Sonder/05. Beneath My Skin - Mirror Image.flac
+45:TesseracT/2018 - Sonder/06. Smile.flac
+46:TesseracT/2018 - Sonder/07. The Arrow.flac
+playlist_end

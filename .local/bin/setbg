@@ -1,0 +1,27 @@
+#!/bin/sh -e
+
+# This script does the following:
+#	Run by itself, set the wallpaper (at X start).
+#	If given a file, set that as the new wallpaper.
+#	If given a directory, choose random file in it.
+
+# Location of link to wallpaper link.
+BGLOC="${XDG_DATA_HOME:-$HOME/.local/share/}/background"
+
+# Dunst process (for notify)
+ps -C dunst > /dev/null 2>&1 && RESULT='Activated'
+
+TRUELOC="$(readlink -f "$1")" &&
+case "$(file --mime-type -b "$TRUELOC")" in
+    image/* ) ln -sf "$(readlink -f "$1")" "$BGLOC"
+        [ "$RESULT" = "Activated" ] && notify-send -i "$BGLOC" "Changing wallpaper..." ;;
+	inode/directory ) ln -sf "$(fd --type=f .\(jpg\|jpeg\|png\|gif\) "$TRUELOC" | shuf -n 1)" "$BGLOC"
+        [ "$RESULT" = "Activated" ] && notify-send -i "$BGLOC" "Random Wallpaper chosen." ;;
+	*)  [ "$RESULT" = "Activated" ] && notify-send "Error" "Not a valid image." ; exit 1 ;;
+esac
+
+if [ "$XDG_SESSION_TYPE" = 'wayland' ]; then
+    swaymsg exec output * bg ".local/share/background" fill
+else
+    xwallpaper --zoom "$BGLOC"
+fi

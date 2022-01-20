@@ -1,0 +1,56 @@
+* {
+    background-color: #121212;
+    text-color: #ebdbb2;
+    font: "SFPro Display 13";
+}
+
+#window {
+    location: south west;
+    //anchor: center;
+    height: 80px;
+    width: 460px;
+    orientation: horizontal;
+    children: [mainbox];
+    border: 10px;
+    border-color: #121212;
+    x-offset: 50px;
+    y-offset: -50px;
+}
+
+#mainbox {
+    orientation: horizontal;
+    border: 3px;
+    border-color: #ff3300;
+    paddig: 8px 15px 8px 10px;
+}
+
+#listview {
+    layout:     horizontal;
+    spacing:    10;
+    lines:      4;
+    padding: 15px 30px 15px 30px;
+}
+
+#prompt {
+    enabled: false;
+}
+
+#entry {
+    enabled: false;
+    expand: false;
+    width: 6em;
+    padding: 15px 15px 15px 15px;
+}
+
+#element {
+    padding: 0px 2px;
+}
+
+#element selected {
+    text-color: #ff3300;
+}
+
+#element-text {
+    text-color: inherit;
+    highlight: underline #ff3300;
+}

@@ -1,0 +1,38 @@
+#!/bin/sh
+# Screencast: script for launching a screen recording.
+# Use ffmpeg while on X11 and wf-recorder + slurp while on wayland.
+
+set -eu
+
+DATE=$(date +'%Y%m%d_%H%M%S')
+DIR="$HOME/vids/screencasts"
+NAME="$DIR/SCREENCAST_${DATE}.mp4"
+RESO=$(xrandr -q --current | grep '*+' | awk '{print$1}' | cut -f1 -d\ )
+TMPP=/tmp/screencast.pid
+
+# Check if the dir to store the screencasts exists, else create it
+if [ ! -d "$DIR" ]; then mkdir -p "$DIR"; fi
+
+screencast_kill(){
+    kill -2 "$(cat $TMPP)" 2> /dev/null
+    rm "$TMPP"
+}
+
+screencast_start(){
+    if [ "$XDG_SESSION_TYPE" = 'wayland' ]; then
+        nohup wf-recorder -g "$(slurp)" -f "$NAME" > /dev/null 2>&1 &
+    else
+        nohup ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -f x11grab -s "$RESO" \
+            -framerate 30 -i :0 -c:v libx264 -pix_fmt yuv420p "$NAME" > /dev/null 2>&1 &
+    fi
+    PID=$!
+    echo "$PID" > "$TMPP"
+}
+
+if [ -f "$TMPP" ]; then
+    screencast_kill
+    dunstify -h string:c-dunst-stack-tag:scasts "📹 Screencast taken!" "$NAME"
+else
+    screencast_start
+    notify-send "📹 Screencast started!"
+fi

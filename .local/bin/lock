@@ -1,0 +1,14 @@
+#!/bin/sh
+# Locking screen, notifications are off while locked.
+
+if ps -C swaylock ; then
+    exit
+fi
+
+if ! ps -C dunst ; then
+    /usr/bin/swaylock -f -C /home/davide/.config/swaylock/config
+else
+    dunstctl set-paused true
+    /usr/bin/swaylock -f -C ~/.config/swaylock/config
+    dunstctl set-paused false
+fi

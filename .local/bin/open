@@ -1,0 +1,35 @@
+#!/bin/sh
+# Open: opener script replacing xdg-open for some file type
+
+set -eu
+
+redirect() {
+  exec </dev/null 1>&0 2>&0
+}
+
+fork() {
+  exec setsid -f -- "$@"
+}
+
+spawn() {
+  redirect
+  fork "$@"
+}
+
+MIMETYPE="$(file --mime-type "$1" -bL)"
+
+case "$1" in
+  *.xopp) spawn xournalpp "$1" ;;
+esac
+
+case $MIMETYPE in
+   text/html) spawn xdg-open "$1" ;;
+   text/*|application/json) $EDITOR "$1";;
+   image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) spawn zathura --fork -- "$1" ;;
+   video/*) spawn mpv --msg-level=all=no -- "$1" ;;
+   image/gif) spawn "$HOME/.local/bin/imv-folder" "$1" || spawn nsxiv "$@" ;;
+   image/*) spawn "$HOME/.local/bin/imv-folder" "$1" || spawn nsxiv "$@";;
+   *youtube.com/watch*|*jelly*|*youtu.be*|*odysee.com*|*youtube.com/playlist)
+       spawn mpv --msg-level=all=no -- "$1" ;;
+   *) spawn xdg-open "$1" ;;
+esac

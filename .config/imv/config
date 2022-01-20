@@ -1,0 +1,85 @@
+# vim: ft=dosini
+# Default config for imv
+
+[options]
+background = #121212
+width = 3000
+height = 2000
+scaling_mode = shrink
+initial_pan = 0 0
+title_text =${imv_current_file##*/}, \($imv_width\x$imv_height\),\ $imv_scale%, \($imv_current_index/$imv_file_count\)
+
+# Overlay settings
+overlay = false
+overlay_position_bottom = true
+overlay_font = Imvfont:16
+overlay_text_color = fa8005
+overlay_background_color = 181818
+overlay_background_alpha = ee
+overlay_text =\ ${imv_current_file##*/}, \($imv_width\x$imv_height\),\ $imv_scale%, \($imv_current_index/$imv_file_count\)
+
+# Suppress built-in key bindings, and specify them explicitly in this
+# config file.
+suppress_default_binds = true
+
+[aliases]
+# Define aliases here. Any arguments passed to an alias are appended to the
+# command.
+# alias = command to run
+
+[binds]
+# Define some key bindings
+# Image navigation
+h = prev
+l = next
+p = prev
+n = next
+<Left> = prev
+<Right> = next
+gg = goto 1
+<Shift+G> = goto -1
+
+# Zooming
+k = zoom 1
+<plus> = zoom 1
+j = zoom -1
+<minus> = zoom -1
+<Shift+equal> = reset
+
+# Padding
+<Shift+H> = pan 50 0
+<Shift+J> = pan 0 -50
+<Shift+K> = pan 0 50
+<Shift+L> = pan -50 0
+
+# Rotate Clockwise by 90 degrees
+r = rotate by 90
+<Ctrl+r> = rotate by -90
+
+# Rotate the currently open image by 90 degrees by pressing 'R'
+<Shift+R> = exec mogrify -rotate 90 "${imv_current_file}"; next; prev
+<Ctrl+Shift+R> = exec mogrify -rotate 270 "${imv_current_file}"; next; prev
+<Shift+F> = exec mogrify -flop "${imv_current_file}"; next; prev
+
+# Custom commands
+<Delete> = exec trash-put "$imv_current_file" && notify-send "Image viewer" "Moved ${imv_current_file##*/} to Trash" --icon=camera-photo; next
+y = exec notify-send "Image viewer" "Yanked path of ${imv_current_file##*/}" --icon=camera-photo && wl-copy -- "${imv_current_file}"
+<Shift+W> = exec setbg "${imv_current_file}"
+
+# Other commands
+x = close
+f = fullscreen
+b = overlay
+c = center
+s = scaling next
+<Shift+S> = upscaling next
+a = zoom actual
+q = quit
+
+# Gif playback
+<period> = next_frame
+<space> = toggle_playing
+
+# Slideshow control
+t = slideshow +1
+<Shift+T> = slideshow -1

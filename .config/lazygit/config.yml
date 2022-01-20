@@ -1,0 +1,9 @@
+customCommands:
+  - key: '<c-a>'
+    prompts:
+      - type: 'input'
+        title: 'specify the file to add'
+        initialValue: '/home/davide/'
+    command: 'git --git-dir=/home/davide/repos/.dots --work-tree=/home/davide add {{index .PromptResponses 0}}'
+    context: 'files'
+    loadingText: 'adding files'

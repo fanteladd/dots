@@ -1,0 +1,20 @@
+#!/bin/sh
+
+export MOZ_ENABLE_WAYLAND=1
+export XDG_SESSION_TYPE=wayland
+export XKB_DEFAULT_LAYOUT=it
+
+timestamp=$(date +%F-%R)
+
+#doas nvidia-smi drain -m 1 -p 0000:01.00.0
+case "$1" in
+    "sway")
+        export XDG_CURRENT_DESKTOP=sway
+        exec dbus-run-session sway --unsupported-gpu
+        ;;
+    "river")
+        export XDG_CURRENT_DESKTOP=river
+        exec dbus-run-session river
+        ;;
+    *) echo "Choose a compositor (sway/river)" && exit ;;
+esac

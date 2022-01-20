@@ -1,0 +1,35 @@
+# indicator
+# no-unlock-indicator
+daemonize
+indicator-caps-lock
+screenshots
+clock
+indicator
+font=sans-serif
+fade-in=0.2
+grace=1
+hide-keyboard-layout
+
+# Ring
+indicator-radius=125
+indicator-thickness=6
+# effect
+effect-blur=7x5
+effect-vignette=0.5:0.5
+
+# line-uses-ring
+text-color=ffffff
+text-clear-color=ffffff
+text-wrong-color=ffffff
+text-ver-color=ffffff
+inside-color=ffffff00
+inside-ver-color=ffb366bf
+ring-ver-color=ffb366bf
+ring-color=98971aff
+key-hl-color=5b727cff
+separator-color=00000000
+line-uses-inside
+ring-wrong-color=e84f4fff
+inside-wrong-color=ffffff00
+inside-ver-color=ffffff00
+bs-hl-color=e1aa5dff

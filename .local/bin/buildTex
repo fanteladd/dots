@@ -1,0 +1,16 @@
+#!/bin/sh
+
+filename=$1
+name="$(basename "$filename" .tex)"
+target="$(dirname "${filename}")"
+outputFile="$(basename "$filename" .tex).pdf"
+
+mkdir -p "$target"
+
+pdflatex "$filename"
+
+if ! pgrep -f "zathura $target/$outputFile"; then
+    (zathura "$target"/"$outputFile") &
+fi
+
+rm -rf "$name.aux" "$name.toc" "$name.log"

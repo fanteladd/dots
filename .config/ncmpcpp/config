@@ -1,0 +1,66 @@
+# mpd
+ncmpcpp_directory = "~/.config/ncmpcpp"
+mpd_music_dir = "/media/media/musica_davide"
+lyrics_directory  = "~/.config/ncmpcpp/lyrics"
+mpd_host = "localhost"
+mpd_port = 6600
+mpd_crossfade_time = "5"
+
+## music visualizer
+# Available values: spectrum, wave, wave_filled, ellipse.
+visualizer_type = spectrum
+visualizer_data_source = /tmp/mpd.fifo
+visualizer_output_name = Visualizer feed
+# If you set format to 44100:16:2, make it 'yes'.
+visualizer_in_stereo = yes
+
+
+# editor
+external_editor = nvim
+use_console_editor = yes
+
+# functionality
+cyclic_scrolling = yes
+
+# looks
+header_visibility = no
+clock_display_seconds = no
+display_volume_level = no
+display_remaining_time = no
+titles_visibility = no
+progressbar_look = ──
+main_window_color = white
+player_state_color = green
+window_border_color = blue
+empty_tag_color = red
+state_line_color = white:b
+alternative_ui_separator_color = white:b
+active_window_border = blue
+progressbar_color = green
+colors_enabled = yes
+progressbar_elapsed_color = blue
+execute_on_song_change = ~/.config/ncmpcpp/notification
+state_flags_color = blue
+color1 = blue
+color2 = green
+
+# notification
+visualizer_color = cyan, green, yellow, magenta, red
+
+# [playlist]
+user_interface = classic
+playlist_display_mode = "classic"
+song_list_format = "{%a - %t}$R{%l}"
+now_playing_prefix = "$b$3"
+now_playing_suffix = "$/b$9"
+current_item_prefix = "$b$4"
+current_item_suffix = "$b$9"
+
+# lyrics
+#lyrics_fetchers = lyricwiki, azlyrics, genius, sing365, lyricsmania, metrolyrics, justsomelyrics, jahlyrics, plyrics, tekstowo, internet
+follow_now_playing_lyrics = no
+fetch_lyrics_for_current_song_in_background = no
+store_lyrics_in_song_dir = no
+
+generate_win32_compatible_filenames = yes
+allow_for_physical_item_deletion = no

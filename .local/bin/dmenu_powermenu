@@ -1,0 +1,17 @@
+#!/bin/sh -e
+# powermenu script w/ dmenu
+
+QUIT="󰈆 quit"
+SUSP="󰏤 suspend"
+REBOOT="󰜉 reboot"
+OFF="󰐥 shutdown"
+
+chosen=$(printf '%s\n%s\n%s\n%s\n' "$QUIT" "$SUSP" "$REBOOT" "$OFF" | dmenu -i -theme dark-pw) || exit 0
+
+case "$chosen" in
+    "$QUIT") swaymsg exit ;;
+    "$REBOOT")  systemctl reboot ;;
+    "$OFF") systemctl poweroff ;;
+    "$SUSP") systemctl suspend ;;
+    *) echo 'no choice!' && exit 0 ;;
+esac

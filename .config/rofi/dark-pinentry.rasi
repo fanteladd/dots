@@ -1,0 +1,41 @@
+* {
+    background-color: #121212;
+    text-color: #ebdbb2;
+    font: "SFPro Display 13";
+}
+
+#window {
+    location: south west;
+    //anchor: center;
+    height: 80px;
+    width: 18%;
+    orientation: horizontal;
+    children: [mainbox];
+    border: 10px;
+    border-color: #121212;
+    x-offset: 50px;
+    y-offset: -50px;
+}
+
+#mainbox {
+    orientation: horizontal;
+    border: 3px;
+    border-color: #98971a;
+    paddig: 8px 15px 8px 10px;
+}
+
+#listview {
+    enabled: false;
+}
+
+#prompt {
+    enabled: true;
+    padding: 15px 15px 15px 15px;
+}
+
+#entry {
+    enabled: true;
+    expand: true;
+    width: 14%;
+    padding: 15px 15px 15px 15px;
+}

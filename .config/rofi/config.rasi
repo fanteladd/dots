@@ -1,0 +1,7 @@
+configuration {
+    modi: "drun,run";
+    matching: "fuzzy";
+    display-run: "";
+}
+
+@theme "~/.config/rofi/dark.rasi"

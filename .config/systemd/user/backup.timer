@@ -1,0 +1,11 @@
+[Unit]
+Description="Backs up the home directory"
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=4h
+Persistent=true
+Unit=backup.service
+
+[Install]
+WantedBy=timers.target

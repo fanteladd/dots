@@ -1,0 +1,6 @@
+[Unit]
+Description="A script to backup all home dirs to usb drive"
+
+[Service]
+Type=simple
+ExecStart=/home/davide/.local/bin/backup.sh

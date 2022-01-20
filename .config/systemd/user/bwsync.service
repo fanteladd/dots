@@ -1,0 +1,6 @@
+[Unit]
+Description="Sync Vaultwarden database"
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/rbw sync

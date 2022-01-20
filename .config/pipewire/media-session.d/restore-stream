@@ -1,0 +1,23 @@
+{
+ "restore.stream.Output/Audio.application.name:mpv": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ] },
+ "restore.stream.Output/Audio.application.name:Chromium": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ] },
+ "restore.stream.Output/Audio.application.name:Jellyfin Media Player": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ] },
+ "restore.stream.Output/Audio.application.name:telegram-desktop": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ] },
+ "restore.stream.Output/Audio.application.name:Firefox": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ] },
+ "restore.stream.Audio/Sink.node.name:alsa_output.pci-0000_00_1f.3.pro-output-0": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "UNK", "UNK" ] },
+ "restore.stream.Audio/Sink.node.name:alsa_output.pci-0000_00_1f.3.pro-output-3": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "UNK", "UNK" ] },
+ "restore.stream.Audio/Sink.node.name:alsa_output.pci-0000_00_1f.3.pro-output-7": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000 ], "channels": [ "UNK", "UNK", "UNK", "UNK", "UNK", "UNK", "UNK", "UNK" ] },
+ "restore.stream.Audio/Sink.node.name:alsa_output.pci-0000_00_1f.3.pro-output-8": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000 ], "channels": [ "UNK", "UNK", "UNK", "UNK", "UNK", "UNK", "UNK", "UNK" ] },
+ "restore.stream.Audio/Sink.node.name:alsa_output.pci-0000_00_1f.3.pro-output-9": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000 ], "channels": [ "UNK", "UNK", "UNK", "UNK", "UNK", "UNK", "UNK", "UNK" ] },
+ "restore.stream.Audio/Sink.node.name:alsa_output.pci-0000_00_1f.3.pro-output-10": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000 ], "channels": [ "UNK", "UNK", "UNK", "UNK", "UNK", "UNK", "UNK", "UNK" ] },
+ "restore.stream.Audio/Source.node.name:alsa_input.pci-0000_00_1f.3.pro-input-0": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ] },
+ "restore.stream.Output/Audio.media.role:Communication": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000 ], "channels": [ "MONO" ] },
+ "restore.stream.Input/Audio.media.role:Communication": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ] },
+ "restore.stream.Input/Audio.application.name:telegram-desktop": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ], "target-node": "alsa_output.pci-0000_00_1f.3.analog-stereo" },
+ "restore.stream.Output/Audio.application.name:firefox": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ] },
+ "restore.stream.Output/Audio.application.name:jellyfinmediaplayer": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ] },
+ "restore.stream.Output/Audio.media.role:Music": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ] },
+ "restore.stream.Input/Audio.application.name:Firefox": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "FL", "FR" ] },
+ "restore.stream.Audio/Sink.node.name:alsa_output.usb-SteelSeries_SteelSeries_Arctis_7P-00.pro-output-0": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000, 1.000000 ], "channels": [ "AUX0", "AUX1" ] },
+ "restore.stream.Audio/Source.node.name:alsa_input.usb-SteelSeries_SteelSeries_Arctis_7P-00.pro-input-0": { "volume": 1.000000, "mute": false, "volumes": [ 1.000000 ] }
+}

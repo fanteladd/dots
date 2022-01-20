@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# A dmenu prompt to unmount drives.
+# Provides you with mounted partitions, select one to unmount.
+# Drives mounted at /, /boot and /home will not be options to unmount.
+
+set -eu
+
+unmountusb() {
+    [ -z "$usbdrives" ] && exit
+    chosen="$(echo "$usbdrives" | dmenu -p "Mount which drive? 󱁋 " -i -theme dark-dmenu)" || exit 0
+    chosen="$(echo "$chosen" | awk '{print $1}')"
+    [ -z "$chosen" ] && exit
+    udisksctl unmount --no-user-interaction -b "$chosen" && notify-send "󱁌 USB unmounting" "$chosen unmounted."
+}
+
+usbdrives="$(lsblk -Jplno "NAME,TYPE,RM,SIZE,MOUNTPOINT" | jq -r '.blockdevices[] | select(.type == "part") | select(.rm == true) | select(.mountpoint != null) | .name + " " + "(" + .size + ")"')"
+
+if [ -z "$usbdrives" ]; then
+    dunstify -t 5000 "No drives to unmount." && exit
+else
+    echo "Unmountable USB drive(s) detected."
+    unmountusb
+fi

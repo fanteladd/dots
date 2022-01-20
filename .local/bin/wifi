@@ -1,0 +1,57 @@
+#!/bin/sh -e
+#
+# Wifi related scripts
+# USAGE: wifi -l | [-c SSID PASS] | -d | -S | -s
+
+CARD=$(ip link | grep -o 'wl.\w*')
+WIFI_SSID='FRITZ!Box 7590 DC'
+
+run() { iwctl station "$CARD" "$@"; }
+
+usage() {
+
+    cat <<EOF
+Wifi related script
+
+    -c, --con
+            Connect to an available network
+    -d, --dis
+            Disconnect from connected network
+    -s, --scan
+            Scan for available networks
+    -S, --show
+            Show wlan station info
+    -l, --list
+            List available networks
+    --share
+            Share network credentials via qrcode
+    -h, --help
+            Show help
+EOF
+}
+
+case "$1" in
+   --dis | -d) run disconnect ;;
+   --show | -S) run show ;;
+   --scan | -s) run scan ;;
+   --list | -l)
+      $0 -s &&
+         # sleep 1
+         run get-networks
+      ;;
+   --con | -c)
+      # $0 -s
+      $0 -d &&
+         $0 -s &&
+         # sleep 1
+         # run --passphrase "${WIFI_PASS:-$3}" connect "${WIFI_SSID:-$2}"
+         run --passphrase "${3:-$WIFI_PASS}" connect "${2:-$WIFI_SSID}" &&
+         $0 -S
+      ;;
+   --rep | -r) $0 -c "$REPEATER_SSID" "$REPEATER_PASS" ;;
+   --saraj) $0 -c "$CJ_SSID" "$CJ_PASS" ;;
+   --marinade | -m) $0 -c "$MARINADE_SSID" "$MARINADE_PASS" ;;
+   --share) qrencode -o - -t utf8 'WIFI:S:FRITZ!Box 7590 DC;T:WPA;P:coy of testing fragile form;;' ;;
+   --help | -h) usage && exit 0 ;;
+   *)  usage && exit 0 ;;
+esac

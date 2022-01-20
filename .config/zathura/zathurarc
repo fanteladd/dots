@@ -1,0 +1,32 @@
+include colors.config
+
+set selection-clipboard clipboard
+set font "SFPro Text 12"
+set page-padding 1
+set statusbar-v-padding 2
+set statusbar-h-padding 20
+map i recolor
+map p toggle_presentation
+map [presentation] p toggle_presentation
+map b toggle_statusbar
+map [fullscreen] b toggle_statusbar
+map [presentation] b toggle_statusbar
+map f toggle_fullscreen
+map [fullscreen] f toggle_fullscreen
+
+set recolor                     "true"
+set recolor-keephue             "false"
+set adjust-open                 "best-fit"
+set pages-per-row               1
+set guioptions ""
+
+# window properties
+set window-title-basename true
+set window-title-page true
+set window-icon-document false
+set window-title-home-tilde true
+
+set scroll-step 192
+
+set synctex true
+set dbus-raise-window false

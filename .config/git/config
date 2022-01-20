@@ -1,0 +1,24 @@
+[user]
+    email = davide.toniatti@students.uniroma2.eu
+	name = Davide Toniatti
+	signingkey = 986C4EFF5CE969E2
+[core]
+	editor = nvim
+    whitespace = fix,trailing-space,cr-at-eol
+	commitGraph = true
+[commit]
+	gpgsign = true
+	status = true
+[hub]
+	protocol = ssh
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[color]
+	diff = always
+	status = always
+	branch = always
+	interactive = always
+[push]
+	default = current

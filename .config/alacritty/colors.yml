@@ -1,0 +1,43 @@
+colors:
+  primary:
+    background: '0x121212'
+    foreground: '0xebdbb2'
+  cursor:
+    text:       '0x121212'
+    cursor:     '0xebdbb2'
+  normal:
+    black:      '0x121212'
+    red:        '0xff3300'
+    green:      '0x98971a'
+    yellow:     '0xfa8005'
+    blue:       '0x83a598'
+    magenta:    '0xffb366'
+    cyan:       '0x5b727c'
+    white:      '0xebdbb2'
+  bright:
+    black:      '0x3d3d3d'
+    red:        '0xff3300'
+    green:      '0x98971a'
+    yellow:     '0xfa8005'
+    blue:       '0x83a598'
+    magenta:    '0xffb366'
+    cyan:       '0x5b727c'
+    white:      '0xa89984'
+  indexed_colors: []
+  search:
+    matches:
+      foreground: '0x000000'
+      background: '0xffffff'
+    focused_matches:
+      foreground: '0x000000'
+      background: '0xffffff'
+    bar:
+      foreground: '0x000000'
+      background: '0xffffff'
+  hints:
+    start:
+      foreground: '0x121212'
+      background: '0xffb366'
+    end:
+      foreground: '0x121212'
+      background: '0xffb366'

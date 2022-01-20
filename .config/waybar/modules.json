@@ -1,0 +1,167 @@
+{
+  "layer": "top",
+  "height": 25,
+  "modules-left": [
+    "sway/workspaces",
+    "sway/mode",
+    "sway/window"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "clock": {
+    "format": "{:%a %d %b - %H:%M}",
+    "interval": 1,
+    "tooltip": true,
+    "locale": "it_IT.UTF-8",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><big>{calendar}</big></tt>"
+  },
+  "sway/window": {
+    "max-length": 20,
+    "format": "󰄾 {}",
+    "rewrite": {
+      "": "desktop"
+    }
+  },
+  "sway/mode": {
+    "format": "<span font_weight=\"bold\">   {}</span>"
+  },
+  "sway/workspaces": {
+    "all-outputs": true,
+    "enable-bar-scroll": true,
+    "format": "{name}",
+    "format-icons": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "urgent": "!!",
+      "focused": "",
+      "default": ""
+    }
+  },
+  "backlight": {
+    "interval": 5,
+    "format": "{icon} {percent}%",
+    "format-icons": [
+      "󰃞",
+      "󰃟",
+      "󰃟",
+      "󰃟",
+      "󰃠",
+      "󰃠",
+      "󰃠"
+    ],
+    "on-scroll-up": "brightnessctl -c backlight set +3%",
+    "on-scroll-down": "brightnessctl -c backlight set 3%-"
+  },
+  "network": {
+    "interface": "wlan0",
+    "format-wifi": "{icon}",
+    "interval": 5,
+    "format-ethernet": "󰈀  {ifname}",
+    "format-linked": "󰤫",
+    "format-disconnected": "󰤮",
+    "format-alt": "󰇚 {bandwidthDownOctets}  󰕒 {bandwidthUpOctets}",
+    "format-icons": [
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ],
+    "tooltip": false
+  },
+  "tray": {
+    "icon-size": 15,
+    "spacing": 10
+  },
+  "cpu": {
+    "format": "󰓅{usage:3}%",
+    "interval": 1,
+    "states": {
+      "warning": 50,
+      "critical": 90
+    },
+    "tooltip": false
+  },
+  "memory": {
+    "format": "󰍛 {}%",
+    "interval": 1,
+    "states": {
+      "warning": 50,
+      "critical": 90
+    },
+    "tooltip": false
+  },
+  "temperature": {
+    "format": "󰔏 {temperatureC}°C",
+    "thermal-zone": 12,
+    "interval": 1,
+    "critical-threshold": 75,
+    "tooltip": false
+  },
+  "battery": {
+    "interval": 60,
+    "states": {
+      "good": 100,
+      "warning": 25,
+      "critical": 10
+    },
+    "format": "{icon} {capacity}%",
+    "format-icons": [
+      "󰁺",
+      "󰁻",
+      "󰁼",
+      "󰁽",
+      "󰁾",
+      "󰁿",
+      "󰂀",
+      "󰂁",
+      "󰂂",
+      "󰁹"
+    ],
+    "tooltip": false
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-bluetooth": "{icon} {volume}%",
+    "format-muted": "󰖁 Mute",
+    "format-headset": "{icon} {volume}%",
+    "format-icons": {
+      "headphones": "󰋋",
+      "handsfree": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "󰕿 ",
+        "󰖀 ",
+        "󰖀 ",
+        "󰖀 ",
+        "󰕾 ",
+        "󰕾 "
+      ]
+    },
+    "tooltip": false,
+    "on-click": "pulsemixer --toggle-mute"
+  },
+  "custom/pacman": {
+    "format": "󰁇 {} ",
+    "interval": 3600,
+    "exec": "checkupd.sh",
+    "exec-if": "exit 0",
+    "on-click": "swaymsg exec '$TERMINAL -a floating paru && pkill -SIGRTMIN+8 waybar' ",
+    "signal": 8
+  },
+  "custom/gpu": {
+    "format": "{}",
+    "interval": 3.0,
+    "exec": "gpu-temp.sh"
+  }
+}

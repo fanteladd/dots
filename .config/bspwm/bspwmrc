@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# Workspaces & monitor
+bspc monitor -d 1 2 3 4 5 6 7 8 9
+
+# Autostart
+/home/davide/.local/bin/launch_polybar
+
+# Truncate Command
+_bc(){
+  bspc config "$@"
+}
+
+# Global Settings
+_bc automatic_scheme            spiral
+_bc initial_polarity            first_child
+_bc pointer_modifier            mod4
+_bc pointer_action1             move
+_bc pointer_action2             resize_side
+_bc removal_adjustment          true
+_bc pointer_action3             resize_corner
+
+_bc left_monocle_padding        2
+_bc right_monocle_padding       2
+_bc top_monocle_padding         2
+_bc bottom_monocle_padding      2
+
+_bc focus_follows_pointer       true
+_bc remove_disabled_monitors    true
+_bc ignore_ewmh_focus           true
+_bc remove_unplugged_monitors   true
+_bc merge_overlapping_monitors  true
+_bc swallow_first_click         false
+_bc borderless_singleton        true
+
+# Set the border colors.
+_bc normal_border_color         "#212121"
+_bc focused_border_color        "#fe8019"
+_bc active_border_color         "#98971a"
+_bc presel_feedback_color       "#fe8019"
+
+# Define window settings
+_bc border_width                2
+_bc window_gap                  7
+_bc split_ratio                 0.57
+_bc borderless_monocle          true
+_bc gapless_monocle             true
+
+bspc rule -a Zathura state=tiled
+bspc rule -a pentablet state=floating
+bspc rule -a TelegramDesktop state=floating

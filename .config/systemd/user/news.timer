@@ -1,0 +1,11 @@
+[Unit]
+Description="Refresh Newsboat feed every 3h"
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=3h
+Persistent=true
+Unit=news.service
+
+[Install]
+WantedBy=timers.target

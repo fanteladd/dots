@@ -1,0 +1,748 @@
+use articoli;
+show tables;
+create table RI(
+Rivista VARCHAR(40) NOT NULL PRIMARY KEY,
+Costo INT NOT NULL,
+Editore VARCHAR(30) NOT NULL
+);
+create table RI( Rivista VARCHAR(40) NOT NULL PRIMARY KEY, Costo INT NOT NULL, Editore VARCHAR(30) NOT NULL );
+CREATE TABLE QU(
+    Qualif CHAR(1) NOT NULL PRIMARY KEY,
+    Descrizione VARCHAR(30) NOT NULL
+);
+CREATE TABLE QU(     Qualif CHAR(1) NOT NULL PRIMARY KEY,     Descrizione VARCHAR(30) NOT NULL );
+CREATE TABLE DIP(
+    Dipnnum INT NOT NULL PRIMARY KEY,
+    Nome VARCHAR(30) NOT NULL,
+    Sede VARCHAR(30) NOT NULL
+);
+CREATE TABLE DIP(     Dipnnum INT NOT NULL PRIMARY KEY,     Nome VARCHAR(30) NOT NULL,     Sede VARCHAR(30) NOT NULL );
+CREATE TABLE AR(
+    Titolo VARCHAR(50) NOT NULL PRIMARY KEY,
+    Rivista VARCHAR(40) NOT NULL,
+    FOREIGN KEY (rivista) REFERENCES RI(rivista) ON UPDATE CASCADE ON DELETE NO ACTION,
+    Data DATE NOT NULL
+);
+CREATE TABLE AR(     Titolo VARCHAR(50) NOT NULL PRIMARY KEY,     Rivista VARCHAR(40) NOT NULL,     FOREIGN KEY (rivista) REFERENCES RI(rivista) ON UPDATE CASCADE ON DELETE NO ACTION,     Data DATE NOT NULL );
+CREATE TABLE AU(
+    Autore VARCHAR(50) NOT NULL PRIMARY KEY,
+    Qualif CHAR(1) NOT NULL,
+    FOREIGN KEY (qualif) REFERENCES QU(qualif) ON UPDATE CASCADE ON DELETE NO ACTION,
+    Data DATE NOT NULL,
+    Dip INT NOT NULL,
+    FOREIGN KEY (dip) REFERENCES DIP(dipnnum) ON UPDATE CASCADE ON DELETE NO ACTION,
+    Sal INT NOT NULL
+);
+CREATE TABLE AU(     Autore VARCHAR(50) NOT NULL PRIMARY KEY,     Qualif CHAR(1) NOT NULL,     FOREIGN KEY (qualif) REFERENCES QU(qualif) ON UPDATE CASCADE ON DELETE NO ACTION,     Data DATE NOT NULL,     Dip INT NOT NULL,     FOREIGN KEY (dip) REFERENCES DIP(dipnnum) ON UPDATE CASCADE ON DELETE NO ACTION,     Sal INT NOT NULL );
+CREATE TABLE ARAU(
+    Titolo VARCHAR(50) NOT NULL PRIMARY KEY,
+    Autore VARCHAR(50) NOT NULL PRIMARY KEY
+);
+CREATE TABLE ARAU(     Titolo VARCHAR(50) NOT NULL PRIMARY KEY,     Autore VARCHAR(50) NOT NULL PRIMARY KEY );
+CREATE TABLE ARAU(
+    Titolo VARCHAR(50) NOT NULL,
+    Autore VARCHAR(50) NOT NULL,
+    PRIMARY KEY (Titolo, Autore)
+);
+CREATE TABLE ARAU(     Titolo VARCHAR(50) NOT NULL,     Autore VARCHAR(50) NOT NULL,     PRIMARY KEY (Titolo, Autore) );
+show tables;
+INSERT INTO RI VALUES (
+    'Computer Science', 30, 'BIT'
+)
+INSERT INTO RI VALUES (
+    'Le Scienze', 15, 'BIT'
+)
+INSERT INTO RI VALUES (
+    'IEEE-Review', 45, 'BOH Press'
+)
+INSERT INTO QU VALUES (
+    'A', 'associato'
+)
+INSERT INTO QU VALUES (
+    'O', 'ordinario'
+)
+INSERT INTO QU VALUES (
+    'R', 'ricercatore'
+)
+INSERT INTO QU VALUES (
+    'D', 'dottorando'
+)
+INSERT INTO DIP VALUES (
+    '10', 'Matematica', 'Sogene'
+)
+INSERT INTO DIP VALUES (
+    '20', 'Fisica', 'INFN'
+)
+INSERT INTO DIP VALUES (
+    '30', 'Informatica', 'Sogene'
+)
+INSERT INTO DIP VALUES (
+    '40', 'Specialistica', 'Nestor'
+)
+use articoli
+INSERT INTO RI VALUES (
+    'Computer Science', 30, 'BIT'
+);
+INSERT INTO RI VALUES (     'Computer Science', 30, 'BIT' );
+INSERT INTO RI VALUES (
+    'Le Scienze', 15, 'BIT'
+);
+INSERT INTO RI VALUES (     'Le Scienze', 15, 'BIT' );
+INSERT INTO RI VALUES (
+    'IEEE-Review', 45, 'BOH Press'
+);
+INSERT INTO RI VALUES (     'IEEE-Review', 45, 'BOH Press' );
+INSERT INTO QU VALUES (
+    'A', 'associato'
+);
+INSERT INTO QU VALUES (     'A', 'associato' );
+INSERT INTO QU VALUES (
+    'O', 'ordinario'
+);
+INSERT INTO QU VALUES (     'O', 'ordinario' );
+INSERT INTO QU VALUES (
+    'R', 'ricercatore'
+);
+INSERT INTO QU VALUES (     'R', 'ricercatore' );
+INSERT INTO QU VALUES (
+    'D', 'dottorando'
+);
+INSERT INTO QU VALUES (     'D', 'dottorando' );
+INSERT INTO DIP VALUES (
+    '10', 'Matematica', 'Sogene'
+);
+INSERT INTO DIP VALUES (     '10', 'Matematica', 'Sogene' );
+INSERT INTO DIP VALUES (
+    '20', 'Fisica', 'INFN'
+);
+INSERT INTO DIP VALUES (     '20', 'Fisica', 'INFN' );
+INSERT INTO DIP VALUES (
+    '30', 'Informatica', 'Sogene'
+);
+INSERT INTO DIP VALUES (     '30', 'Informatica', 'Sogene' );
+INSERT INTO DIP VALUES (
+    '40', 'Specialistica', 'Nestor'
+);
+INSERT INTO DIP VALUES (     '40', 'Specialistica', 'Nestor' );
+select * from DIP
+;
+--ciao
+-- Insert Rivista
+INSERT INTO RI VALUES
+    ('Computer Science', 30, 'BIT'),
+    ('Le Scienze', 15, 'BIT'),
+    ('IEEE-Review', 45, 'BOH Press');
+INSERT INTO RI VALUES     ('Computer Science', 30, 'BIT'),     ('Le Scienze', 15, 'BIT'),     ('IEEE-Review', 45, 'BOH Press');
+-- Insert Qualifica
+INSERT INTO QU VALUES
+    ('A', 'associato'),
+    ('O', 'ordinario'),
+    ('R', 'ricercatore'),
+    ('D', 'dottorando');
+INSERT INTO QU VALUES     ('A', 'associato'),     ('O', 'ordinario'),     ('R', 'ricercatore'),     ('D', 'dottorando');
+-- Insert Dipartimento
+INSERT INTO DIP VALUES
+    ('10', 'Matematica', 'Sogene'),
+    ('20', 'Fisica', 'INFN'),
+    ('30', 'Informatica', 'Sogene'),
+    ('40', 'Specialistica', 'Nestor');
+INSERT INTO DIP VALUES     ('10', 'Matematica', 'Sogene'),     ('20', 'Fisica', 'INFN'),     ('30', 'Informatica', 'Sogene'),     ('40', 'Specialistica', 'Nestor');
+-- Insert Articoli
+INSERT INTO AR VALUES
+    ('Teoria della programmazione', 'IEEE-Review', '2000-04-21'),
+    ('Le catene di Markov', 'Computer Science', '2000-04-21'),
+    ('Macchine e Teoria', 'Le Scienze', '2000-04-28'),
+    ('MySQL', 'Le Scienze', '2000-04-28'),
+    ('I Quanti', 'IEEE-Review', '2000-04-28'),
+    ('Database', 'Computer Science', '2000-04-29');
+INSERT INTO AR VALUES     ('Teoria della programmazione', 'IEEE-Review', '2000-04-21'),     ('Le catene di Markov', 'Computer Science', '2000-04-21'),     ('Macchine e Teoria', 'Le Scienze', '2000-04-28'),     ('MySQL', 'Le Scienze', '2000-04-28'),     ('I Quanti', 'IEEE-Review', '2000-04-28'),     ('Database', 'Computer Science', '2000-04-29');
+-- Insert Autori
+INSERT INTO AU VALUES
+    ('Moscarini', 'A', '1996-05-03', 10, 3000),
+    ('Calzolari', 'R', '1998-12-01', 20, 2500),
+    ('Gambosi', 'O', '2000-11-01', 30, 3000),
+    ('Vigliano', 'D', '2001-03-01', 10, 1500),
+    ('Berretti', 'R', '2002-10-15', 20, 2000);
+INSERT INTO AU VALUES     ('Moscarini', 'A', '1996-05-03', 10, 3000),     ('Calzolari', 'R', '1998-12-01', 20, 2500),     ('Gambosi', 'O', '2000-11-01', 30, 3000),     ('Vigliano', 'D', '2001-03-01', 10, 1500),     ('Berretti', 'R', '2002-10-15', 20, 2000);
+-- Insert ARAU
+INSERT INTO ARAU VALUES
+    ('Teoria della programmazione', 'Moscarini'),
+    ('Le catene di Markov', 'Calzolari'),
+    ('Macchine e Teoria', 'Gambosi'),
+    ('MySQL', 'Vigliano'),
+    ('I Quanti', 'Berretti'),
+    ('Database', 'Moscarini'),
+    ('Macchine e Teoria', 'Vigliano');
+INSERT INTO ARAU VALUES     ('Teoria della programmazione', 'Moscarini'),     ('Le catene di Markov', 'Calzolari'),     ('Macchine e Teoria', 'Gambosi'),     ('MySQL', 'Vigliano'),     ('I Quanti', 'Berretti'),     ('Database', 'Moscarini'),     ('Macchine e Teoria', 'Vigliano');
+select * from RI
+;
+select * from QU;
+select * from DIP;
+select * from AR;
+select * from AU;
+select * from ARAU;
+ALTER TABLE AU ADD Citta varchar(10) not null;
+update AU
+set Citta = 'Roma'
+where autore='Moscarini';
+update AU set Citta = 'Roma' where autore='Moscarini';
+update AU set Citta = 'Roma' where autore='Gambosi';
+update AU set Citta = 'Roma' where autore='Vigliano';
+update AU set Citta = 'Roma' where autore='Berretti';
+update AU set Citta = 'Brescia' where autore='Calzolari';
+select * from AU;
+select autore from au;
+select autore from AU;
+alter table AU rename au;
+alter table AR rename ar;
+alter table ARAU rename arau;
+alter table DIP rename dip;
+alter table Qu rename qu;
+alter table QU rename qu;
+alter table RI rename ri;
+show tables;
+select titolo from ar;
+select distinct autore from arau;
+use articoli;
+show tables
+;
+select * from arau
+;
+select distinct autore from arau;
+select titolo nome from ar
+;
+select titolo Nome, autore Cognome from arau;
+select autore, qualif from au where autore like 'A%';
+select autore, qualific from au where autore like 'A%';
+select autore, qualif from au where autore like 'A%';
+select autore, qualif from au where autore like 'V%';
+show tables;
+select * from ar
+;
+show create
+;
+show create database articoli;
+select from au where (stip >= 2000);
+select autori from au where stip >= 2000;
+select autore from au where stip >= 2000;
+select autore from au where stipendio >= 2000;
+select * from au;
+select autore from au where 
+select autore from au,qu where qualif = A or qualif = O;
+select autore from au where qualif = A or qualif = O;
+select autore from au where Qualif = A or Qualif = O;
+select autore from au where Qualif = 'A' or Qualif = 'O';
+select autore from au where stipendio >= 2000;
+select autore from au where stip >= 2000;
+select autore from au where sal >= 2000;
+select * from au,ar,arau;
+select autore from au where Qualif = 'A' or Qualif = 'O';
+select autore,au.qualif,descrizione from au where Qualif = 'A' or Qualif = 'O';
+select autore,au.qualif,descr from au where Qualif = 'A' or Qualif = 'O';
+select autore,qu.qualif,descr from au,qu where Qualif = 'A' or Qualif = 'O';
+select autore,qu.qualif,descrizione from au,qu where Qualif = 'A' or Qualif = 'O';
+select autore,au.qualif,qu.descrizione from au,qu where Qualif = 'A' or Qualif = 'O';
+select au.autore,au.qualif,qu.descrizione from au,qu where Qualif = 'A' or Qualif = 'O';
+select au.autore,au.qualif,descrizione from au,qu where Qualif = 'A' or Qualif = 'O';
+select au.autore,qualif,descrizione from au,qu where Qualif = 'A' or Qualif = 'O';
+select au.autore,au.qualif,descrizione from au,qu where au.Qualif = 'A' or au.Qualif = 'O';
+select au.autore,au.qualif,descrizione from au,qu where qu.Qualif = 'A' or qu.Qualif = 'O';
+select autore,qualif,descrizione from au,qu where qu.Qualif = 'A' or qu.Qualif = 'O';
+select autore,qualif,descrizione from au,qu where au.Qualif = 'A' or au.Qualif = 'O';
+select autore,au.qualif,descrizione from au,qu where au.Qualif = 'A' or au.Qualif = 'O';
+select autore,au.qualif,qu.descrizione from au,qu where au.Qualif = 'A' or au.Qualif = 'O';
+select * from qu;
+select autore,qualif from au where qualif='A' or qualif='O';
+select distinct autore,qualif from au where qualif='A' or qualif='O';
+select distinct autore from au where qualif='A' or qualif='O';
+select distinct autore professore from au where qualif='A' or qualif='O';
+select autore professore from au where qualif='A' or qualif='O';
+select autore professore from au where qualif in ('A','O');
+select autore professore from au where qualif='A' or qualif='O';
+select autore professore from au where qualif in ('A','O');
+select titolo from ar where titolo like 'M%'
+;
+;
+select autore,sede from au,dip where autore='Moscarini';
+select autore,sede from au,dip where au.autore='Moscarini';
+select au.autore,dip-sede from au,dip where au.autore='Moscarini' and au.dip = dip.dipnnum;
+select au.autore,dip.sede from au,dip where au.autore='Moscarini' and au.dip = dip.dipnnum;
+select autore,sede from au,dip where au.autore='Moscarini' and au.dip = dip.dipnnum;
+select autore,sede from au,dip where autore='Moscarini' and dip = dipnnum;
+select autore,sede from au,dip where dip = dipnnum;
+select titolo,rivista,costo from ar,ri where articolo='Database' and dip.rivista = ri.rivista;
+select titolo,au.rivista,costo from ar,ri where articolo='Database' and dip.rivista = ri.rivista;
+select titolo,rivista,costo from ar,ri where articolo='Database' and dip.rivista = ri.rivista;
+select titolo,rivista,costo from ar,ri where articolo='Database' and ar.rivista = ri.rivista;
+select titolo,ar.rivista,costo from ar,ri where articolo='Database' and ar.rivista = ri.rivista;
+select titolo,ar.rivista,costo from ar,ri where titolo='Database' and ar.rivista = ri.rivista;
+select titolo,rivista,costo from ar,ri where titolo='Database' and ar.rivista = ri.rivista;
+select titolo,ar.rivista,costo from ar,ri where titolo='Database' and ar.rivista = ri.rivista;
+select titolo,ri.rivista,costo from ar,ri where titolo='Database' and ar.rivista = ri.rivista;
+select titolo,ri.rivista,costo from ar,ri where ar.rivista = ri.rivista;
+drop table arau;
+CREATE TABLE ARAU(
+    Titolo VARCHAR(50) NOT NULL,
+    FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,
+    Autore VARCHAR(50) NOT NULL,
+    FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION,
+    PRIMARY KEY (Titolo, Autore)
+);
+CREATE TABLE ARAU(     Titolo VARCHAR(50) NOT NULL,     FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,     Autore VARCHAR(50) NOT NULL,     FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION,     PRIMARY KEY (Titolo, Autore) );
+CREATE TABLE arau(
+    Titolo VARCHAR(50) NOT NULL,
+    FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,
+    Autore VARCHAR(50) NOT NULL,
+    FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION,
+    PRIMARY KEY (Titolo, Autore)
+);
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,     Autore VARCHAR(50) NOT NULL,     FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION,     PRIMARY KEY (Titolo, Autore) );
+CREATE TABLE arau(
+    Titolo VARCHAR(50) NOT NULL,
+    FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,
+    Autore VARCHAR(50) NOT NULL,
+    FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION,
+);
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,     Autore VARCHAR(50) NOT NULL,     FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION, );
+CREATE TABLE arau(
+    Titolo VARCHAR(50) NOT NULL,
+    Autore VARCHAR(50) NOT NULL,
+    PRIMARY KEY (Titolo, Autore)
+);
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     Autore VARCHAR(50) NOT NULL,     PRIMARY KEY (Titolo, Autore) );
+drop table arau;
+CREATE TABLE arau(
+    Titolo VARCHAR(50) NOT NULL,
+    FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,
+    Autore VARCHAR(50) NOT NULL,
+    FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION,
+);
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,     Autore VARCHAR(50) NOT NULL,     FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION, );
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,     Autore VARCHAR(50) NOT NULL,     FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION );
+use articoli;
+CREATE TABLE arau(
+    Titolo VARCHAR(50) NOT NULL,
+    FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,
+    Autore VARCHAR(50) NOT NULL,
+    FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION,
+    PRIMARY KEY (Titolo, Autore)
+);
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,     Autore VARCHAR(50) NOT NULL,     FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION,     PRIMARY KEY (Titolo, Autore) );
+CREATE TABLE arau(
+    Titolo VARCHAR(50) NOT NULL,
+    Autore VARCHAR(50) NOT NULL,
+    PRIMARY KEY (Titolo, Autore)
+);
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     Autore VARCHAR(50) NOT NULL,     PRIMARY KEY (Titolo, Autore) );
+alter table arau add foreign key (Titolo) references ar(Titolo= on update cascade on delete no action;
+alter table arau add foreign key (Titolo) references ar(Titolo) on update cascade on delete no action;
+alter table arau add foreign key (Autore) references ar(Autore) on update cascade on delete no action;
+alter table arau add foreign key (Autore) references au(Autore) on update cascade on delete no action;
+use articoli
+INSERT INTO ARAU VALUES
+    ('Teoria della programmazione', 'Moscarini'),
+    ('Le catene di Markov', 'Calzolari'),
+    ('Macchine e Teoria', 'Gambosi'),
+    ('MySQL', 'Vigliano'),
+    ('I Quanti', 'Berretti'),
+    ('Database', 'Moscarini'),
+    ('Macchine e Teoria', 'Vigliano');
+INSERT INTO ARAU VALUES     ('Teoria della programmazione', 'Moscarini'),     ('Le catene di Markov', 'Calzolari'),     ('Macchine e Teoria', 'Gambosi'),     ('MySQL', 'Vigliano'),     ('I Quanti', 'Berretti'),     ('Database', 'Moscarini'),     ('Macchine e Teoria', 'Vigliano');
+INSERT INTO arau VALUES     ('Teoria della programmazione', 'Moscarini'),     ('Le catene di Markov', 'Calzolari'),     ('Macchine e Teoria', 'Gambosi'),     ('MySQL', 'Vigliano'),     ('I Quanti', 'Berretti'),     ('Database', 'Moscarini'),     ('Macchine e Teoria', 'Vigliano');
+select * from arau
+;
+select titolo,rivista,costo from ar,ri where titolo='Database' and ar.rivista = ri.rivista;
+select titolo,ar.rivista,costo from ar,ri where titolo='Database' and ar.rivista = ri.rivista;
+select titolo,ar.rivista,costo from ar,ri where ar.rivista = ri.rivista;
+use articoli;
+select arau.titolo,arau.autore,descrizione from arau,au,ar,qu where arau.titolo='Macchine e Teoria' and au.autore = arau.autore and au.qualif = qu.qualif;
+select arau.titolo,arau.autore,descrizione from arau,au,ar,qu where arau.titolo='Macchine e Teoria'and ar.titolo = arau.titolo and au.autore = arau.autore and au.qualif = qu.qualif;
+use articoli
+drop table arau;
+CREATE TABLE arau(
+    Titolo VARCHAR(50) NOT NULL,
+    Autore VARCHAR(50) NOT NULL,
+    PRIMARY KEY (Titolo, Autore)
+    FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,
+    FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION,
+);
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     Autore VARCHAR(50) NOT NULL,     PRIMARY KEY (Titolo, Autore)     FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,     FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION, );
+CREATE TABLE arau(
+    Titolo VARCHAR(50) NOT NULL,
+    Autore VARCHAR(50) NOT NULL,
+    PRIMARY KEY (Titolo, Autore)
+    FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,
+    FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION
+);
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     Autore VARCHAR(50) NOT NULL,     PRIMARY KEY (Titolo, Autore)     FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,     FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION );
+CREATE TABLE arau(
+    Titolo VARCHAR(50) NOT NULL,
+    Autore VARCHAR(50) NOT NULL,
+    PRIMARY KEY (Titolo, Autore),
+    FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,
+    FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION
+);
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     Autore VARCHAR(50) NOT NULL,     PRIMARY KEY (Titolo, Autore),     FOREIGN KEY (Titolo) REFERENCES AR(Titolo) ON UPDATE CASCADE ON DELETE NO ACTION,     FOREIGN KEY (Autore) REFERENCES AU(Autore) ON UPDATE CASCADE ON DELETE NO ACTION );
+CREATE TABLE arau(     Titolo VARCHAR(50) NOT NULL,     Autore VARCHAR(50) NOT NULL,     PRIMARY KEY (Titolo, Autore));
+alter table arau add foreign key (Autore) references au(Autore) on update cascade on delete no action;
+alter table arau add foreign key (Titolo) references ar(Titolo) on update cascade on delete no action;
+use articoli
+select * from au
+;
+select * from arau;
+INSERT INTO arau VALUES
+    ('Teoria della programmazione', 'Moscarini'),
+    ('Le catene di Markov', 'Calzolari'),
+    ('Macchine e Teoria', 'Gambosi'),
+    ('MySQL', 'Vigliano'),
+    ('I Quanti', 'Berretti'),
+    ('Database', 'Moscarini'),
+    ('Macchine e Teoria', 'Vigliano');
+INSERT INTO arau VALUES     ('Teoria della programmazione', 'Moscarini'),     ('Le catene di Markov', 'Calzolari'),     ('Macchine e Teoria', 'Gambosi'),     ('MySQL', 'Vigliano'),     ('I Quanti', 'Berretti'),     ('Database', 'Moscarini'),     ('Macchine e Teoria', 'Vigliano');
+use articoli;
+select * from arau;
+select titolo,rivista,costo from ar join ri on ar.rivista = ri.rivsta and titolo = 'Database'; 
+select titolo,rivista,costo from ar join ri on ar.rivista = ri.rivista and titolo = 'Database'; 
+select titolo,ar.rivista,costo from ar join ri on ar.rivista = ri.rivista and titolo = 'Database'; 
+select ar.titolo,au.autore,qu.qualif,descrizione from ar,arau,au,qu where arau.titolo = ar.titolo and au.autore = arau.autore and au.qualif = qu.qualif and ar.titolo = 'Macchine e teoria'
+;
+select ar.titolo,au.autore,qu.qualif,descrizione from ar,arau,au,qu where arau.titolo = ar.titolo and au.autore = arau.autore and au.qualif = qu.qualif and ar.titolo = 'Macchine e teoria';
+select ar.titolo,au.autore,au.qualif,descrizione from ar,au join arau on ar.titolo = arau.titolo
+;
+select ar.titolo,au.autore,au.qualif,qu.descrizione from ar,au join arau on ar.titolo = arau.titolo;
+select ar.titolo,au.autore,au.qualif,qu.descrizione from ar,au,qu join arau on ar.titolo = arau.titolo;
+select ar.titolo,au.autore,au.qualif,qu.descrizione from ar join arau on ar.titolo = arau.titolo and ar.titolo = 'Macchine e teoria' and from au join arau on ar.autore = arau.autore and from ar join qu on ar.qualif = au.qualif ;
+use articoli
+- select ar.titolo,au.autore,qu.qualif,descrizione from ar,arau,au,qu where arau.titolo = ar.titolo and au.autore = arau.autore and au.qualif = qu.qualif and ar.titolo = 'Macchine e teoria';
+select ar.titolo,au.autore,qu.qualif,descrizione from ar,arau,au,qu where arau.titolo = ar.titolo and au.autore = arau.autore and au.qualif = qu.qualif and ar.titolo = 'Macchine e teoria';
+- select ar.titolo,au.autore,qu.descrizione from arau,au,qu where au.autore = arau.autore and au.qualif = qu.qualif and titolo = 'Macchine e teoria';
+select arau.titolo,au.autore,qu.descrizione from arau,au,qu where au.autore = arau.autore and au.qualif = qu.qualif and titolo = 'Macchine e teoria';
+select arau.titolo,au.autore,qu.descrizione from arau join au on arau.titolo = au.titolo and titolo = 'Macchine e teoria';
+select arau.titolo,au.autore,qu.descrizione from arau,qu join au on arau.titolo = au.titolo and titolo = 'Macchine e teoria';
+select arau.titolo,au.autore,qu.descrizione from arau,au join au,qu on arau.titolo = au.titolo and titolo = 'Macchine e teoria';
+select arau.titolo,au.autore,qu.descrizione from arau join au on arau.autore = au.autore and titolo = 'Macchine e teoria';
+select arau.titolo,au.autore from arau join au on arau.autore = au.autore and titolo = 'Macchine e teoria';
+select arau.titolo,au.autore,qu.descrizione from arau,au join au,qu on arau.autore = au.autore and titolo = 'Macchine e teoria';
+select arau.titolo,au.autore,qu.descrizione from arau join (au join qu on au.qualif = qu.qualif) on arau.titolo = au.titolo and titolo = 'Macchine e teoria';
+select arau.titolo,au.autore,qu.descrizione from arau join (au join qu on au.qualif = qu.qualif) on arau.autore = au.autore and titolo = 'Macchine e teoria';
+select arau.titolo,au.autore,qu.descrizione from arau,au,qu where au.autore = arau.autore and au.qualif = qu.qualif;
+select arau.titolo,au.autore,qu.descrizione from arau join au on arau.autore = au.autore and titolo = 'Macchine e teoria' and join qu on au.qualif = qu.qualif;
+select arau.titolo,au.autore,qu.descrizione from arau join au on arau.autore = au.autore and titolo = 'Macchine e teoria', from join qu on au.qualif = qu.qualif;
+select arau.titolo,au.autore,qu.descrizione from arau join au on arau.autore = au.autore and titolo = 'Macchine e teoria', from au join qu on au.qualif = qu.qualif;
+select arau.titolo,au.autore,qu.descrizione from arau join au on arau.autore = au.autore and titolo = 'Macchine e teoria' and from au join qu on au.qualif = qu.qualif;
+select arau.titolo,au.autore,qu.descrizione from arau join au on arau.autore = au.autore and titolo = 'Macchine e teoria' and au join qu on au.qualif = qu.qualif;
+select arau.titolo,au.autore,qu.descrizione from arau join au on arau.autore = au.autore and titolo = 'Macchine e teoria' and join qu on au.qualif = qu.qualif;
+select arau.titolo,au.autore,qu.descrizione from arau join au on arau.autore = au.autore and titolo = 'Macchine e teoria' and join qu on au.qualif = qu.qualif;
+select arau.titolo,au.autore,qu.descrizione from arau join (au join qu on au.qualif = qu.qualif) on arau.autore = au.autore;
+select arau.titolo,au.autore,qu.descrizione,ri.costo from arau,ar,au,qu,ri where au.autore = arau.autore and ar.titolo = arau.titolo and au.qualif = qu.qualif and ar.rivista = ri.rivista;
+select arau.titolo,au.autore,qu.descrizione,ri.costo from arau,ar,au,qu,ri where au.autore = arau.autore and au.qualif = qu.qualif and ar.rivista = ri.rivista;
+select arau.titolo,au.autore,qu.descrizione,ri.costo from ri join (ar join (arau join (qu on au.qualif = qu.qualif) on arau.autore = au.autore) on ar.titolo = arau.titolo) ;
+select arau.titolo,au.autore,qu.descrizione,ri.costo from ri join (ar join (arau join (qu on au.qualif = qu.qualif) on arau.autore = au.autore) on ar.titolo = arau.titolo) ar on ar.rivista = ri.rivista;
+select arau.titolo,au.autore,qu.descrizione,ri.costo from ri join (ar join (arau join (qu on au.qualif = qu.qualif) on arau.autore = au.autore) on ar.titolo = arau.titolo) on ar.rivista = ri.rivista;
+use articoli;
+select arau.titolo,au.autore,qu.descrizione,ri.costo from ar join (arau join (au join qu on au.qualif = qu.qualif) on arau.autore = au.autore);
+select arau.titolo,au.autore,qu.descrizione from ar join (arau join (au join qu on au.qualif = qu.qualif) on arau.autore = au.autore);
+select arau.titolo,au.autore,qu.descrizione from (arau join (au join qu on au.qualif = qu.qualif) on arau.autore = au.autore);
+select arau.titolo,au.autore,qu.descrizione,ar.rivista from (ar join (arau join (au join qu on au.qualif = qu.qualif) on arau.autore = au.autore) on ar.titolo = arau.titolo);
+select arau.titolo,au.autore,qu.descrizione,ar.rivista,ri.costo from (ri join (ar join (arau join (au join qu on au.qualif = qu.qualif) on arau.autore = au.autore) on ar.titolo = arau.titolo) in ar.rivista = ri.rivista);
+select arau.titolo,au.autore,qu.descrizione,ar.rivista,ri.costo from (ri join (ar join (arau join (au join qu on au.qualif = qu.qualif) on arau.autore = au.autore) on ar.titolo = arau.titolo) on ar.rivista = ri.rivista);
+select arau.titolo,au.autore,qu.descrizione,ri.costo from (ri join (ar join (arau join (au join qu on au.qualif = qu.qualif) on arau.autore = au.autore) on ar.titolo = arau.titolo) on ar.rivista = ri.rivista);
+select avg(costo) from ri;
+select avg(costo) Costo medio from ri;
+select avg(costo) (Costo medio) from ri;
+select max(sal),min(sal) from au where au.dipartimento = dip.dipartimento;
+select max(sal),min(sal) from au where au.dipnnum = dip.dipnnum;
+select max(sal),min(sal) from au where au.dippnum = dip.dippnum;
+select * from au
+;
+select max(sal),min(sal) from au where au.dip = dip.dippnum;
+select max(sal),min(sal) from au where au.dip = dip.dip;
+select max(sal),min(sal) from au where au.dip = dip.dipnnum;
+select * from dip;
+select max(sal),min(sal) from au where au.dip = dip.Dipnnum;
+select dipnnum from dip;
+select max(sal),min(sal) from au,dip where au.dip = dip.Dipnnum;
+select autore from au,dip where au.dip = dip.Dipnnum;
+select autore,descrizione from au,dip where au.dip = dip.Dipnnum;
+select autore,nome from au,dip where au.dip = dip.Dipnnum;
+select autore,nome,max(sal),min(sal) from au,dip where au.dip = dip.Dipnnum;
+select autore,nome,max(sal),min from au,dip where au.dip = dip.Dipnnum group by dip;
+select autore,nome,max(sal),min(sal) from au,dip where au.dip = dip.Dipnnum group by dip;
+select autore,nome,max(sal),min(sal) from au join dip on au.dip = dip.dipnnum and group by dip;
+select autore,nome,max(sal),min(sal) from dip join au on au.dip = dip.dipnnum and group by dip;
+select count(data),count(dip) from au;
+select count(data),count(dip) from au group by au;
+select au,count(data),count(dip) from au group by au;
+select au,count(data),count(dip) from au group by autore;
+select count(data),count(dip) from au group by autore;
+select count(data),count(dip) from au group by data;
+select count(data),count(dip) from au group by data and dip;
+select count(data),count(dip) from au group by data or dip;
+select count(autore) from au group by data and dip;
+select count(autore) from au group by data having count(data);
+select count(autore) from au group by data having count(dip);
+select count(autore) from au group by data;
+select count(autore) from au group by dip;
+select count(autore) from au group by data;
+select count(autore) from au group by dip;
+select count(autore),cont(autore) from au group by dip;
+select count(autore), from au group by dip;
+select count(autore) from au group by dip;
+select count(autore) per_nascita from au group by dip;
+select count(autore) 'per nascita' count(autore) 'per dipartimento' from au group by dip;
+select count(autore) 'per nascita' count(autore) 'per dipartimento' from au group by dip,data;
+suddivisi per città di nascita 
+select dip, citta, count(*) from AU group by citta,dip; 
+suddivisi per città di nascita  select dip, citta, count(*) from AU group by citta,dip;
+select dip, citta, count(*) from AU group by citta,dip;
+select dip, citta, count(*) from au group by citta,dip;
+select autore, dip, citta, count(*) from AU group by citta,dip;
+select autore, dip, citta, count(*) from au group by citta,dip;
+select dip, citta, count(*) from au group by citta,dip;
+use articoli
+select au.autori from au where au.stip > (select max(stip) from au);
+select au.autore from au where au.stip > (select max(stip) from au);
+select au.autore from au where au.stipendio >
+select au.autore from au where au.sal > (select max(sal) from au);
+select max(sal) from au;
+select au.autore from au where au.sal = (select max(sal) from au);
+select au.autore, au.sal from au where au.sal = (select max(sal) from au);
+select au.autore, au.citta, au.stip from au where au.stip > (select stip from au where autore = 'Calzolari');
+select au.autore, au.citta, au.sal from au where au.sal > (select sal from au where autore = 'Calzolari');
+select * from au;
+select autore, citta, sal from au where sal > (select sal from au where autore = 'Calzolari');
+select autore,qualif from au where qualif != (select qualif from au where autore != 'Calzolari');
+select autore,qualif from au where qualif = (select qualif from au where autore != 'Calzolari');
+select autore,qualif from au where qualif != (select qualif from au where autore = 'Calzolari');
+select autore,qualif from au where qualif = (select qualif from au where autore = 'Calzolari');
+select autore,qualif from au where qualif != (select qualif from au where autore = 'Calzolari');
+select autore,qualif from au where qualif = (select qualif from au where autore = 'Calzolari');
+select autore,qualif from au where qualif != (select qualif from au where autore = 'Calzolari');
+select autore,qualif from au where qualif in (select qualif from au where autore != 'Calzolari');
+select autore,qualif from au where qualif not in (select qualif from au where autore != 'Calzolari');
+select autore,qualif from au where qualif in (select qualif from au where autore = 'Calzolari');
+select autore,qualif from au where qualif not in (select qualif from au where autore = 'Calzolari');
+select autore,qualif from au where qualif not in (select qualif from au where autore != 'Calzolari');
+(select qualif from au where autore != 'Calzolari');
+select derived autore,qualif from au where qualif not in (select qualif from au where autore != 'Calzolari');
+select autore,qualif from au where qualif = (select qualif from au where autore = 'Calzolari');
+select autore,qualif from au where qualif != (select qualif from au where autore = 'Calzolari');
+select autore,qualif from au where qualif = (select qualif from au where autore = 'Calzolari');
+select autore, citta, sal from au where sal > (select sal from au where autore = 'Calzolari');
+select autore, citta, sal from au x, au y where x.autore = 'Calzolari' and x.sal > y.sal;
+select x.autore, x.citta, x.sal from au x, au y where x.autore = 'Calzolari' and x.sal > y.sal;
+select y.autore, y.citta, y.sal from au x, au y where x.autore = 'Calzolari' and x.sal > y.sal;
+select x.autore, x.citta, x.sal from au x, au y where x.autore = 'Calzolari' and x.sal > y.sal;
+select x.autore, x.citta, x.sal from au x, au y where y.autore = 'Calzolari' and x.sal > y.sal;
+select x.autore, y.citta, x.sal from au x, au y where y.autore = 'Calzolari' and x.sal > y.sal;
+select x.autore, y.citta, y.sal from au x, au y where y.autore = 'Calzolari' and x.sal > y.sal;
+select autore,qualif from au where qualif = (select qualif from au where autore = 'Calzolari');
+select autore,qualif from au x, au y where x.qualif = y.qualif and autore = 'Calzolari';
+select x.autore,x.qualif from au x, au y where x.qualif = y.qualif and autore = 'Calzolari';
+select x.autore,x.qualif from au x, au y where x.qualif = y.qualif and x.autore = 'Calzolari';
+select x.autore,x.qualif from au x, au y where x.qualif = y.qualif and y.autore = 'Calzolari';
+select autore from arau x, arau y, au z, au w where x.autore = y.autore and x.autore = 'Moscarini';
+select x.autore from arau x, arau y, au z, au w where x.autore = y.autore and x.autore = 'Moscarini';
+select x.autore from arau x, arau y, au z, au w where x.autore = y.autore and y.autore = 'Moscarini';
+select x.autore from arau x, arau y, au z, au w where x.autore = 'Moscarini' and y.autore = x.autore;
+select x.autore from arau x, arau y, au z, au w where x.autore = z.autore and z.autore = 'Moscarini';
+select x.autore from arau x, arau y, au z, au w where x.autore = z.autore and x.autore = 'Moscarini';
+select x.autore from arau x, arau y, au z, au w where x.autore = 'Moscarini';
+select x.autore from arau x where x.autore = 'Moscarini';
+select x.autore from arau x, ar y where x.autore = 'Moscarini' and x.titolo = y.titolo;
+select x.autore, y.rivista from arau x, ar y where x.autore = 'Moscarini' and x.titolo = y.titolo;
+select x.autore, y.rivista from arau x, ar y, ar z where x.autore = 'Moscarini' and x.titolo = y.titolo and z.rivista = y.rivista ;
+select x.autore, y.rivista from arau x, ar y, ar z where x.titolo = y.titolo and z.rivista = y.rivista ;
+select x.autore, y.rivista from arau x, ar y, ar z where x.titolo = y.titolo and z.rivista = y.rivista and x.autore = 'Moscarini';
+select x.autore, y.rivista from arau x, ar y, ar z where x.autore = 'Moscarini' and x.titolo = y.titolo and z.rivista = y.rivista ;
+select x.autore, y.rivista from arau x, ar y, ar z where x.autore = 'Moscarini' and x.titolo = y.titolo ;
+select x.autore, y.rivista from arau x, ar y, ar z where x.titolo = y.titolo and y.rivista = z.rivista and x.autore = 'Moscarini';
+select x.autore, y.rivista from arau x, ar y, ar z where x.titolo = y.titolo and x.autore = 'Moscarini' and z.;
+select x.autore, y.rivista from arau x, ar y, ar z where x.titolo = y.titolo and x.autore = 'Moscarini';
+select x.autore, y.rivista from arau x, ar y, ar z where x.titolo = y.titolo and x.autore = 'Moscarini' and z.rivista in x.rivista;
+select x.autore from arau x, arau y, ar z, ar w where x.titolo = z.titolo and x.autore = 'Moscarini' and w.rivista in z.rivista;
+select x.autore from arau x, arau y, ar z, ar w where x.titolo = z.titolo and x.autore = 'Moscarini';
+select x.autore from arau x, arau y, ar z, ar w where x.titolo = z.titolo and x.autore = 'Moscarini' and w.rivista in z.rivista;
+select x.autore from arau x, ar z where x.titolo = z.titolo;
+select x.autore from arau x, ar w, ar z where x.titolo = z.titolo and x.autore = 'Moscarini' and w.rivista = z.rivista;
+select x.autore from arau x, ar w, ar z where x.titolo = z.titolo and x.autore = 'Moscarini' and w.rivista in z.rivista;
+select x.autore from arau x, arau y, ar z, ar w where x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore = 'Moscarini';
+select x.autore, x.rivista from arau x, arau y, ar z, ar w where x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore = 'Moscarini';
+select w.autore, w.rivista from arau x, arau y, ar z, ar w where x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore = 'Moscarini';
+select x.autore, w.rivista from arau x, arau y, ar z, ar w where x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore = 'Moscarini';
+select x.autore, w.rivista from arau x, arau y, ar z, ar w where x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore != 'Moscarini';
+select x.autore, w.rivista from arau x, arau y, ar z, ar w where x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore = 'Moscarini';
+select x.autore, w.rivista from arau x, arau y, ar z, ar w where x.titolo = z.titolo and z.rivista = w.rivista and w.titolo = y.titolo;
+select x.autore, w.rivista from arau x, arau y, ar z, ar w where x.titolo = z.titolo and z.rivista = w.rivista;
+select x.autore, w.rivista from arau x, arau y, ar z, ar w where x.titolo = z.titolo and z.rivista = w.rivista and w.titolo = y.titolo;
+select x.autore, w.rivista from arau x, arau y, ar z, ar w where x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore = 'Moscarini';
+select x.autore, w.rivista from arau x, arau y, ar z, ar w where x.autore = 'Moscarini' and x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo;
+select x.autore, w.rivista from arau x, arau y, ar z, ar w where x.autore = 'Moscarini' and x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo y.autore != 'Moscarini';
+select x.autore, w.rivista from arau x, arau y, ar z, ar w where x.autore = 'Moscarini' and x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore != 'Moscarini';
+select autore,qualif from au where qualif = (select qualif from au where autore = 'Calzolari') and autore != 'Calzolari';
+select x.autore,x.qualif from au x, au y where x.qualif = y.qualif and y.autore = 'Calzolari' and y.autore != 'Calzolari';
+select x.autore,x.qualif from au x, au y where x.qualif = y.qualif and y.autore = 'Calzolari' and x.autore != 'Calzolari';
+select y.autore, y.rivista from arau x, arau y, ar z, ar w where x.autore = 'Moscarini' and x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore != 'Moscarini';
+select y.autore, w.rivista from arau x, arau y, ar z, ar w where x.autore = 'Moscarini' and x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore != 'Moscarini';
+select y.autore from arau x, arau y, ar z, ar w where x.autore = 'Moscarini' and x.titolo = z.titolo and z.rivista = w.rivista and y.titolo = w.titolo and y.autore != 'Moscarini';
+select rivista from ar,arau where ar.titolo = arau.titolo and arau.autore = Moscarini;
+select rivista from ar,arau where ar.titolo = arau.titolo and arau.autore = 'Moscarini';
+select autore from arau, ar where arau.titolo = ar.titolo and ar.rivista in (select rivista from ar,arau where ar.titolo = arau.titolo and arau.autore = 'Moscarini');
+select autore from arau, ar where arau.titolo = ar.titolo and ar.rivista in (select rivista from ar,arau where ar.titolo = arau.titolo and arau.autore = 'Moscarini') and arau.autore != 'Moscarini';
+select sal from au,dip where au.dip = dip.dipnnum;
+select sal,dip.descrizione from au,dip where au.dip = dip.dipnnum;
+select sal,dip.descr from au,dip where au.dip = dip.dipnnum;
+select sal,dip.desc from au,dip where au.dip = dip.dipnnum;
+select * from dip;
+select sal,dip.nome from au,dip where au.dip = dip.dipnnum;
+select min(sal),dip.nome from au,dip where au.dip = dip.dipnnum;
+select sal,dip.nome from au,dip where au.dip = dip.dipnnum;
+select sal,dip.nome from au,dip where au.dip = dip.dipnnum group by dip;
+select sal,dip.nome from au,dip where au.dip = dip.dipnnum group by sal;
+select sal,dip.nome from au,dip where au.dip = dip.dipnnum group by min(sal);
+select min(sal),dip.nome from au,dip where au.dip = dip.dipnnum group by sal;
+select sal,dip.nome from au,dip where au.dip = dip.dipnnum group by sal;
+select max(sal),dip.nome from au,dip where au.dip = dip.dipnnum group by sal;
+select sal,dip.nome from au,dip where au.dip = dip.dipnnum group by sal;
+update au set sal = 2500 where autore = 'Berretti';
+select * from au;
+select sal,dip.nome from au,dip where au.dip = dip.dipnnum group by sal;
+select min(sal),dip.nome from au,dip where au.dip = dip.dipnnum group by sal;
+select autore,min(sal),dip.nome from au,dip where au.dip = dip.dipnnum group by sal;
+select autore,dip,sal from au,dip where dip = dipnnum;
+select autore,dip,sal from au,dip where dip = dipnnum and (dip,sal) in (select max(sal) from au, dip where dip = dipnnum);
+select autore,dip,sal from au,dip where dip = dipnnum and (dip,sal) in (select max(sal) from au, dip where group by dip);
+select autore,dip,sal from au,dip where dip = dipnnum and (dip,sal) in (select max(sal) from au, dip group by dip);
+select autore,dip,sal from au,dip where dip = dipnnum and (dip,sal) in (select dip,max(sal) from au, dip group by dip);
+select dip,max(sal) from au, dip group by dip;
+select autore,dip,sal from au,dip where dip = dipnnum and sal = (select dip,max(sal) from au x, x.dip = au.dip);
+select autore,dip,sal from au,dip where dip = dipnnum and sal = (select dip from au x, x.dip = au.dip);
+select autore,dip,sal from au,dip where dip = dipnnum and sal = (select max(sal) from au x, x.dip = au.dip);
+select autore,dip,sal from au,dip where dip = dipnnum and sal = (select max(sal) from au x where x.dip = au.dp);
+select autore,dip,sal from au,dip where dip = dipnnum and sal = (select max(sal) from au x where x.dip = au.dip);
+(select max(sal) from au x where x.dip = au.dip);
+(select max(sal) from au x, au where x.dip = au.dip);
+(select au.max(sal) from au x, au where x.dip = au.dip);
+(select max(au.sal) from au x, au where x.dip = au.dip);
+(select max(x.sal) from au x, au y where x.dip = y.dip);
+select au.autore, au.sal from au where au.sal = (select max(sal) from au);
+select autore, sal from au, (select max(sal) from au) c where au.sal = c.sal;
+select autore, sal from au, (select max(sal) from au) c where au.sal = c.max(sal);
+select autore, sal from au, (select max(sal) max from au) c where au.sal = c.max;
+select autore,dip,sal from au,dip,(select dip,max(sal) max from au,dip group by dip) c where dip = dipnnum and 
+;
+(select dip,max(sal) max from au,dip group by dip);
+select autore,dip,sal from au,dip,(select dip,max(sal) max from au,dip group by dip) c where dip = dipnnum ;
+select autore,dip,sal from au,dip,(select dip,max(sal) max from au,dip group by dip) c where au.dip = dipnnum and au.dip = c.dip;
+select autore,au.dip,sal from au,dip,(select dip,max(sal) max from au,dip group by dip) c where au.dip = dipnnum and au.dip = c.dip;
+select autore,au.dip,sal from au,dip,(select dip,max(sal) max from au,dip group by dip) c where au.dip = c.dip and;
+select autore,au.dip,sal from au,dip,(select dip,max(sal) max from au,dip group by dip) c where au.dip = dipnnum and au.dip = c.dip and au.sal = c.max;
+select autore,au.dip,sal from au,dip,(select dip,max(sal) max from au,dip group by dip) c where au.dip = dipnnum and au.sal = c.max;
+select autore,au.dip,sal from au,dip,(select dip,max(sal) max from au,dip group by dip) c where au.dip = dipnnum and au.dip = c.dip and au.sal = c.max;
+select autore,dip,sal from au,dip where dip = dipnnum and (dip,sal) in (select dip,max(sal) from au, dip group by dip);
+select autore,au.dip,sal from au,dip,(select dip,max(sal) max from au group by dip) c where au.dip = dipnnum and au.dip = c.dip and au.sal = c.max;
+use articoli;
+select autore,au.dip,sal from au,dip,(select dip,max(sal) max from au group by dip) c where au.dip = dipnnum and au.dip = c.dip and sal = max;
+use articoli
+select sha1(dip) from dip;
+select sha1(dipnnum) from dip;
+select encrypt(dipnnum) from dip;
+select * from dip;
+select encrypt(dipnnum,nome,sede) from dip;
+select sha1(dipnnum,nome,sede) from dip;
+select sha1(dipnnum) from dip;
+select md5(dipnnum) from dip;
+select autore, stip from au,(select dip,max(sal) max from au group by dip) c where au.dip = dipnnum
+;
+select autore, sal from au,(select dip,max(sal) max from au group by dip) c where au.dip = dipnnum
+;
+select autore, sal from au,(select dip,max(sal) max from au group by dip) c where
+;
+select autore, sal from au,(select max(sal) max from au group by dip) c;
+select max(sal) from au group by dip;
+select max(sal),dip from au group by dip;
+select autore, sal from au,(select max(sal) max,dip from au group by dip) c au.sal > c.max;
+select autore, sal from au,(select max(sal) max,dip from au group by dip) c where au.sal > c.max;
+select autore, sal from au,(select max(sal) max,dip from au group by dip where dip=20) c where au.sal > c.max;
+select autore, sal from au,(select max(sal) max,dip from au where dip=20) c where au.sal > c.max;
+(select max(sal) max,dip from au where dip=20);
+select autore, sal from au,(select max(sal) max,dip from au where dip=20) c where au.sal > c.max;
+select autore, sal from au,(select max(sal) max,dip from au where dip = 20) c where au.sal > c.max;
+select autore, sal from au where au.sal > (select max(sal) max,dip from au where dip = 20);
+select autore, sal from au where au.sal > (select max(sal) max from au where dip = 20);
+select autore, sal from au,(select max(sal) max from au where dip = 20) c where au.sal > c.max;
+select * from au;
+select autore, sal from au where au.sal > (select max(sal) max from au where dip = 20);
+explain
+;
+select autore, sal from au where au.sal > (select max(sal) max from au where dip = 20)\G
+explain select autore, sal from au where au.sal > (select max(sal) max from au where dip = 20)\G
+explain select autore, sal from au where au.sal > (select max(sal) max from au where dip = 20);
+explain select autore, sal from au where au.sal > (select max(sal) max from au where dip = 20)\G
+explain select autore, sal from au,(select max(sal) max from au where dip = 20) c where au.sal > c.max\G
+use articoli
+select * from au;
+select * from dip;
+select nome,sede,avg(sal) avg from dip,(select dip,sal from au group by dip) c;
+select dip,sal from au group by dip;
+select dip,avg(sal) from au group by dip;
+select dip,avg(sal),sede from au,dip where dip = dippnum group by dip;
+select dip,avg(sal),sede from au,dip where dip = dipnnum group by dip;
+select sede,avg(sal) 'salario medio' from au,dip where dip = dipnnum group by dip;
+INSERT INTO dip VALUES
+    ('10', 'Matematica', 'Sogene'),
+use articoli
+insert into dip values (50, 'Filosofia', 'Lettere');
+select * from dip;
+select sede,avg(sal) 'salario medio' from au,dip where dip = dipnnum group by dip;
+select sede,avg(sal) 'salario medio' from au join dip on dip = dipnnum;
+select sede,avg(sal) 'salario medio' from au join dip on dip = dipnnum group by dip;
+select sede,avg(sal) 'salario medio' from au outer join dip on dip = dipnnum group by dip;
+select sede,avg(sal) 'salario medio' from au left join dip on dip = dipnnum group by dip;
+select sede,avg(sal) 'salario medio' from au right join dip on dip = dipnnum group by dip;
+select sede,avg(sal) 'salario medio' from au equi join dip on dip = dipnnum group by dip;
+select sede,avg(sal) 'salario medio' from au outer join dip on dip = dipnnum group by dip;
+select sede,avg(sal) 'salario medio' from au full join dip on dip = dipnnum group by dip;
+select sede,avg(sal) 'salario medio' from au right left join dip on dip = dipnnum group by dip;
+select sede,avg(sal) 'salario medio' from au right join dip on dip = dipnnum group by dip;
+select sede,dipnnum,avg(sal) 'salario medio' from au right join dip on au.dip = dipnnum group by au.dip;
+select sede,au.dip,avg(sal) 'salario medio' from au right join dip on au.dip = dipnnum group by au.dip;
+select sede,dipnnum,avg(sal) 'salario medio' from au right join dip on au.dip = dipnnum group by au.dip;
+select * from dip
+;
+select sede,dipnnum,avg(sal) 'salario medio' from au right join dip on au.dip = dipnnum ;
+select sede,dipnnum,avg(sal) 'salario medio' from au right join dip on au.dip = dipnnum group by dip;
+select nome, ar.rivista,from dip,au,arau,ar where dipnnum = dip and arau.autore = au.autore and ar.titolo = arau.titolo;
+select nome, ar.rivista from dip,au,arau,ar where dipnnum = dip and arau.autore = au.autore and ar.titolo = arau.titolo;
+select distinct nome, ar.rivista from dip,au,arau,ar where dipnnum = dip and arau.autore = au.autore and ar.titolo = arau.titolo;
+select titolo,autore,rivista from au,arau,ar where ar.titolo = arau.titolo and au.autore = arau.autore;
+select ar.titolo,au.autore,rivista from au,arau,ar where ar.titolo = arau.titolo and au.autore = arau.autore;
+select ar.titolo,au.autore,rivista from au,arau,ar where ar.titolo = arau.titolo and au.autore = arau.autore and data between (;
+select * from ar;
+select ar.titolo,au.autore,rivista from au,arau,ar where ar.titolo = arau.titolo and au.autore = arau.autore and data between (1993-01-01,100-04-22);
+select ar.titolo,au.autore,rivista from au,arau,ar where ar.titolo = arau.titolo and au.autore = arau.autore and data between "1993-01-01" and "100-04-22";
+select ar.titolo,rivista from au,ar where ar.data between "1993-01-01" and "100-04-22";
+select ar.titolo,rivista from au,ar where ar.data between "1993-01-01" and "2000-04-22";
+select ar.titolo,rivista from ar,ri where data between "1993-01-01" and "2000-04-22" and ar.rivista = riv.rivista;
+select ar.titolo,rivista from ar,ri where data between "1993-01-01" and "2000-04-22" and ar.rivista = riv.nome;
+select * from riv;
+select * from ri;
+select ar.titolo,rivista from ar,ri where data between "1993-01-01" and "2000-04-22" and ar.rivista = ri.rivista;
+select ar.titolo,ri.rivista from ar,ri where data between "1993-01-01" and "2000-04-22" and ar.rivista = ri.rivista;
+select sede,dipnnum,avg(sal) 'salario medio' from au right join dip on au.dip = dipnnum group by dip;
+select sede from dip where sede = 'Lettere';
+select sede,dipnnum from dip where sede = 'Lettere';
+select sede,dipnnum,avg(sal) 'salario medio' from au right join dip on dipnnum = au.dip group by dip;
+select * from dip;
+drop table dip;
+select * from dip;
+drop table au;
+select count(autore), dip from au;
+
+select sede,dipnnum,avg(sal) 'salario medio' from au right join dip on au.dip = dipnnum group by dip;
+select sede,dipnnum,avg(sal) ip on au.dip = dipnnum group by dip;
+select sede, dipnum, avg(sal) from  AU right join DIP on AU.dip = dipnnum group by dipnnum;
+select sede, dipnum, avg(sal) from  au right join dip on au.dip = dipnnum group by dipnnum;
+select sede, dipnnum, avg(sal) from  au right joi
+select count(autore), dip from au group by dip;
+select count(autore), dip from au group by dip with rollup;
