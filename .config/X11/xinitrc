@@ -14,8 +14,6 @@ xsetroot -cursor_name left_ptr
 xrdb -load /home/davide/.config/X11/xresources &
 setbg ~/pics/wallpapers
 dunst &
-xss-lock -- lock &
-unclutter --ignore-scrolling &
 picom --experimental-backend &
 brightnessctl set 25%
 remaps

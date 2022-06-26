@@ -27,7 +27,6 @@ export PAGER="less"
 
 # Programs Settings
 export LIBVA_DRIVER_NAME="iHD"
-export MOZ_ENABLE_WAYLAND=1
 export VDPAU_DRIVER="nvidia"
 export DOAS_ASKPASS="$HOME/.local/bin/dmenupass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenupass"
@@ -38,6 +37,7 @@ export LS_COLORS="di=00;33:ex=00;32:ln=00;34:fi=00;37:bd=32"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export LESSHISTFILE=-
+export ELECTRON_TRASH=trash-cli
 
 # FZF Settings
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --glob "!.git/*" --glob "!.cache/*"'
@@ -72,6 +72,7 @@ export XSERVERRC="${XDG_CONFIG_HOME:-$HOME/.config}/X11/xserverrc"
 export XAUTHORITY="${XDG_CONFIG_HOME:-$HOME/.config}/X11/Xauthority"
 export IPYTHONDIR="$XDG_CONFIG_HOME/jupyter"
 export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
+export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
 
 # Java env
 export _JAVA_AWT_WM_NONREPARENTING=1

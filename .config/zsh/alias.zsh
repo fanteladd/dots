@@ -11,7 +11,7 @@ alias \
 # Pacman/Paru
 if [ -x "$(command -v paru)" ]; then
     alias  \
-        p="nice -n 20 paru -Syu" \
+        p="nice -n 20 paru -Syu ; pkill -SIGRTMIN+8 waybar" \
         pacin="paru -S" \
         pacrm="paru -Rns" \
         pacup="paru -Syyy" \
@@ -97,9 +97,6 @@ alias \
 
 # Nvidia-settings
 alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"
-
-# Teams
-alias teams="teams --no-sandbox"
 
 # Dotfiles
 alias dt="lazygit -g $DOTFILES -w $HOME"

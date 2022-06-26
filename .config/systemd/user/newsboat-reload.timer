@@ -2,10 +2,9 @@
 Description="Refresh Newsboat feed every 3h"
 
 [Timer]
-OnBootSec=3min
-OnUnitActiveSec=3h
+OnCalendar=00/4:20
 Persistent=true
-Unit=news.service
+Unit=newsboat-reload.service
 
 [Install]
 WantedBy=timers.target

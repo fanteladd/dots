@@ -1,14 +1,15 @@
-#!/bin/sh
+#!/bin/bash
+
+# File preview handler for lf.
+
+set -C -f
+IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
 
 case "$1" in
   *.7z|*.a|*.ace|*.alz|*.arc|*.arj|*.bz|*.bz2|*.cab|*.cpio|*.deb|*.gz|*.jar|\
   *.lha|*.lrz|*.lz|*.lzh|*.lzma|*.lzo|*.rar|*.rpm|*.rz|*.t7z|*.tar|*.tbz|\
   *.tbz2|*.tgz|*.tlz|*.txz|*.tZ|*.tzo|*.war|*.xz|*.Z|*.zip)
     als -- "$1"
-    exit 0
-    ;;
-  *.[1-8])
-    man -- "$1" | col -b
     exit 0
     ;;
   *.djvu|*.djv)
@@ -19,30 +20,23 @@ case "$1" in
     mediainfo "$1"
     exit 0
     ;;
-  *.md)
-    glow -s dark "$1"
-    exit 0
-    ;;
 esac
 
-case "$(file -Lb --mime-type -- "$1")" in
-  image/*)
-    chafa -c fill "$1" && exit 1
-    exit 0
+case "$(file --dereference --brief --mime-type -- "$1")" in
+  text/troff)
+    man -- "$1" | col -b
     ;;
   video/*)
     mediainfo "$1"
-    exit 0
+    ;;
+	application/pgp-encrypted)
+    gpg -d -- "$1"
     ;;
   application/pdf)
     pdftotext -nopgbrk -q -- "$1" -
-    exit 0
     ;;
-  text/*)
-    bat --color=always --style=plain --pager=never "$1"
-    exit 0
+  text/* | */xml | application/json)
+    bat --terminal-width "$4" --color=always --pager=never --style=plain "$1"
     ;;
 esac
-
-file -Lb -- "$1" | fold -s -w "$width"
 exit 1

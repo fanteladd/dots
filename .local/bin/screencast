@@ -20,7 +20,7 @@ screencast_kill(){
 
 screencast_start(){
     if [ "$XDG_SESSION_TYPE" = 'wayland' ]; then
-        nohup wf-recorder -g "$(slurp)" -f "$NAME" > /dev/null 2>&1 &
+        nohup wf-recorder --audio="alsa_output.pci-0000_00_1f.3.analog-stereo.monitor" -c h264_vaapi -d /dev/dri/renderD128 -g "$(slurp)" -f "$NAME" > /dev/null 2>&1 &
     else
         nohup ffmpeg -hwaccel vaapi -vaapi_device /dev/dri/renderD128 -f x11grab -s "$RESO" \
             -framerate 30 -i :0 -c:v libx264 -pix_fmt yuv420p "$NAME" > /dev/null 2>&1 &
@@ -34,5 +34,4 @@ if [ -f "$TMPP" ]; then
     dunstify -h string:c-dunst-stack-tag:scasts "📹 Screencast taken!" "$NAME"
 else
     screencast_start
-    notify-send "📹 Screencast started!"
 fi

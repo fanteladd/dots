@@ -13,4 +13,4 @@ if ! pgrep -f "zathura $target/$outputFile"; then
     (zathura "$target"/"$outputFile") &
 fi
 
-rm -rf "$name.aux" "$name.toc" "$name.log"
+#rm -rf "$name.aux" "$name.toc" "$name.log"

@@ -8,7 +8,7 @@ text-width                  110
 browser                     "setsid -f -- $BROWSER %u"
 macro w set browser "setsid -f -- mpv --no-terminal" ; open-in-browser ; set browser "setsid -f -- $BROWSER %u"
 
-# Freshrss conig
+# Freshrss config
 urls-source "freshrss"
 freshrss-url "https://rss.fanteladd.site/api/greader.php"
 freshrss-login "davide"

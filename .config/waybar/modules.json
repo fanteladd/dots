@@ -1,30 +1,39 @@
 {
   "layer": "top",
-  "height": 25,
-  "modules-left": [
-    "sway/workspaces",
-    "sway/mode",
-    "sway/window"
-  ],
+  "position": "left",
+  "fixed-center": true,
   "modules-center": [
-    "clock"
+    "sway/workspaces"
+  ],
+  "modules-left": [
+    "custom/menu",
+    "sway/language",
+    "custom/weather"
   ],
   "clock": {
-    "format": "{:%a %d %b - %H:%M}",
+    "timezone": "Europe/Rome",
+    "format": "{:%H\n%M}",
+    "format-alt": "{:<span font_size='x-small'>%a</span>\n%d}",
     "interval": 1,
     "tooltip": true,
     "locale": "it_IT.UTF-8",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><big>{calendar}</big></tt>"
+    "tooltip-format": "<big>{:%a %d %B %Y}</big>\n<tt><big>{calendar}</big></tt>"
   },
   "sway/window": {
     "max-length": 20,
-    "format": "󰄾 {}",
+    "format": "󰄾  {}",
     "rewrite": {
       "": "desktop"
-    }
+    },
+    "tooltip": false
   },
   "sway/mode": {
     "format": "<span font_weight=\"bold\">   {}</span>"
+  },
+  "sway/language": {
+    "format": "{shortDescription}",
+    "tooltip": false,
+    "on-click": "swaymsg input '1:1:AT_Translated_Set_2_keyboard' xkb_switch_layout next"
   },
   "sway/workspaces": {
     "all-outputs": true,
@@ -47,7 +56,7 @@
   },
   "backlight": {
     "interval": 5,
-    "format": "{icon} {percent}%",
+    "format": "{icon}",
     "format-icons": [
       "󰃞",
       "󰃟",
@@ -67,21 +76,20 @@
     "format-ethernet": "󰈀  {ifname}",
     "format-linked": "󰤫",
     "format-disconnected": "󰤮",
-    "format-alt": "󰇚 {bandwidthDownOctets}  󰕒 {bandwidthUpOctets}",
+    "tooltip-format": "󰇚 {bandwidthDownOctets} 󰕒 {bandwidthUpOctets}",
     "format-icons": [
       "󰤟",
       "󰤢",
       "󰤥",
       "󰤨"
-    ],
-    "tooltip": false
+    ]
   },
   "tray": {
-    "icon-size": 15,
+    "icon-size": 18,
     "spacing": 10
   },
   "cpu": {
-    "format": "󰓅{usage:3}%",
+    "format": "󰓅",
     "interval": 1,
     "states": {
       "warning": 50,
@@ -89,8 +97,16 @@
     },
     "tooltip": false
   },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    },
+    "tooltip": false
+  },
   "memory": {
-    "format": "󰍛 {}%",
+    "format": "󰍛 ",
     "interval": 1,
     "states": {
       "warning": 50,
@@ -99,8 +115,8 @@
     "tooltip": false
   },
   "temperature": {
-    "format": "󰔏 {temperatureC}°C",
-    "thermal-zone": 12,
+    "format": "󰔏 ",
+    "thermal-zone": 13,
     "interval": 1,
     "critical-threshold": 75,
     "tooltip": false
@@ -112,7 +128,7 @@
       "warning": 25,
       "critical": 10
     },
-    "format": "{icon} {capacity}%",
+    "format": "{icon}",
     "format-icons": [
       "󰁺",
       "󰁻",
@@ -125,12 +141,13 @@
       "󰂂",
       "󰁹"
     ],
-    "tooltip": false
+    "tooltip": false,
+    "format-alt": "<span font_size='small'>{capacity}</span>"
   },
   "pulseaudio": {
-    "format": "{icon} {volume}%",
+    "format": "{icon}",
     "format-bluetooth": "{icon} {volume}%",
-    "format-muted": "󰖁 Mute",
+    "format-muted": "󰸈",
     "format-headset": "{icon} {volume}%",
     "format-icons": {
       "headphones": "󰋋",
@@ -140,28 +157,42 @@
       "portable": "",
       "car": "",
       "default": [
-        "󰕿 ",
-        "󰖀 ",
-        "󰖀 ",
-        "󰖀 ",
-        "󰕾 ",
-        "󰕾 "
+        "󰕿",
+        "󰖀",
+        "󰖀",
+        "󰖀",
+        "󰕾",
+        "󰕾"
       ]
     },
     "tooltip": false,
     "on-click": "pulsemixer --toggle-mute"
   },
   "custom/pacman": {
-    "format": "󰁇 {} ",
+    "format": "󰁇 ",
     "interval": 3600,
     "exec": "checkupd.sh",
     "exec-if": "exit 0",
     "on-click": "swaymsg exec '$TERMINAL -a floating paru && pkill -SIGRTMIN+8 waybar' ",
-    "signal": 8
+    "signal": 8,
+    "tooltip": false
   },
   "custom/gpu": {
     "format": "{}",
     "interval": 3.0,
-    "exec": "gpu-temp.sh"
+    "exec": "gpu-temp.sh",
+    "tooltip": false
+  },
+  "custom/menu": {
+    "format": "󰍜",
+    "on-click": "swaymsg exec 'rofi -modi drun -show drun -drun-display-format {name} -theme dark | xargs swaymsg exec --'",
+    "tooltip": false
+  },
+  "custom/weather": {
+    "format": "{}",
+    "format-alt": "<span font_size='x-small' >{alt}</span>",
+    "return-type": "json",
+    "exec": "weather.sh",
+    "interval": 3600
   }
 }

@@ -1,4 +1,9 @@
 # autostart some programs
+# Environment 
+exec --no-startup-id xrandr --output XWAYLAND0 --primary
+exec --no-startup-id systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
 exec --no-startup-id autotiling-rs
 exec --no-startup-id dunst
 exec --no-startup-id kanshi
@@ -14,26 +19,33 @@ set $up k
 set $right l
 set $term footclient
 set $browser firefox
-set $menu   rofi -modi run -show run -drun-display-format {name} -theme dark | xargs swaymsg exec --
+set $menu   rofi -modi drun -show drun -drun-display-format {name} -theme dark | xargs swaymsg exec --
 set $gtk    "Akwa-dark"
 set $icon   "Papirus-Dark"
 set $font   "sans-serif 12"
 set $mono   "monospace 12"
-set $lock   "dunstctl set-paused true && swaylock -f -C ~/.config/swaylock/config && dunstctl set-paused false" 
+set $lock   "swaylock -f -C ~/.config/swaylock/config" 
 
+# borders
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders smart
 
 # style
-gaps    inner 5px
-gaps    outer 5px
+gaps  inner 5px
+gaps  outer 0px
 
 client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4 #6272A4
 client.focused_inactive #44475A #44475A #F8F8F2 #262626 #262626
 client.unfocused        #282A36 #282A36 #F8F8F2 #262626 #262626
 client.background       #262626
 font pango:SF Pro Display: 14px
-default_border pixel 2
-default_floating_border pixel 1
-hide_edge_borders smart
+
+# border_images.focused /home/davide/.config/sway/borders/shadows.png
+# border_images.focused_inactive /home/davide/.config/sway/borders/shadows.png
+# border_images.unfocused /home/davide/.config/sway/borders/shadows.png
+# border_images.urgent /home/davide/.config/sway/borders/shadows.png
+
 
 # Set gtk
 exec gsettings set org.gnome.desktop.interface gtk-theme                   $gtk
@@ -73,9 +85,9 @@ output * bg /home/davide/.local/share/background fill
 
 ### Idle configuration
  exec swayidle -w \
-          timeout 60 $lock \
-          timeout 70 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-          before-sleep $lock 
+  timeout 200 $lock \
+  timeout 205 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+  before-sleep $lock 
 
 
 ### Key bindings
@@ -95,9 +107,9 @@ bindsym $mod+b exec $browser
 bindsym $mod+Ctrl+t exec telegram-desktop
 
 # Terminal apps
-bindsym $mod2+m exec $term pulsemixer
-bindsym $mod2+n exec $term newsboat
-bindsym $mod2+a exec $term ncmpcpp
+bindsym $mod2+m exec $term -T pulsemixer pulsemixer
+bindsym $mod2+n exec $term -T newsboat newsboat
+bindsym $mod2+a exec $term -T ncmpcpp ncmpcpp
 
 # Password
 bindsym $mod+Ctrl+p exec passmenu
@@ -257,8 +269,6 @@ bar {
     swaybar_command waybar
 }
 
-
-include /etc/sway/config.d/*
 
 for_window [app_id="floating"] floating enable
 for_window [app_id="telegramdesktop"] floating enable

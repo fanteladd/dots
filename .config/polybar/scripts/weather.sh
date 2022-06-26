@@ -72,5 +72,5 @@ if [ -n "$current" ] && [ -n "$forecast" ]; then
         trend="󰔴"
     fi
 
-    echo "$(get_icon "$current_icon") $current_temp$SYMBOL  |"
+    printf '%s' "{\"text\": \"$(get_icon "$current_icon")\", \"alt\": \"$current_temp$SYMBOL\"}"
 fi

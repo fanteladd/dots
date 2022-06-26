@@ -1,12 +1,36 @@
 // vim: ft=json
-
-[{
-  "output": "eDP-1",
-  "modules-right": ["custom/pacman", "custom/gpu", "memory", "cpu", "temperature", "pulseaudio", "network", "backlight", "tray", "battery"],
-  "include": [ "/home/davide/.config/waybar/modules.json" ]
-},
-{
-  "output": ["DP-1", "DP-3"],
-  "modules-right": ["custom/pacman", "custom/gpu", "memory", "cpu", "temperature", "pulseaudio", "network",  "tray"],
-  "include": [ "/home/davide/.config/waybar/modules.json" ]
-}]
+[
+  {
+    "output": "eDP-1",
+    "modules-right": [
+      "custom/pacman",
+      "network",
+      "pulseaudio",
+      "backlight",
+      "idle_inhibitor",
+      "battery",
+      "tray",
+      "clock"
+    ],
+    "include": [
+      "/home/davide/.config/waybar/modules.json"
+    ]
+  },
+  {
+    "output": [
+      "DP-1",
+      "DP-3"
+    ],
+    "modules-right": [
+      "custom/pacman",
+      "network",
+      "pulseaudio",
+      "idle_inhibitor",
+      "tray",
+      "clock"
+    ],
+    "include": [
+      "/home/davide/.config/waybar/modules.json"
+    ]
+  }
+]

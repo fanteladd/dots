@@ -13,9 +13,9 @@ usage() {
     cat <<EOF
 Wifi related script
 
-    -c, --con
+    -c, --connect
             Connect to an available network
-    -d, --dis
+    -d, --disconnect
             Disconnect from connected network
     -s, --scan
             Scan for available networks
@@ -23,7 +23,7 @@ Wifi related script
             Show wlan station info
     -l, --list
             List available networks
-    --share
+    -q, --qrcode
             Share network credentials via qrcode
     -h, --help
             Show help
@@ -31,7 +31,7 @@ EOF
 }
 
 case "$1" in
-   --dis | -d) run disconnect ;;
+   --disconnect | -d) run disconnect ;;
    --show | -S) run show ;;
    --scan | -s) run scan ;;
    --list | -l)
@@ -39,7 +39,7 @@ case "$1" in
          # sleep 1
          run get-networks
       ;;
-   --con | -c)
+   --connect | -c)
       # $0 -s
       $0 -d &&
          $0 -s &&
@@ -51,7 +51,7 @@ case "$1" in
    --rep | -r) $0 -c "$REPEATER_SSID" "$REPEATER_PASS" ;;
    --saraj) $0 -c "$CJ_SSID" "$CJ_PASS" ;;
    --marinade | -m) $0 -c "$MARINADE_SSID" "$MARINADE_PASS" ;;
-   --share) qrencode -o - -t utf8 'WIFI:S:FRITZ!Box 7590 DC;T:WPA;P:coy of testing fragile form;;' ;;
+   -q | --qrcode) qrencode -o - -t utf8 'WIFI:S:FRITZ!Box 7590 DC;T:WPA;P:coy of testing fragile form;;' ;;
    --help | -h) usage && exit 0 ;;
    *)  usage && exit 0 ;;
 esac

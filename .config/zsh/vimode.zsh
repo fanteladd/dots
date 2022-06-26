@@ -38,7 +38,11 @@ cursor_mode() {
 
 cursor_mode
 
-# Edit line in vim with v in normal mode:
-autoload -Uz edit-command-line
-zle -N edit-command-line
+# Edit line in vim with ctrl+v in normal mode:
+autoload edit-command-line; zle -N edit-command-line
+bindkey "^v" edit-command-line
+
+bindkey '^[[P' delete-char
+bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M vicmd "^v" edit-command-line
+bindkey -M visual '^[[P' vi-delete

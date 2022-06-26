@@ -15,7 +15,7 @@ pacs() {
 
 # convert microsoft teams recording
 unicon() {
-    ffmpeg -i "$1" -c:v h264_nvenc -rc constqp -qp 36 -filter:v "crop=1675:1080:0:0" -c:a aac -b:a 42k "$2"
+    ffmpeg -i "$1" -c:v h264_nvenc -rc constqp -qp 36 -filter:v "crop=1670:1080:0:0" -c:a aac -b:a 42k "$2"
 }
 
 uniload() {

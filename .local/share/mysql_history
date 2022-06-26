@@ -738,7 +738,6 @@ drop table dip;
 select * from dip;
 drop table au;
 select count(autore), dip from au;
-
 select sede,dipnnum,avg(sal) 'salario medio' from au right join dip on au.dip = dipnnum group by dip;
 select sede,dipnnum,avg(sal) ip on au.dip = dipnnum group by dip;
 select sede, dipnum, avg(sal) from  AU right join DIP on AU.dip = dipnnum group by dipnnum;
@@ -746,3 +745,85 @@ select sede, dipnum, avg(sal) from  au right join dip on au.dip = dipnnum group 
 select sede, dipnnum, avg(sal) from  au right joi
 select count(autore), dip from au group by dip;
 select count(autore), dip from au group by dip with rollup;
+use articoli
+select @@autocommit
+;
+set @@autocommit=0
+;
+INSERT INTO ri VALUES
+    ('Computer Science', 30, 'BIT'),
+    ('Le Scienze', 15, 'BIT'),
+    ('IEEE-Review', 45, 'BOH Press');
+INSERT INTO ri VALUES     ('Computer Science', 30, 'BIT'),     ('Le Scienze', 15, 'BIT'),     ('IEEE-Review', 45, 'BOH Press');
+INSERT INTO ri VALUES     ('Ao', 30, 'BIT');
+commit;
+begin transaction
+;
+INSERT INTO ri VALUES     ('Aoo', 30, 'BIT');
+select * from ri
+;
+use articoli;
+select * from ri
+;
+show engines;
+show engines\G
+use articoli;
+ls
+;
+select * from au;
+create trigger limitaaumenti1 after update on au for each row update au set sal=sal*1.2 where sal > sal*1.2;
+update au set sal=5000 where autore="Berretti";
+select * from au;
+update au set sal=5000 where autore="Berretti";
+update au set sal=5000 where Autore="Berretti";
+update au set sal=3000 where Autore="Berretti";
+drop trigger limitaaumenti1;
+create trigger limitaaumenti1 before update on au for each row update au set sal=sal*1.2 where sal > sal*1.2;
+update au set sal=3000 where Autore="Berretti";
+drop trigger limitaaumenti1;
+create trigger limitaaumenti1 before update on au for each row update au set sal=sal*1.2 where sal>sal*1.2;
+update au set sal=3000 where Autore="Berretti";
+dr
+drop trigger limitaaumenti1;
+update au set sal=3000 where Autore="Berretti";
+update au set sal=2500 where Autore="Berretti";
+create trigger limitaaumenti1
+use articoli;
+drop trigger limitaaumenti1;
+create trigger limitaaumenti1
+before update on au for each row
+update emp
+set sal=sal*1.2
+where sal>sal*1.2;
+create trigger limitaaumenti1 before update on au for each row update emp set sal=sal*1.2 where sal>sal*1.2;
+update au set sal=2500 where Autore="Berretti";
+use articoli;
+drop trigger limitaaumenti1;
+create trigger limitaaumenti1 before update on au for each row update au set sal=sal*1.2 where sal>sal*1.2;
+update au set sal=2500 where Autore="Berretti";
+show trigger \G
+show trigger \g
+show trigger
+;
+show triggers;
+show triggers\g
+show triggers\G
+drop trigger limitaaumenti1;
+delimiter //
+drop trigger lmitaaumenti1;
+//
+drop trigger lmitaaumenti1//
+create trigger limitaaumenti1
+before update on au for each row
+begin
+if NEW.sal>OLD.sal*1.2
+then set NEW.sal=OLD.sal*1.2;
+end if;
+end;//
+create trigger limitaaumenti1 before update on au for each row begin if NEW.sal>OLD.sal*1.2 then set NEW.sal=OLD.sal*1.2; end if; end;//
+delimiter ;
+show triggers\G
+update au set sal=2500 where Autore="Berretti";
+update au set sal=6500 where Autore="Berretti";
+select * from au;
+update au set sal=2500 where Autore="Berretti";

@@ -1,20 +1,21 @@
-#!/bin/sh
+#!/bin/bash
+# startup script for sway from console
 
+[[ "$1" ]] && {
+    echo "Usage: $( basename "$0" ): start a sway session from a console tty"
+    exit 0
+}
+
+LOGFILE=.wsession-errors
+&> /tmp/$LOGFILE
+exec &> /tmp/$LOGFILE
+set -x
+echo "sway Starting: $( date +%F-%R )"
+
+unset QT_QPA_PLATFORM
+export QT_QPA_PLATFORMTHEME=qt5ct
 export MOZ_ENABLE_WAYLAND=1
-export XDG_SESSION_TYPE=wayland
 export XKB_DEFAULT_LAYOUT=it
-
-timestamp=$(date +%F-%R)
-
-#doas nvidia-smi drain -m 1 -p 0000:01.00.0
-case "$1" in
-    "sway")
-        export XDG_CURRENT_DESKTOP=sway
-        exec dbus-run-session sway --unsupported-gpu
-        ;;
-    "river")
-        export XDG_CURRENT_DESKTOP=river
-        exec dbus-run-session river
-        ;;
-    *) echo "Choose a compositor (sway/river)" && exit ;;
-esac
+export XDG_CURRENT_DESKTOP=sway
+rm "$HOME/.cache/*.wob"
+exec sway --unsupported-gpu

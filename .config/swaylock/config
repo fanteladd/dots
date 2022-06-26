@@ -7,7 +7,7 @@ clock
 indicator
 font=sans-serif
 fade-in=0.2
-grace=1
+grace=3
 hide-keyboard-layout
 
 # Ring

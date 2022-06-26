@@ -1,8 +1,8 @@
 # vim: ft=sh
 
 # Preview
-set previewer preview
-set cleaner clear_img.sh
+set previewer '~/.config/lf/scripts/preview'
+set cleaner   '~/.config/lf/scripts/cleaner'
 
 # Basic Settings
 set shell zsh
@@ -21,21 +21,29 @@ set dircounts
 
 %[ $LF_LEVEL -eq 1 ] || notify-send "Warning!" "You're in a nested lf instance!"
 
+cmd on-cd &{{
+    printf "\033]0; $PWD\007" > /dev/tty
+}}
+
 cmd autoratios ${{
     w=$(tput cols)
-    if [ $w -le 80 ]; then
+    if [ $w -le 60 ]; then
+        lf -remote "send $id set nopreview"
+        lf -remote "send $id set ratios 1"
+    elif [ $w -le 80 ]; then
         lf -remote "send $id set ratios 1:2"
+        lf -remote "send $id set preview"
     elif [ $w -le 160 ]; then
         lf -remote "send $id set ratios 1:2:3"
+        lf -remote "send $id set preview"
     else
         lf -remote "send $id set ratios 2:3:5"
+        lf -remote "send $id set preview"
     fi
 }}
 autoratios
 
-cmd open ${{
-    open "$f"
-}}
+cmd open $open "$f"
 
 cmd decrypt !{{
     gpg --decrypt -o "${f%.*}" "$f"
@@ -92,7 +100,7 @@ cmd sudomkfile ${{
 }}
 
 cmd bulk-rename ${{
-    vimv --git -- $(basename -a -- $fx)
+    vimv --git -- *
 
     lf -remote "send $id load"
     lf -remote "send $id unselect"
@@ -221,6 +229,8 @@ map gi $lazygit .
 map au autoratios
 map zp set preview!
 map <esc> cmd-escape
+map W $setsid -f $TERMINAL >/dev/null 2>&1
+map Y $printf "%s" "$fx" | wl-copy
 
 
 ## MOVEMENT ##
@@ -238,8 +248,9 @@ map gun cd ~/uni/
 map gua cd ~/uni/anno2/algoritmi
 map gul cd ~/uni/anno2/linguaggi
 map gud cd ~/uni/anno2/database
-map guf cd ~/uni/anno2/fondamenti
+map guf cd ~/uni/anno1/fisica
 map gup cd ~/uni/anno3/pweb
+# map guv cd ~/uni/anno3/vulnerabilita
 
 # System
 map gbn cd ~/.local/bin

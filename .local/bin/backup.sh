@@ -8,5 +8,5 @@ OUT1="pi4:~/media/backup"
     -e 'ssh -o ConnectTimeout=10' \
     "$HOME"/{pics,docs,uni} \
     $OUT1 \
-    && notify-send "Backup Done 💾" "Home is Safe in pi4!") \
-    || notify-send "Backup Failed ❌" "Home isn't Safe in pi4!"
+    && dunstify -t 2000 "Backup Done 💾" "Home is Safe in pi4!") \
+    || dunstify -t 2000 "Backup Failed ❌" "Home isn't Safe in pi4!"

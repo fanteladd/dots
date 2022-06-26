@@ -3,5 +3,9 @@ if [[ "$(tty)" = "/dev/tty1" ]]; then
 fi
 
 if [[ "$(tty)" = "/dev/tty2" ]]; then
-  pgrep river || startway sway
+  pgrep sway || startway
+fi
+
+if [[ "$(tty)" = "/dev/tty3" ]]; then
+  pgrep sway || startway
 fi

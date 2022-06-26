@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 image="$1"
 declare -a ARGS order
 readarray -t -d '' order < <(printf '%s\0' "$(dirname "$image")"/* | sort -z --sort=version)
@@ -8,7 +9,7 @@ for a in "${order[@]}"; do
     fi
 done
 
-# exec imv-wayland "${ARGS[@]}" -n "$image"
+exec imv-wayland "${ARGS[@]}" -n "$image"
 
-SWAYSOCK=""
-exec swayimg "${ARGS[@]}"
+#SWAYSOCK=""
+#exec swayimg "${ARGS[@]}"

@@ -5,7 +5,7 @@ Description="Sync Vaultwarden database (timer)"
 OnBootSec=3min
 OnUnitActiveSec=2h
 Persistent=true
-Unit=bwsync.service
+Unit=bitwarden-sync.service
 
 [Install]
 WantedBy=timers.target
