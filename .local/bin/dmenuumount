@@ -14,7 +14,7 @@ unmountusb() {
     udisksctl unmount --no-user-interaction -b "$chosen" && notify-send "󱁌 USB unmounting" "$chosen unmounted."
 }
 
-usbdrives="$(lsblk -Jplno "NAME,TYPE,RM,SIZE,MOUNTPOINT" | jq -r '.blockdevices[] | select(.type == "part") | select(.rm == true) | select(.mountpoint != null) | .name + " " + "(" + .size + ")"')"
+usbdrives=$(lsblk -nrpo "name,type,size,mountpoint,label" | awk -F':' '{gsub(/ /,":")}$4!~/\/boot|\/efi|\/home$|SWAP/&&length($4)>1{printf "%s (%s) %s\n",$4,$3,$5}')
 
 if [ -z "$usbdrives" ]; then
     dunstify -t 5000 "No drives to unmount." && exit

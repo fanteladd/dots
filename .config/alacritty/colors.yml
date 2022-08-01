@@ -31,7 +31,7 @@ colors:
     focused_matches:
       foreground: '0x000000'
       background: '0xffffff'
-    bar:
+    footer_bar:
       foreground: '0x000000'
       background: '0xffffff'
   hints:

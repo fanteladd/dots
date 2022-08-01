@@ -12,8 +12,7 @@ mountusb() {
     notify-send "󱁋 Disk Mounting" "$chosen device mounted." && exit 0
 }
 
-usbdrives="$(lsblk -Jplno "NAME,TYPE,RM,SIZE,MOUNTPOINT" | \
-    jq -r '.blockdevices[] | select(.type == "part") | select(.rm == true) | select(.mountpoint == null) | .name + " " + "(" + .size + ")"')"
+ usbdrives="$(lsblk -rpo "name,type,size,label,mountpoint,fstype" | grep -v crypto_LUKS | grep 'part\|rom' | sed 's/ /:/g' | awk -F':' '$5==""{printf "%s (%s) %s\n",$1,$3,$4}')"
 
 if [ -z "$usbdrives" ]; then
     dunstify -t 5000 "No USB drive detected" && exit

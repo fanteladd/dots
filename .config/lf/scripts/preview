@@ -26,15 +26,25 @@ case "$(file --dereference --brief --mime-type -- "$1")" in
   text/troff)
     man -- "$1" | col -b
     ;;
+  image/*)
+    chafa "$1" -f sixel -s "$(($2-2))x$3" | sed 's/#/\n#/g'
+   ;;
   video/*)
     mediainfo "$1"
     ;;
 	application/pgp-encrypted)
     gpg -d -- "$1"
     ;;
-  application/pdf)
-    pdftotext -nopgbrk -q -- "$1" -
+  # application/pdf)
+  #   pdftotext -nopgbrk -q -- "$1" -
+  #   ;;
+	*/pdf)
+		CACHE="/tmp/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
+		[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
+    chafa "$CACHE.jpg" -f sixel -s "$(($2-2))x$(($3-2))" | sed 's/#/\n#/g'
     ;;
+	audio/* | application/octet-stream)
+    mediainfo "$1" || exit 1 ;;
   text/* | */xml | application/json)
     bat --terminal-width "$4" --color=always --pager=never --style=plain "$1"
     ;;

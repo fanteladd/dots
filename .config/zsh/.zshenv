@@ -25,14 +25,19 @@ export READER="zathura"
 export OPENER="$HOME/.local/bin/open"
 export PAGER="less"
 
+#
+export XKB_DEFAULT_LAYOUT=it
+
+
 # Programs Settings
 export LIBVA_DRIVER_NAME="iHD"
 export VDPAU_DRIVER="nvidia"
 export DOAS_ASKPASS="$HOME/.local/bin/dmenupass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenupass"
 export MOZ_USE_XINPUT2="1"
+export MOZ_ENABLE_WAYLAND="1"
 export QT_QPA_PLATFORMTHEME="qt5ct"
-# export QT_QPA_PLATFORM="wayland"
+unset QT_QPA_PLATFORM
 export LS_COLORS="di=00;33:ex=00;32:ln=00;34:fi=00;37:bd=32"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
@@ -55,7 +60,7 @@ export VIMRC="${XDG_CONFIG_HOME:-$HOME/.config}/nvim/init.lua"
 export TRASHBIN="${XDG_DATA_HOME:-$HOME/.local/share}/Trash/files"
 export GNUPGHOME="${XDG_DATA_HOME:-$HOME/.local/share}/gnupg"
 export CUDA_CACHE_PATH="${XDG_CACHE_HOME:-$HOME/.cache}/nv"
-export VSCODE_PORTABLE="${XDG_DATA_HOME:-$HOME/.local/share}/vscode"
+export VSCODIUM_PORTABLE="${XDG_DATA_HOME:-$HOME/.local/share}/vscode"
 export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/npm/npmrc"
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
@@ -82,8 +87,8 @@ export JDK_JAVA_OPTIONS="
     -Dsun.java2d.opengl=true
     -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel
     -Dswing.crossplatformlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
-export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"
-export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
+export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
+export JAVA_HOME="$(readlink -f /usr/bin/java | sed "s:/bin/java::")"
 export JAVA_FONTS=/usr/share/fonts/TTF
 
 # lf icons

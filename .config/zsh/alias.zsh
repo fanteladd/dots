@@ -61,17 +61,17 @@ alias \
     du="du -ch" \
     v="$EDITOR" \
     cp="cp -vari --reflink=auto" \
-    mv="mv -iv" \
+    mv="uu-mv -iv" \
     df="df -h" \
     free="free -h" \
     nb="newsboat" \
-    mkdir="mkdir -pv" \
-    rm="rm -vIr" \
+    mkdir="uu-mkdir -pv" \
+    rm="uu-rm -vIr" \
     mysql="mysql -u davide -p" \
     ex="extract" \
     weather="curl wttr.in" \
     o="open" \
-    chmod="chmod --preserve-root" \
+    chmod="uu-chmod --preserve-root" \
     ytdl="yt-dlp"
 
 # git

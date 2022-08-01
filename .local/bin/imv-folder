@@ -9,7 +9,7 @@ for a in "${order[@]}"; do
     fi
 done
 
-exec imv-wayland "${ARGS[@]}" -n "$image"
+# exec imv-wayland "${ARGS[@]}" -n "$image"
 
 #SWAYSOCK=""
-#exec swayimg "${ARGS[@]}"
+exec swayimg -n "${ARGS[@]}"

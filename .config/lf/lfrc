@@ -1,8 +1,5 @@
-# vim: ft=sh
-
 # Preview
 set previewer '~/.config/lf/scripts/preview'
-set cleaner   '~/.config/lf/scripts/cleaner'
 
 # Basic Settings
 set shell zsh
@@ -10,6 +7,9 @@ set shellopts '-euy'
 set ifs "\n"
 set mouse
 set findlen 0
+set smartcase
+set info "size"
+set period 1
 set scrolloff 8
 set nodrawbox
 set icons
@@ -26,6 +26,7 @@ cmd on-cd &{{
 }}
 
 cmd autoratios ${{
+    sleep 0.01
     w=$(tput cols)
     if [ $w -le 60 ]; then
         lf -remote "send $id set nopreview"
@@ -43,28 +44,34 @@ cmd autoratios ${{
 }}
 autoratios
 
+# opener script
 cmd open $open "$f"
 
+# decrypt gpg encryptes files
 cmd decrypt !{{
     gpg --decrypt -o "${f%.*}" "$f"
 }}
 
+# verify signature
 cmd check-sig !{{
     gpg --verify "$f"
 }}
 
+# encrypt file with gpg
 cmd encrypt !{{
     printf "User ID for signing: "
     read local_uid
     gpg --encrypt --sign -u "$local_uid" -o "${f}.gpg"
 }}
 
+# encrypt file with gpg but armored
 cmd encrypt-armored !{{
     printf "User ID for signing: "
     read local_uid
     gpg --encrypt --sign --armor -u "$local_uid" -o "${f}.asc"
 }}
 
+# make new directory
 cmd mkdir %{{
     set -f
     printf " Directory Name: "
@@ -73,6 +80,7 @@ cmd mkdir %{{
     lf -remote "send $id select \"$ans\""
 }}
 
+# make new file
 cmd mkfile ${{
     set -f
     printf "File Name: "
@@ -81,6 +89,7 @@ cmd mkfile ${{
     $EDITOR $ans
 }}
 
+# change permission
 cmd chmod %{{
     printf " Mode Bits: "
     read ans
@@ -92,6 +101,7 @@ cmd chmod %{{
     lf -remote 'send reload'
 }}
 
+# make new file with privileges
 cmd sudomkfile ${{
     printf "File Name: "
     read ans
@@ -99,6 +109,7 @@ cmd sudomkfile ${{
     doasedit $ans
 }}
 
+# rename current dir files
 cmd bulk-rename ${{
     vimv --git -- *
 
@@ -106,6 +117,7 @@ cmd bulk-rename ${{
     lf -remote "send $id unselect"
 }}
 
+# move in file system with fzf
 cmd fzf_jump ${{
     res="$(fd . -H --maxdepth=8 --exclude .git --exclude .cache | fzf --reverse --header='Jump to location')" || exit 0
     if [ -f "$res" ]; then
@@ -119,9 +131,14 @@ cmd fzf_jump ${{
     lf -remote "send $id 'redraw'"
 }}
 
-# archive bindings
+# extract archive
 cmd extract ${{
-    extract $f
+	clear; tput cup $(($(tput lines)/3)); tput bold
+	set -f
+	printf "%s\n\t" "$fx"
+	printf "extract? [y/N]"
+	read ans
+	[ $ans = "y" ] && aunpack $fx
 }}
 
 # compress current file or selected files with zip
@@ -133,8 +150,6 @@ cmd zip ${{
     rm -rf $1
 }}
 
-cmd du !dua i "${f%/*}"
-
 # compress current file or selected files with tar and gunzip
 cmd targz ${{
     set -f
@@ -143,6 +158,9 @@ cmd targz ${{
     tar czf $1.tar.gz $1
     rm -rf $1
 }}
+
+# open dua in current dir
+cmd du !dua i "${f%/*}"
 
 # Trash cli bindings
 cmd trash ${{
@@ -157,15 +175,36 @@ cmd trash ${{
         fi
     done
 }}
-
 cmd clear_trash %trash-empty
-
 cmd restore_trash $trash-restore
 
+# Open file in editor
 cmd edit $setsid -f $TERMINAL -e $EDITOR "$f"
 
 # progress in paste command
-cmd paste-async %{{
+cmd paste-progress %{{
+    IFS='
+'
+    set -- $(cat ~/.local/share/lf/files)
+    mode="$1"
+    shift
+    printf "%s\n" "$@" | while read -r i; do
+        case "$mode" in
+            copy)
+                rsync -av --ignore-existing --progress -- "$i" . |
+                stdbuf -i0 -o0 -e0 tr '\r' '\n' |
+                while IFS= read -r line; do
+                    lf -remote "send $id echo $line"
+                done
+                ;;
+            move) mv -n -- "$i" .;;
+        esac
+    done
+    rm ~/.local/share/lf/files
+    lf -remote "send clear"
+}}
+
+cmd paste &{{
     set -- $(cat ~/.local/share/lf/files)
     mode="$1"
     shift
@@ -177,8 +216,8 @@ cmd paste-async %{{
     lf -remote "send clear"
 }}
 
+## BINDINGS ##
 
-# Bindings
 # Remove some defaults
 map m
 map n
@@ -187,12 +226,6 @@ map '"'
 map d
 map c
 
-# archive Mappings
-map az zip
-map at tar
-map ag targz
-map ab targz
-map ae extract
 
 # Trash Mappings
 map dd trash
@@ -203,8 +236,8 @@ map tr restore_trash
 map . set hidden!
 map e edit
 map D delete
-map p paste-async
-map P paste
+map p paste
+map P paste-progress
 map x cut
 map y copy
 map <enter> open
@@ -227,10 +260,12 @@ map <m-2> updir
 map <m-3> $$SHELL
 map gi $lazygit .
 map au autoratios
+map ae extract
 map zp set preview!
 map <esc> cmd-escape
 map W $setsid -f $TERMINAL >/dev/null 2>&1
 map Y $printf "%s" "$fx" | wl-copy
+map i $preview
 
 
 ## MOVEMENT ##
@@ -245,8 +280,6 @@ map gr cd ~/repos
 
 # Uni
 map gun cd ~/uni/
-map gua cd ~/uni/anno2/algoritmi
-map gul cd ~/uni/anno2/linguaggi
 map gud cd ~/uni/anno2/database
 map guf cd ~/uni/anno1/fisica
 map gup cd ~/uni/anno3/pweb
@@ -262,3 +295,5 @@ map gU. cd /usr
 map gUs cd /usr/share
 map gtr cd ~/.local/share/Trash/files
 map gus $lf -remote "send $id cd /run/media/$USER"
+
+# vim: ft=lf:et:sw=2:ts=2:sts=-1:fdm=marker:fmr=[[[,]]]:

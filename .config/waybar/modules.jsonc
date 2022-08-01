@@ -1,9 +1,10 @@
 {
   "layer": "top",
+  "gtk-layer-shell": false,
   "position": "left",
   "fixed-center": true,
   "modules-center": [
-    "sway/workspaces"
+    "wlr/workspaces"
   ],
   "modules-left": [
     "custom/menu",
@@ -35,10 +36,12 @@
     "tooltip": false,
     "on-click": "swaymsg input '1:1:AT_Translated_Set_2_keyboard' xkb_switch_layout next"
   },
-  "sway/workspaces": {
+  "wlr/workspaces": {
+    "disable-scroll": true,
     "all-outputs": true,
-    "enable-bar-scroll": true,
-    "format": "{name}",
+    "on-click": "activate",
+    "format": "{icon}",
+    "sort-by-name": true,
     "format-icons": {
       "1": "1",
       "2": "2",
@@ -48,10 +51,7 @@
       "6": "6",
       "7": "7",
       "8": "8",
-      "9": "9",
-      "urgent": "!!",
-      "focused": "",
-      "default": ""
+      "9": "9"
     }
   },
   "backlight": {
@@ -129,6 +129,7 @@
       "critical": 10
     },
     "format": "{icon}",
+    "format-charging": "󰂄",
     "format-icons": [
       "󰁺",
       "󰁻",
@@ -173,7 +174,7 @@
     "interval": 3600,
     "exec": "checkupd.sh",
     "exec-if": "exit 0",
-    "on-click": "swaymsg exec '$TERMINAL -a floating paru && pkill -SIGRTMIN+8 waybar' ",
+    "on-click": "hyprctl dispatch exec '$TERMINAL -a floating paru && pkill -SIGRTMIN+8 waybar' ",
     "signal": 8,
     "tooltip": false
   },
@@ -185,7 +186,7 @@
   },
   "custom/menu": {
     "format": "󰍜",
-    "on-click": "swaymsg exec 'rofi -modi drun -show drun -drun-display-format {name} -theme dark | xargs swaymsg exec --'",
+    "on-click": "hyprctl dispatch exec 'rofi -modi drun -show drun -drun-display-format {name} -theme dark | xargs swaymsg exec --'",
     "tooltip": false
   },
   "custom/weather": {
