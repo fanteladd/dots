@@ -27,8 +27,8 @@ case $MIMETYPE in
    text/*|application/json) $EDITOR "$1";;
    image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) spawn zathura --fork -- "$1" ;;
    video/*) spawn mpv --msg-level=all=no -- "$1" ;;
-   image/gif) spawn "$HOME/.local/bin/imv-folder" "$1" || spawn nsxiv "$@" ;;
-   image/*) spawn "$HOME/.local/bin/imv-folder" "$1" || spawn nsxiv "$@";;
+   image/gif) spawn swayimg "$1" || spawn nsxiv "$@" ;;
+   image/*) spawn swayimg "$1" || spawn nsxiv "$@";;
    *youtube.com/watch*|*jelly*|*youtu.be*|*odysee.com*|*youtube.com/playlist)
        spawn mpv --msg-level=all=no -- "$1" ;;
    *) spawn xdg-open "$1" ;;

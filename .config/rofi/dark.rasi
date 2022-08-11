@@ -1,5 +1,3 @@
-// vim: ft=css
-
 * {
     background-color: #121212;
     text-color: #ebdbb2;
@@ -8,7 +6,7 @@
 
 #window {
     location: south west;
-    //anchor: center;
+    /* anchor: center; */
     height: 80px;
     width: 900px;
     orientation: horizontal;
@@ -58,3 +56,5 @@
     text-color: inherit;
     highlight: underline #ffb366;
 }
+
+/* vim: filetype=css */

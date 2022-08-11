@@ -1,7 +1,7 @@
 #!/bin/bash
 # startup script for sway from console
 
-[[ "$1" ]] && {
+[[ "$1" != "sway" && -n "$1" ]] && {
     echo "Usage: $( basename "$0" ): start a sway session from a console tty"
     exit 0
 }
@@ -16,5 +16,9 @@ export MOZ_ENABLE_WAYLAND=1
 export XCURSOR_SIZE=24
 export XDG_CURRENT_DESKTOP=hyprland
 rm "$HOME/.cache/*.wob"
-#exec dbus-run-session sway --unsupported-gpu
-exec Hyprland
+
+if [[ "$1" == "sway" ]]; then
+  exec sway --unsupported-gpu
+else
+  exec Hyprland
+fi

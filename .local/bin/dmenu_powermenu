@@ -9,7 +9,7 @@ OFF="󰐥 shutdown"
 chosen=$(printf '%s\n%s\n%s\n%s\n' "$QUIT" "$SUSP" "$REBOOT" "$OFF" | dmenu -i -theme dark-pw) || exit 0
 
 case "$chosen" in
-    "$QUIT") if [ "$XDG_CURRENT_DESKTOP" = "hyprland" ]; then
+    "$QUIT") if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
                 pkill Hyprland 
              else
                swaymsg exit
