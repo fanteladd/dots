@@ -14,6 +14,7 @@ PREVIEW_TEXT=${FONTPREVIEW_PREVIEW_TEXT:-"ABCDEFGHIJKLM\nNOPQRSTUVWXYZ\n\
 abcdefghijklm\nnopqrstuvwxyz\n1234567890\n!@#$\%^&*,.;:\n_-=+'\"|\\(){}[]"}
 
 # Ueberzug related variables
+IMAGE=/tmp/image.png
 WIDTH=$FZF_PREVIEW_COLUMNS
 HEIGHT=$FZF_PREVIEW_LINES
 # fzf changes its preview paddings several times, its confusing
@@ -33,7 +34,7 @@ preview() {
     convert -size "$SIZE" xc:"$BG_COLOR" -fill "$FG_COLOR" \
         -pointsize "$FONT_SIZE" -font "$fontfile" -gravity "$TEXT_ALIGN" \
         -annotate +${PADDING:-0}+0 "$PREVIEW_TEXT" "$IMAGE" &&
-        chafa -c full "$IMAGE"
+        chafa "$IMAGE" -f symbols -s "$((WIDTH))x$((HEIGHT))" | sed 's/#/\n#/g'
 }
 
 while getopts "a:hs:b:f:t:" arg; do
@@ -64,5 +65,5 @@ if [ "$#" = 0 ]; then
     fzf --with-nth 1 --delimiter "\t" --layout=reverse --preview "sh $0 {}" \
         --preview-window "left:50%:noborder:wrap"
 elif [ "$#" = 1 ]; then
-    [ -p "$FIFO" ] && preview "$1"
+     preview "$1"
 fi

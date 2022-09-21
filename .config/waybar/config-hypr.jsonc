@@ -4,7 +4,7 @@
     "output": "eDP-1",
     "width": 47,
     "modules-right": [
-      "custom/pacman-sway",
+      "custom/pacman-hypr",
       "network",
       "pulseaudio",
       "idle_inhibitor",
@@ -12,13 +12,12 @@
       "tray",
       "clock"
     ],
-    "modules-center": [
-      "sway/workspaces"
-    ],
     "modules-left": [
-      "custom/menu-sway",
-      "sway/language",
+      "custom/menu-hypr",
       "custom/gammastep"
+    ],
+    "modules-center": [
+      "wlr/workspaces"
     ],
     "include": [
       "/home/davide/.config/waybar/modules.jsonc"
@@ -31,20 +30,19 @@
     ],
     "width": 47,
     "modules-right": [
-      "custom/pacman",
+      "custom/pacman-hypr",
       "network",
       "pulseaudio",
       "idle_inhibitor",
       "tray",
       "clock"
     ],
-    "modules-center": [
-      "sway/workspaces",
-    ],
     "modules-left": [
-      "custom/menu-sway",
-      "sway/language",
+      "custom/menu-hypr",
       "custom/gammastep"
+    ],
+    "modules-center": [
+      "wlr/workspaces"
     ],
     "include": [
       "/home/davide/.config/waybar/modules.jsonc"

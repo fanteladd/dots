@@ -2,11 +2,11 @@
 
 # Terminal & file manager
 super + {_, shift +} Return
-    {$TERMINAL, $TERMINAL -e lf}
+    {$TERMINALX, $TERMINALX -e lf}
 
 # Dmenu
 super + d
-    dmenu_path| dmenu -p "󰍉 " | xargs xdotool exec
+    rofi -modi drun -show drun -drun-display-format \{name\} -theme dark | xargs xdotool exec
 
 # Clip
 super + c
@@ -22,7 +22,7 @@ super + ctrl + t
 
 # Terminal apps
 super + ctrl + {a, m, n}
-    $TERMINAL -e {ncmpcpp, pulsemixer, newsboat}
+    $TERMINALX -e {ncmpcpp, pulsemixer, newsboat}
 
 # Passwords
 super + ctrl + p

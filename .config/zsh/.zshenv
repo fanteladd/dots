@@ -1,6 +1,6 @@
 # Path Settings
 typeset -U PATH path
-path=(~/.local/bin ~/.config/{bspwm,polybar,lf}/scripts ~/.local/share/cargo/bin "${path[@]}")
+path=(~/.local/bin ~/.config/{bspwm,polybar,lf,hypr}/scripts ~/.local/state/cargo/bin "${path[@]}")
 export PATH
 
 # XDG Paths
@@ -17,6 +17,7 @@ export VISUAL="$EDITOR"
 export SUDO_EDITOR="$EDITOR"
 export DIFFPROG="$EDITOR"
 export TERMINAL="footclient"
+export TERMINALX="alacritty"
 export COLORTERM="truecolor"
 export BROWSER="firefox"
 export VIDEO="mpv"
@@ -30,19 +31,17 @@ export XKB_DEFAULT_LAYOUT=it
 
 
 # Programs Settings
-export LIBVA_DRIVER_NAME="iHD"
-export VDPAU_DRIVER="nvidia"
+export LIBVA_DRIVER_NAME="i965"
 export DOAS_ASKPASS="$HOME/.local/bin/dmenupass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenupass"
 export MOZ_USE_XINPUT2="1"
-export MOZ_ENABLE_WAYLAND="1"
-export QT_QPA_PLATFORMTHEME="qt5ct"
-unset QT_QPA_PLATFORM
 export LS_COLORS="di=00;33:ex=00;32:ln=00;34:fi=00;37:bd=32"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export LESSHISTFILE=-
 export ELECTRON_TRASH=trash-cli
+export QT_QPA_PLATFORMTHEME=qt5ct
+export LESS='-RX --mouse --quit-if-one-screen'
 
 # FZF Settings
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --glob "!.git/*" --glob "!.cache/*"'
@@ -67,8 +66,8 @@ export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
 export GTK2_RC_FILES="${XDG_CONFIG_HOME:-$HOME/.config}/gtk-2.0/gtkrc"
 export LESSKEY="${XDG_CONFIG_HOME:-$HOME/.config}/less/lesskey"
 export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
-export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
+export CARGO_HOME="${XDG_STATE_HOME:-$HOME/.local/state}/cargo"
+export RUSTUP_HOME="${XDG_STATE_HOME:-$HOME/.local/state}/rustup"
 export DOCKER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/docker"
 export MYSQL_HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/mysql_history"
 export PYTHONSTARTUP="${XDG_CONFIG_HOME:-$HOME/.config}/python/config.py"

@@ -40,18 +40,15 @@ case "$1" in
          run get-networks
       ;;
    --connect | -c)
-      # $0 -s
-      $0 -d &&
-         $0 -s &&
-         # sleep 1
-         # run --passphrase "${WIFI_PASS:-$3}" connect "${WIFI_SSID:-$2}"
-         run --passphrase "${3:-$WIFI_PASS}" connect "${2:-$WIFI_SSID}" &&
-         $0 -S
+     run get-networks \
+        | sed '1,4d; $d; s/\x1b\[[0-9;]*m\**//; s/\x1b\[[0-9;]*m//g; s/^  [ >] //' \
+        | wofi --dmenu --lines=5 -p "Scegli una rete:" \
+        | sed 's/\s*[a-z,󰌾]*\s*\**\s*$//' \
+        | xargs -I {} $TERMINAL -a floating sh -c "iwctl station wlan0 connect '{}'; echo 'Premi Enter per continuare'; read"
       ;;
    --rep | -r) $0 -c "$REPEATER_SSID" "$REPEATER_PASS" ;;
    --saraj) $0 -c "$CJ_SSID" "$CJ_PASS" ;;
    --marinade | -m) $0 -c "$MARINADE_SSID" "$MARINADE_PASS" ;;
    -q | --qrcode) qrencode -o - -t utf8 'WIFI:S:FRITZ!Box 7590 DC;T:WPA;P:coy of testing fragile form;;' ;;
-   --help | -h) usage && exit 0 ;;
-   *)  usage && exit 0 ;;
+   --help | -h | *) usage && exit 0 ;;
 esac

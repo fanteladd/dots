@@ -1,3 +1,5 @@
+os:
+  editCommand: 'lvim'
 customCommands:
   - key: '<c-a>'
     prompts:

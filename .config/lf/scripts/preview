@@ -1,9 +1,19 @@
 #!/bin/bash
 
 # File preview handler for lf.
+# Arguements passed to previewer script by lf:
+#  $1 = preview target file name
+#  $2 = width of preview pane
+#  $3 = height of preview pane
+#  $4 = position x of preview pane
+#  $5 = position y of preview pane
 
 set -C -f
 IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
+
+image() {
+   chafa "$1" -f sixel -s "$(($2-2))x$3" | sed 's/#/\n#/g'
+}
 
 case "$1" in
   *.7z|*.a|*.ace|*.alz|*.arc|*.arj|*.bz|*.bz2|*.cab|*.cpio|*.deb|*.gz|*.jar|\
@@ -27,10 +37,13 @@ case "$(file --dereference --brief --mime-type -- "$1")" in
     man -- "$1" | col -b
     ;;
   image/*)
-    chafa "$1" -f sixel -s "$(($2-2))x$3" | sed 's/#/\n#/g'
+    image $1 $2 $3 $4 $5
    ;;
   video/*)
     mediainfo "$1"
+    ;;
+  application/x-iso9660-image)
+    iso-info --no-header -l "$1"
     ;;
 	application/pgp-encrypted)
     gpg -d -- "$1"
@@ -41,7 +54,7 @@ case "$(file --dereference --brief --mime-type -- "$1")" in
 	*/pdf)
 		CACHE="/tmp/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
 		[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
-    chafa "$CACHE.jpg" -f sixel -s "$(($2-2))x$(($3-2))" | sed 's/#/\n#/g'
+    image "$CACHE.jpg" $2 $3 $4 $5
     ;;
 	audio/* | application/octet-stream)
     mediainfo "$1" || exit 1 ;;

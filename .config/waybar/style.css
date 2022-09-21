@@ -1,6 +1,5 @@
 * {
   border: none;
-  font-family: SF Mono ,Material Design Icons Desktop, sans-serif;
   font-size: 16px;
   font-weight: 500;
   border-radius: 0;
@@ -12,6 +11,15 @@ window#waybar {
   color: #f2f2f4;
   animation-name: fadeIn;
   animation-duration: 1s;
+}
+
+tooltip {
+  background-color: rgba(18, 18, 18, 0.85);
+  border-radius: 10px;
+  font-family: sans-serif;
+  color: #f2f2f4;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
 }
 
 window#waybar.hidden {
@@ -34,13 +42,8 @@ window#waybar.hidden {
   color: #999999;
   background: transparent;
   padding: 2px 2px 2px 1px;
+  font-family: sans-serif;
 }
-
-/* #workspaces button.hidden { */
-/*   margin: 0px; */
-/*   color: #999999; */
-/*   padding: 2px 2px 2px 1px; */
-/* } */
 
 #workspaces button:hover {
     background: rgba(0, 0, 0, 0.2);
@@ -52,59 +55,81 @@ window#waybar.hidden {
   padding: 2px 2px 2px 1px;
 }
 
-#workspaces{
-  color: #e4e4e4;
-  margin: 0px 3px;
-}
-
-#clock {
-  font-size: 17px;
-  margin: 10px 10px 15px;
-}
-
-#idle_inhibitor {
-  font-size: 18px;
-  padding: 5px 10px 5px 3px;
-}
-
-#pulseaudio {
-  font-size: 18px;
-  padding: 5px 10px;
-}
-
-#custom-menu {
-  font-size: 22px;
-  padding: 15px 10px 5px;
-}
-
-#language {
-  padding: 5px 10px;
-}
-
-#custom-pacman {
-  padding: 5px 5px 5px 10px;
+#workspaces button.focused {
+  color: #f2f2f4;
+  padding: 2px 2px 2px 1px;
 }
 
 #mode,
 #backlight,
 #battery,
 #cpu,
+#pulseaudio,
 #memory,
 #custom-weather,
+#custom-language,
+#custom-gammastep,
 #network,
 #temperature {
   margin: 5px 10px;
   font-size: 18px;
+  font-family: monospace, Material Design Icons Desktop;
+}
+
+#clock {
+  margin: 10px 10px 15px;
+  font-family: SF Mono;
+}
+
+#idle_inhibitor {
+  padding: 5px 10px 5px 3px;
+}
+
+#custom-menu-sway, #custom-menu-hypr {
+  font-size: 22px;
+  margin: 15px 10px 5px;
+}
+
+#language {
+  margin: 5px 10px;
+  font-family: sans-serif;
+}
+
+#custom-pacman-sway, #custom-pacman-hypr {
+  padding: 5px 10px;
+}
+
+#custom-gpu {
+  margin: 5px 10px;
 }
 
 #tray{
   margin: 5px 10px;
+  font-size: small;
+}
+
+#tray menu {
+  background-color: rgba(18, 18, 18, 0.85);
+  border-radius: 10px;
+  font-family: sans-serif;
+  color: #f2f2f4;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
 }
 
 @keyframes pulse-green {
   to {
     color: #98971a;
   }
+}
+
+#battery.full {
+    color: #98971a;
 }
 
 #battery.charging {

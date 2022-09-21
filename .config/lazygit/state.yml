@@ -1,17 +1,9 @@
 lastupdatecheck: 0
 recentrepos:
+- /home/davide/uni/anno2/database/appunti/tex
 - /home/davide/repos/adguard_unbound
 - /home/davide/repos/arch-install-script
-- /home/davide/repos/android_prebuiltapks
 - /home/davide/repos/dmenu
-- /home/davide/repos/pihole-unbound
-- /home/davide/repos/android_prebuilts_prebuiltapks
-- /home/davide/repos/dmenu-wayland
-- /home/davide/uni/anno2/linguaggi/mod_1/Esami_LMP
-- /home/davide/repos/bemenu
-- /home/davide/repos/eww
-- /home/davide/repos/destreamer
-- /home/davide/repos/river
 - /home/davide/repos/akwa
 startuppopupversion: 5
 customcommandshistory: []

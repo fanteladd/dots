@@ -10,7 +10,9 @@ chosen=$(printf '%s\n%s\n%s\n%s\n' "$QUIT" "$SUSP" "$REBOOT" "$OFF" | dmenu -i -
 
 case "$chosen" in
     "$QUIT") if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
-                pkill Hyprland 
+               pkill Hyprland 
+             elif [ "$XDG_CURRENT_DESKTOP" = "bspwm" ]; then
+               bspc quit
              else
                swaymsg exit
              fi

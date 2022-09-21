@@ -37,7 +37,7 @@ cleanup = false
 [git]
 max_concurrency = 5
 # Additional git repositories to pull
-repos = ["~/repos/akwa/"]
+repos = ["~/repos/Orchis-theme/"]
 
 # Don't pull the predefined git repos
 #predefined_repos = false

@@ -8,13 +8,13 @@ set -eu
 
 unmountusb() {
     [ -z "$usbdrives" ] && exit
-    chosen="$(echo "$usbdrives" | dmenu -p "Mount which drive? 󱁋 " -i -theme dark-dmenu)" || exit 0
+    chosen="$(echo "$usbdrives" | dmenu -p "Unmount which drive? 󱁋 " -i -theme dark-dmenu)" || exit 0
     chosen="$(echo "$chosen" | awk '{print $1}')"
     [ -z "$chosen" ] && exit
     udisksctl unmount --no-user-interaction -b "$chosen" && notify-send "󱁌 USB unmounting" "$chosen unmounted."
 }
 
-usbdrives=$(lsblk -nrpo "name,type,size,mountpoint,label" | awk -F':' '{gsub(/ /,":")}$4!~/\/boot|\/efi|\/home$|SWAP/&&length($4)>1{printf "%s (%s) %s\n",$4,$3,$5}')
+usbdrives="$(lsblk -nrpo "name,type,size,mountpoint,label" | awk -F':' '{gsub(/ /,":")}$4!~/\/boot|\/efi|\/home$|SWAP/&&length($4)>1{printf "%s (%s) %s\n",$1,$3,$5}')"
 
 if [ -z "$usbdrives" ]; then
     dunstify -t 5000 "No drives to unmount." && exit

@@ -1,20 +1,22 @@
-#!/bin/sh
+#!/bin/bash
 # A dmenu prompt to mount drives.
 # Provides you with unmounted partitions, select one to mount to /run/media.
 
 set -eu
 
 mountusb() {
-    chosen="$(echo "$usbdrives" | dmenu -p "Mount which drive? 󱁋 " -i -theme dark-dmenu )" || exit 1
-    chosen="$(echo "$chosen" | awk '{print $1}')"
-    [ -z "$chosen" ] && exit 1
-    udisksctl mount --no-user-interaction -b "$chosen" 2>/dev/null && \
-    notify-send "󱁋 Disk Mounting" "$chosen device mounted." && exit 0
+  chosen="$(printf '%s %s\n' "$usbdrives" | dmenu -p "Mount which drive? 󱁋 " -i -theme dark-dmenu )" || exit 1
+  [ -z "$chosen" ] && exit 1
+  chosen="$(echo "$chosen" | awk '{print $1}')"
+  udisksctl mount --no-user-interaction -b "$chosen" 2>/dev/null && \
+  notify-send "󱁋 Disk Mounting" "$chosen device mounted." && exit 0
+
 }
 
- usbdrives="$(lsblk -rpo "name,type,size,label,mountpoint,fstype" | grep -v crypto_LUKS | grep 'part\|rom' | sed 's/ /:/g' | awk -F':' '$5==""{printf "%s (%s) %s\n",$1,$3,$4}')"
 
-if [ -z "$usbdrives" ]; then
+usbdrives="$(lsblk -rpo "name,type,size,label,mountpoint,fstype" | grep -v crypto_LUKS | grep 'part\|rom' | sed 's/ /:/g' | awk -F':' '$5==""{printf "%s (%s) %s\n",$1,$3,$4}')"
+
+if [ -z "$usbdrives" ] ; then
     dunstify -t 5000 "No USB drive detected" && exit
 else
     echo "USB drive(s) detected."

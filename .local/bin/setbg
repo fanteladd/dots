@@ -21,7 +21,7 @@ case "$(file --mime-type -b "$TRUELOC")" in
 esac
 
 if [ "$XDG_SESSION_TYPE" = 'wayland' ]; then
-    swaymsg exec output * bg ".local/share/background" fill
+    swaybg -i ".local/share/background" -m fill
 else
     xwallpaper --zoom "$BGLOC"
 fi
