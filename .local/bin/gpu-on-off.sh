@@ -11,8 +11,9 @@ if [ "$(cat /sys/bus/pci/devices/0000:00:01.0/power/runtime_status)" = 'active' 
     exit 1
 fi
 
-if ! doas nvidia-smi drain -m 1 -p 0000:01.00.0 ; then
-    doas nvidia-smi drain -m 0 -p 0000:01.00.0
+if ! /usr/bin/uu-cat /usr/share/glvnd/egl_vendor.d/10_nvidia.json ; then
+    sudo /usr/bin/mv /usr/share/glvnd/egl_vendor.d/10_nvidia.json.bak /usr/share/glvnd/egl_vendor.d/10_nvidia.json
+
     echo "GPU turned on"
     if ps -C dunst >/dev/null 2>&1 ; then
         dunstify -t 5000 "GPU turned on" -i "$ICON"
@@ -20,6 +21,7 @@ if ! doas nvidia-smi drain -m 1 -p 0000:01.00.0 ; then
     exit
 fi
 
+sudo /usr/bin/mv /usr/share/glvnd/egl_vendor.d/10_nvidia.json /usr/share/glvnd/egl_vendor.d/10_nvidia.json.bak
 echo "GPU turned off"
 if ps -C dunst >/dev/null 2>&1 ; then
     dunstify -t 5000 "GPU turned off" -i "$ICON"

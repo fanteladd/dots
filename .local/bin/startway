@@ -12,9 +12,14 @@ exec &> /tmp/$LOGFILE
 set -x
 echo "sway Starting: $( date +%F-%R )"
 
+export XDG_SESSION_TYPE=wayland
+export QT_QPA_PLATFORM="wayland;xcb"
 export MOZ_ENABLE_WAYLAND=1
 export XCURSOR_SIZE=24
-export XDG_CURRENT_DESKTOP=hyprland
+export LIBVA_DRIVER_NAME=nvidia
+export SDL_VIDEODRIVER=x11
+export LIBVA_DRIVER_NAME="iHD"
+# export __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/50_mesa.json
 rm "$HOME/.cache/*.wob"
 
 if [[ "$1" == "sway" ]]; then

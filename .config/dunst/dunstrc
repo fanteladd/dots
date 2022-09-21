@@ -1,7 +1,6 @@
 # vim: ft=dosini
 
 [global]
-
   follow = mouse
 
   # Geometry
@@ -30,10 +29,12 @@
   stack_duplicates = true
   hide_duplicate_count = false
   show_indicators = true
+  gap_size = 2
 
   # Icons
   icon_position = right
-  icon_size = 64
+  min_icon_size = 64
+  max_icon_size = 64
   icon_theme = Papirus-Dark
   enable_recursive_icon_lookup = false
 
@@ -49,21 +50,18 @@
   class = Dunst
   force_xinerama = false
 
-[experimental]
-    per_monitor_dpi = false
-
 [urgency_low]
-    background = "#181818"
-    foreground = "#ebdbb2"
-    timeout = 10
+  background = "#181818"
+  foreground = "#ebdbb2"
+  timeout = 10
 
 [urgency_normal]
-    background = "#181818"
-    foreground = "#ebdbb2""
-    timeout = 10
+  background = "#181818"
+  foreground = "#ebdbb2""
+  timeout = 10
 
 [urgency_critical]
-    background = "#181818"
-    foreground = "#ebdbb2"
-    frame_color = "#900000"
-    timeout = 0
+  background = "#181818"
+  foreground = "#ebdbb2"
+  frame_color = "#900000"
+  timeout = 0

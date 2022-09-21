@@ -19,6 +19,7 @@ lvim.builtin.terminal.active = true
 lvim.builtin.dap.active = true
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.builtin.treesitter.rainbow.enable = true
+vim.opt.mouse = "nvc"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -101,7 +102,7 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local options = {
-  cmd = { vim.fn.stdpath("data") .. "/lsp_servers/emmet_ls/node_modules/.bin/emmet-ls", "--stdio" },
+  cmd = { vim.fn.stdpath("data") .. "/mason/bin/emmet-ls", "--stdio" },
   capabilities = capabilities,
   filetypes = {
     "html",

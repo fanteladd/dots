@@ -12,17 +12,20 @@ set info "size"
 set period 1
 set scrolloff 8
 set nodrawbox
-set icons
-set ignorecase
+set icons true
+set ignorecase true
 set incsearch
 set timefmt '_2 Jan 2006 15:04'
 set promptfmt "\033[1;35;3m[ lf ] \033[1;32;3m%u \033[38;5;15min \033[34;3m%w\033[0m"
 set dircounts
+set truncatechar "…"
+
+map sudo $(doas lf -config="$HOME/.config/lf/lfrc" -command 'set drawbox true')
 
 %[ $LF_LEVEL -eq 1 ] || notify-send "Warning!" "You're in a nested lf instance!"
 
 cmd on-cd &{{
-    printf "\033]0; $PWD\007" > /dev/tty
+    printf "\033]0; $(pwd | sed "s|$HOME|~|") - lf\007" > /dev/tty
 }}
 
 cmd autoratios ${{
@@ -43,6 +46,12 @@ cmd autoratios ${{
     fi
 }}
 autoratios
+
+# drag n drop
+
+cmd dragndrop %{{
+  ripdrag -h 460 -w 600 -x * 
+}}
 
 # opener script
 cmd open $open "$f"
@@ -77,6 +86,7 @@ cmd mkdir %{{
     printf " Directory Name: "
     read ans
     mkdir -p -- "$ans"
+    mv -- $fs "$ans"
     lf -remote "send $id select \"$ans\""
 }}
 
@@ -91,14 +101,14 @@ cmd mkfile ${{
 
 # change permission
 cmd chmod %{{
-    printf " Mode Bits: "
-    read ans
+   IFS=$'\n'
+   printf "$(stat -c " %a \033[32mMode Bits: \033[0m" $f)"
+   read ans
 
-    for file in "$fx"; do
-        chmod $ans "$file"
-    done
+   chmod "$ans" $fx
 
-    lf -remote 'send reload'
+   lf -remote 'send unselect'
+   lf -remote 'send reload'
 }}
 
 # make new file with privileges
@@ -182,7 +192,7 @@ cmd restore_trash $trash-restore
 cmd edit $setsid -f $TERMINAL -e $EDITOR "$f"
 
 # progress in paste command
-cmd paste-progress %{{
+cmd paste &{{
     IFS='
 '
     set -- $(cat ~/.local/share/lf/files)
@@ -204,17 +214,6 @@ cmd paste-progress %{{
     lf -remote "send clear"
 }}
 
-cmd paste &{{
-    set -- $(cat ~/.local/share/lf/files)
-    mode="$1"
-    shift
-    case "$mode" in
-        copy) cp -rn -- "$@" .;;
-        move) mv -n -- "$@" .;;
-    esac
-    rm ~/.local/share/lf/files
-    lf -remote "send clear"
-}}
 
 ## BINDINGS ##
 
@@ -229,15 +228,14 @@ map c
 
 # Trash Mappings
 map dd trash
-map tc clear_trash
-map tr restore_trash
+map dc clear_trash
+map dr restore_trash
 
 # Basic Functions
 map . set hidden!
 map e edit
 map D delete
 map p paste
-map P paste-progress
 map x cut
 map y copy
 map <enter> open
@@ -266,6 +264,7 @@ map <esc> cmd-escape
 map W $setsid -f $TERMINAL >/dev/null 2>&1
 map Y $printf "%s" "$fx" | wl-copy
 map i $preview
+map n dragndrop
 
 
 ## MOVEMENT ##
@@ -282,8 +281,9 @@ map gr cd ~/repos
 map gun cd ~/uni/
 map gud cd ~/uni/anno2/database
 map guf cd ~/uni/anno1/fisica
-map gup cd ~/uni/anno3/pweb
-# map guv cd ~/uni/anno3/vulnerabilita
+map gua cd ~/uni/anno3/asd2
+map gui cd ~/uni/anno3/is
+map guv cd ~/uni/anno3/vulnerabilita
 
 # System
 map gbn cd ~/.local/bin
@@ -296,4 +296,4 @@ map gUs cd /usr/share
 map gtr cd ~/.local/share/Trash/files
 map gus $lf -remote "send $id cd /run/media/$USER"
 
-# vim: ft=lf:et:sw=2:ts=2:sts=-1:fdm=marker:fmr=[[[,]]]:
+# vim: ft=sh
