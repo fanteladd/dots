@@ -1,0 +1,23 @@
+{
+  "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/lvim",
+  "editor.fontSize": 16,
+  "workbench.colorTheme": "Default Dark+",
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "liveServer.settings.donotShowInfoMsg": true,
+  "explorer.confirmDelete": false,
+  "liveServer.settings.donotVerifyTags": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "workbench.startupEditor": "none",
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "window.zoomLevel": 1,
+  "editor.minimap.enabled": false,
+  "files.autoSave": "afterDelay",
+  "vscode-neovim.neovimInitVimPaths.linux": "/home/user/.config/VSCodium/User/codium-init.vim",
+  "files.enableTrash": false
+}

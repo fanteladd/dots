@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+
+_hk(){
+    hyprctl keyword "$@"
+}
+
+gaps_on(){
+    killall -SIGUSR1 waybar
+    _hk general:gaps_in 3
+    _hk general:gaps_out 5
+}
+
+gaps_off(){
+    killall -SIGUSR1 waybar
+    _hk general:gaps_in 0
+    _hk general:gaps_out 0
+}
+
+case $1 in
+    # Used to enable and disable gaps
+    --gaps)
+        if [ "$(hyprctl getoption general:gaps_in | awk 'NR==2 {print $2}')" = "0" ]; then
+          gaps_on
+        else
+          gaps_off
+        fi
+        ;;
+  *) : ;;
+
+esac
