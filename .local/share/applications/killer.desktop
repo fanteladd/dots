@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=killer
+GenericName=Processess Manager
+Comment=kill processess from rofi
+Exec=/home/davide/.local/bin/killer
+Terminal=false
+Categories=System;
