@@ -7,8 +7,8 @@
 # These are compatible with original fontpreview.
 SIZE=${FONTPREVIEW_SIZE:-700x700}
 FONT_SIZE=${FONTPREVIEW_FONT_SIZE:-64}
-BG_COLOR=${FONTPREVIEW_BG_COLOR:-#212121}
-FG_COLOR=${FONTPREVIEW_FG_COLOR:-#ebdbb2}
+BG_COLOR=${FONTPREVIEW_BG_COLOR:-#1a1b2600}
+FG_COLOR=${FONTPREVIEW_FG_COLOR:-#c0caf5}
 TEXT_ALIGN=${FONTPREVIEW_TEXT_ALIGN:-center}
 PREVIEW_TEXT=${FONTPREVIEW_PREVIEW_TEXT:-"ABCDEFGHIJKLM\nNOPQRSTUVWXYZ\n\
 abcdefghijklm\nnopqrstuvwxyz\n1234567890\n!@#$\%^&*,.;:\n_-=+'\"|\\(){}[]"}
@@ -23,6 +23,12 @@ VPAD=$(fzf --version | {
     [ "$v1" = 0 ] && [ "$v2" -le 26 ] && echo 0 || echo 4
 })
 
+
+image_kitty() {
+    kitty +icat --silent --transfer-mode file --place "${2}x${3}@0x0" "$1"
+    exit 1
+}
+
 usage() {
     echo "Usage: fontpreview-ueberzug [-h] [-s FONT_SIZE] [-b BG] [-f FG] [-t TEXT]"
 }
@@ -34,7 +40,7 @@ preview() {
     convert -size "$SIZE" xc:"$BG_COLOR" -fill "$FG_COLOR" \
         -pointsize "$FONT_SIZE" -font "$fontfile" -gravity "$TEXT_ALIGN" \
         -annotate +${PADDING:-0}+0 "$PREVIEW_TEXT" "$IMAGE" &&
-        chafa "$IMAGE" -f symbols -s "$((WIDTH))x$((HEIGHT))" | sed 's/#/\n#/g'
+        image_kitty "$IMAGE" "$WIDTH" "$HEIGHT"
 }
 
 while getopts "a:hs:b:f:t:" arg; do
@@ -65,5 +71,6 @@ if [ "$#" = 0 ]; then
     fzf --with-nth 1 --delimiter "\t" --layout=reverse --preview "sh $0 {}" \
         --preview-window "left:50%:noborder:wrap"
 elif [ "$#" = 1 ]; then
+     clean_kitty
      preview "$1"
 fi

@@ -3,12 +3,12 @@ bindkey "^?" backward-delete-char # Fix backspace bug when switching modes
 
 # Change cursor shape for different vi modes.
 cursor_mode() {
-    VIMODE='󰁕 '
+    VIMODE=''
     cursor_block='\e[2 q'
     cursor_beam='\e[4 q'
 
     function zle-keymap-select {
-      VIMODE="${${KEYMAP/vicmd/󰁕 }/(main|viins)/󰁕 }"
+      VIMODE="${${KEYMAP/vicmd/}/(main|viins)/}"
       if [[ ${KEYMAP} == vicmd ]] ||
          [[ $1 = 'block' ]]; then
         echo -ne $cursor_block

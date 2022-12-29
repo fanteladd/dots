@@ -22,14 +22,19 @@ case "$1" in
   *.xopp) spawn xournalpp "$1" ;;
 esac
 
+# check for empty file
+if [ ! -s "$1" ]; then
+  exec $EDITOR "$1"
+fi
+
 case $MIMETYPE in
    text/html) spawn xdg-open "$1" ;;
    text/*|application/json) $EDITOR "$1";;
    image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) spawn zathura --fork -- "$1" ;;
    video/*) spawn mpv --msg-level=all=no -- "$1" ;;
    image/gif) spawn swayimg "$1" || spawn nsxiv "$@" ;;
-   image/*) spawn swayimg "$1" || spawn nsxiv "$@";;
+   image/*) spawn imv-folder "$1" || spawn nsxiv "$@";;
    *youtube.com/watch*|*jelly*|*youtu.be*|*odysee.com*|*youtube.com/playlist)
        spawn mpv --msg-level=all=no -- "$1" ;;
-   *) spawn xdg-open "$1" ;;
+   *) spawn xdg-open "$1" && disown ;;
 esac

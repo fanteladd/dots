@@ -1,6 +1,6 @@
 # Path Settings
 typeset -U PATH path
-path=(~/.local/bin ~/.config/{bspwm,polybar,lf,hypr}/scripts ~/.local/state/cargo/bin "${path[@]}")
+path=(~/.local/bin ~/.config/{bspwm,polybar,lf,hypr}/scripts ~/.local/state/cargo/bin ~/.local/share/go/bin "${path[@]}")
 export PATH
 
 # XDG Paths

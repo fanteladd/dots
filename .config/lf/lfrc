@@ -1,5 +1,7 @@
+# vim: syntax=sh
 # Preview
 set previewer '~/.config/lf/scripts/preview'
+set cleaner '~/.config/lf/scripts/clean_kitty'
 
 # Basic Settings
 set shell zsh
@@ -16,11 +18,12 @@ set icons true
 set ignorecase true
 set incsearch
 set timefmt '_2 Jan 2006 15:04'
-set promptfmt "\033[1;35;3m[ lf ] \033[1;32;3m%u \033[38;5;15min \033[34;3m%w\033[0m"
+set promptfmt "\033[1;35m[ lf ] \033[1;32m%u \033[38;5;15min \033[34m%w\033[0m"
 set dircounts
 set truncatechar "…"
+set autoquit on
 
-map sudo $(doas lf -config="$HOME/.config/lf/lfrc" -command 'set drawbox true')
+map sudo $(pkexec env EDITOR=nvim lf -config="$HOME/.config/lf/lfrc" -command 'set drawbox true')
 
 %[ $LF_LEVEL -eq 1 ] || notify-send "Warning!" "You're in a nested lf instance!"
 
@@ -29,7 +32,6 @@ cmd on-cd &{{
 }}
 
 cmd autoratios ${{
-    sleep 0.01
     w=$(tput cols)
     if [ $w -le 60 ]; then
         lf -remote "send $id set nopreview"
@@ -50,7 +52,7 @@ autoratios
 # drag n drop
 
 cmd dragndrop %{{
-  ripdrag -h 460 -w 600 -x * 
+  ripdrag -H 460 -W 600 -x * 
 }}
 
 # opener script
@@ -91,12 +93,19 @@ cmd mkdir %{{
 }}
 
 # make new file
-cmd mkfile ${{
-    set -f
-    printf "File Name: "
-    read ans
-    touch $ans
-    $EDITOR $ans
+cmd new %{{
+	printf "File/Directory Name: "
+	read ans
+	
+	# using zsh/csh style parameter substitution
+  dir="$(echo "$ans" | grep -o '.*/')"
+	file=${ans##*/}
+	focus=${ans%%/*}
+
+	[ -z $dir ] || mkdir -p "$dir"
+	[ -z $file ] || touch "$ans"
+
+	lf -remote "send $id :select $focus; reload"
 }}
 
 # change permission
@@ -115,8 +124,8 @@ cmd chmod %{{
 cmd sudomkfile ${{
     printf "File Name: "
     read ans
-    doas touch $ans
-    doasedit $ans
+    pkexec touch $ans
+    sudoedit $ans
 }}
 
 # rename current dir files
@@ -148,7 +157,7 @@ cmd extract ${{
 	printf "%s\n\t" "$fx"
 	printf "extract? [y/N]"
 	read ans
-	[ $ans = "y" ] && aunpack $fx
+	[ $ans = "y" ] && extract $fx
 }}
 
 # compress current file or selected files with zip
@@ -188,7 +197,7 @@ cmd trash ${{
 cmd clear_trash %trash-empty
 cmd restore_trash $trash-restore
 
-# Open file in editor
+# Open file in editor (new window)
 cmd edit $setsid -f $TERMINAL -e $EDITOR "$f"
 
 # progress in paste command
@@ -220,11 +229,28 @@ cmd paste &{{
 # Remove some defaults
 map m
 map n
-map "'"
-map '"'
 map d
 map c
+map e
 
+# cmd line mappings {{
+cmap <backspace> cmd-delete-unix-word
+# }}
+
+# File Openers {{
+map ee edit && lf -remote "send $id unselect"
+map es $sudoedit "$f" && lf -remote "send $id unselect"
+map ed ${{
+	IFS='
+' 
+	nvim -d $fx && lf -remote "send $id unselect"
+}}
+map I $view "$f"
+map o open
+map O open_with
+map cv $(lvim "$PWD")
+map cd &(LF_LEVEL=0 $TERMINAL lf $PWD)
+# }}
 
 # Trash Mappings
 map dd trash
@@ -233,14 +259,13 @@ map dr restore_trash
 
 # Basic Functions
 map . set hidden!
-map e edit
 map D delete
 map p paste
 map x cut
 map y copy
 map <enter> open
 map <delete> trash
-map mf mkfile
+map mf new
 map mr sudomkfile
 map md mkdir
 map ch chmod
@@ -265,6 +290,7 @@ map W $setsid -f $TERMINAL >/dev/null 2>&1
 map Y $printf "%s" "$fx" | wl-copy
 map i $preview
 map n dragndrop
+map zd calcdirsize
 
 
 ## MOVEMENT ##
@@ -279,11 +305,12 @@ map gr cd ~/repos
 
 # Uni
 map gun cd ~/uni/
+map gul cd ~/uni/libri
 map gud cd ~/uni/anno2/database
 map guf cd ~/uni/anno1/fisica
 map gua cd ~/uni/anno3/asd2
 map gui cd ~/uni/anno3/is
-map guv cd ~/uni/anno3/vulnerabilita
+map guc cd ~/uni/anno3/crx
 
 # System
 map gbn cd ~/.local/bin
@@ -296,4 +323,3 @@ map gUs cd /usr/share
 map gtr cd ~/.local/share/Trash/files
 map gus $lf -remote "send $id cd /run/media/$USER"
 
-# vim: ft=sh

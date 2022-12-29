@@ -3,5 +3,5 @@
 --output "~/vids/%(uploader)s-%(title)s.%(ext)s"
 --add-metadata
 --no-check-certificate
---format '(bestvideo[vcodec!^=av0][vcodec!^=vp9]+bestaudio/bestvideo+bestaudio)[height<=?1440]/best'
+--format '(bestvideo+bestaudio/bestvideo+bestaudio)[height<=?1440]/best'
 --sponsorblock-mark all

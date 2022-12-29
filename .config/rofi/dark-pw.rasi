@@ -1,6 +1,6 @@
 * {
-    background-color: #121212;
-    text-color: #ebdbb2;
+    background-color: #1a1b26;
+    text-color: #c0caf5;
     font: "SFPro Display 13";
 }
 
@@ -12,7 +12,7 @@
     orientation: horizontal;
     children: [mainbox];
     border: 10px;
-    border-color: #121212;
+    border-color: #1a1b26;
     x-offset: 50px;
     y-offset: -50px;
 }
@@ -20,7 +20,7 @@
 #mainbox {
     orientation: horizontal;
     border: 3px;
-    border-color: #ff3300;
+    border-color: #f7768e;
     paddig: 8px 15px 8px 10px;
 }
 
@@ -47,10 +47,10 @@
 }
 
 #element selected {
-    text-color: #ff3300;
+    text-color: #f7768e;
 }
 
 #element-text {
     text-color: inherit;
-    highlight: underline #ff3300;
+    highlight: underline #f7768e;
 }

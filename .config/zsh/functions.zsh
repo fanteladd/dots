@@ -9,7 +9,7 @@ pacs() {
     if [ -x "$(command -v paru)" ]; then
         paru -Sl | awk '{print $2($4=="" ? "" : " *")}' | fzf --multi --preview 'paru -Si {1}' | cut -d " " -f 1 | xargs -ro paru -S --needed
     else
-        pacman -Sl | awk '{print $2($4=="" ? "" : " *")}' | fzf --multi --preview 'pacman -Si {1}' | cut -d " " -f 1 | xargs -ro doas pacman -S --needed
+        pacman -Sl | awk '{print $2($4=="" ? "" : " *")}' | fzf --multi --preview 'pacman -Si {1}' | cut -d " " -f 1 | xargs -ro sudo pacman -S --needed
     fi
 }
 

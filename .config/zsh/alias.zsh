@@ -51,7 +51,8 @@ if [ -x "$(command -v doas)" ]; then
     alias sudo="doas" \
         sv="doasedit"
 else
-    alias sv="sudoedit"
+    alias sudo="sudo -v; sudo " \
+        sv="sudoedit"
 fi
 
 # System

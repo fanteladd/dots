@@ -1,14 +1,12 @@
-setopt sharehistory		# Share history between all sessions.
-setopt histexpiredupsfirst	# Expire a duplicate event first when trimming history.
-setopt histignoredups		# Do not record an event that was just recorded.
-setopt histignorealldups	# Delete an old record even if a new event is duplicate.
-setopt histfindnodups	# Do not display a previously found event.
-setopt histignorespace	# Do not record an event starting with space.
-setopt histverify		# Do not execute inmediately upon history expansion.
-setopt appendhistory
+setopt hist_ignore_dups  # Collapse two consecutive idential commands.
+setopt hist_find_no_dups  # Ignore duplicates when searching history.
+setopt share_history  # Share across concurrent sessions (append immediately, read from files, add timestamps).
+setopt hist_ignore_space  # Lines that begin with space are not recorded.
+setopt hist_verify  # Don't auto-execute selected history entry.
+setopt hist_ignore_all_dups  # If a history entry would be duplicate, delete older copies.
 HISTFILE=~/.config/zsh/history
-HISTSIZE=10000
-SAVEHIST=10000
+SAVEHIST=100000 # Max entries saved to file.
+HISTSIZE=100000 # Max entires for in-memory history.
 TIMEFMT="'$fg[green]%J$reset_color' time: $fg[blue]%*Es$reset_color, cpu: $fg[blue]%P$reset_color"
 REPORTTIME=10
 

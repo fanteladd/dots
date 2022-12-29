@@ -1,6 +1,6 @@
 * {
-    background-color: #121212;
-    text-color: #ebdbb2;
+    background-color: #1a1b26;
+    text-color: #c0caf5;
     font: "SFPro Display 13";
 }
 
@@ -8,11 +8,11 @@
     location: south west;
     //anchor: center;
     height: 80px;
-    width: 450px;
+    width: 400px;
     orientation: horizontal;
     children: [mainbox];
     border: 10px;
-    border-color: #121212;
+    border-color: #1a1b26;
     x-offset: 50px;
     y-offset: -50px;
 }
@@ -20,7 +20,7 @@
 #mainbox {
     orientation: horizontal;
     border: 3px;
-    border-color: #98971a;
+    border-color: #bb9af7;
     paddig: 8px 15px 8px 10px;
 }
 

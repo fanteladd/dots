@@ -16,13 +16,32 @@ gaps_off(){
     _hk general:gaps_out 0
 }
 
+fancy_on(){
+  _hk decoration:blur 1
+  _hk animations:enabled 1
+}
+
+fancy_off(){
+  _hk decoration:blur 0
+  _hk animations:enabled 0
+}
+
 case $1 in
     # Used to enable and disable gaps
-    --gaps)
+    -g|--gaps)
         if [ "$(hyprctl getoption general:gaps_in | awk 'NR==2 {print $2}')" = "0" ]; then
           gaps_on
         else
           gaps_off
+        fi
+        ;;
+    -f|--fancy-toggle)
+        if [ "$(hyprctl getoption decoration:blur | awk 'NR==2 {print $2}')" = "0" ]; then
+          fancy_on
+          dunstify -t 5000 "Decorations are on"
+        else
+          fancy_off
+          dunstify -t 5000 "Decorations are off"
         fi
         ;;
   *) : ;;

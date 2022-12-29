@@ -1,7 +1,7 @@
 {
   "layer": "top",
   "gtk-layer-shell": true,
-  "position": "left",
+  "position": "right",
   "fixed-center": true,
   "clock": {
     "timezone": "Europe/Rome",
@@ -38,6 +38,8 @@
     "all-outputs": true,
     "on-click": "activate",
     "format": "{icon}",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
     "format-icons": {
       "1": "1",
       "2": "2",
@@ -123,12 +125,10 @@
     "interval": 60,
     "states": {
       "good": 100,
-      "warning": 25,
       "critical": 10
     },
     "format": "{icon}",
     "format-charging": "󰂄",
-    "format-full": "󰁹",
     "format-icons": [
       "󰁺",
       "󰁻",
@@ -142,6 +142,7 @@
       "󰁹"
     ],
     "tooltip": true,
+    "tooltip-format": "{timeTo}",
     "format-alt": "<span font_size='small'>{capacity}</span>",
     "format-charging-alt": "<span font_size='small'>{capacity}</span>"
   },
@@ -153,7 +154,7 @@
     "format-icons": {
       "headphones": "󰋋",
       "handsfree": "",
-      "headset": "",
+      "headset": "󰋋",
       "phone": "",
       "portable": "",
       "car": "",

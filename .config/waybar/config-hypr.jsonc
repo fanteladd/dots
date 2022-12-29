@@ -2,7 +2,7 @@
 [
   {
     "output": "eDP-1",
-    "width": 47,
+    "width": 46,
     "modules-right": [
       "custom/pacman-hypr",
       "network",
@@ -28,7 +28,7 @@
       "DP-1",
       "DP-3"
     ],
-    "width": 47,
+    "width": 50,
     "modules-right": [
       "custom/pacman-hypr",
       "network",
