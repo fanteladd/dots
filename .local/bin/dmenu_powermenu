@@ -6,7 +6,7 @@ SUSP="󰏤 suspend"
 REBOOT="󰜉 reboot"
 OFF="󰐥 shutdown"
 
-chosen=$(printf '%s\n%s\n%s\n%s\n' "$QUIT" "$SUSP" "$REBOOT" "$OFF" | dmenu -i -theme dark-pw) || exit 0
+chosen=$(printf '%s\n%s\n%s\n%s\n' "$QUIT" "$SUSP" "$REBOOT" "$OFF" | dmenu -i -theme powermenu) || exit 0
 
 case "$chosen" in
     "$QUIT") if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then

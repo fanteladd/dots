@@ -1,0 +1,46 @@
+#! /bin/sh
+
+## s2dpr - Hyprland socket 2 event dispatcher ##
+## usage: s2dpr event_file ##
+
+event_file="$(realpath "${1:?'event_file is required'}")"
+
+_handle()
+{
+  event=${1%%>>*}
+  data=${1##"$event">>}
+
+  [ "${DEBUG:=0}" -gt 0 ] && >&2 printf 'EVENT: %s DATA:%s\n' "$event" "$data"
+  
+  # re-source the event file for every event so
+  # changes are reflected without restarting s2dpr
+  # may negatively impact performance
+  [ "$RELOAD" = "DYNAMIC" ] &&
+    [ -r "$event_file" ] && 
+      . "$event_file"
+
+  # set the positional parameters using $data with comma as a delimeter
+  IFS=',' set -- "$data"
+
+  case "$event" in
+    "workspace") WORKSPACENAME="$1" event_workspace;;
+    "focusedmon") MONNAME="$1" WORKSPACENAME="$2" event_focusedmon;;
+    "activewindow") WINDOWCLASS="$1" WINDOWTITLE="$2" event_activewindow;;
+    "fullscreen") DATA="$1" event_fullscreen;;
+    "monitorremoved") MONITORNAME="$1" event_monitorremoved;;
+    "monitoradded") MONITORNAME="$1" event_monitoradded;;
+    "createworkspace") WORKSPACENAME="$1" event_createworkspace;;
+    "destroyworkspace") WORKSPACENAME="$1" event_destroyworkspace;;
+    "moveworkspace") WORKSPACENAME="$1" MONNAME="$2" event_moveworkspace;;
+    "activelayout") KEYBOARDNAME="$1" LAYOUTNAME="$2" event_activelayout;;
+    "openwindow") WINDOWADDRESS="$1" WORKSPACENAME="$2" WINDOWCLASS="$3" WINDOWTITLE="$4" event_openwindow;;
+    "closewindow") WINDOWADDRESS="$1" event_closewindow;;
+    "movewindow") WINDOWADDRESS="$1" WORKSPACENAME="$2" event_movewindow;;
+    "submap") SUBMAPNAME="$1" event_submap;;
+    *) event_unknown "$@";;
+  esac
+}
+
+[ -r "$event_file" ] && . "$event_file"
+
+socat - UNIX-CONNECT:/tmp/hypr/"${HYPRLAND_INSTANCE_SIGNATURE}"/.socket2.sock | while read line; do _handle "$line"; done

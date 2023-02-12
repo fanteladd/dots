@@ -33,7 +33,7 @@ case $MIMETYPE in
    image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) spawn zathura --fork -- "$1" ;;
    video/*) spawn mpv --msg-level=all=no -- "$1" ;;
    image/gif) spawn swayimg "$1" || spawn nsxiv "$@" ;;
-   image/*) spawn imv-folder "$1" || spawn nsxiv "$@";;
+   image/*) spawn imv-dir "$1" || spawn nsxiv "$@";;
    *youtube.com/watch*|*jelly*|*youtu.be*|*odysee.com*|*youtube.com/playlist)
        spawn mpv --msg-level=all=no -- "$1" ;;
    *) spawn xdg-open "$1" && disown ;;

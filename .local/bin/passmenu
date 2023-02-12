@@ -6,7 +6,7 @@ if ! rbw unlocked ; then
   rbw unlock
 fi
 
-rbw ls | dmenu -p "󰌆  " -i -theme dark-dmenu | xargs rbw get | wl-copy
+rbw ls | dmenu -p "󰌆  " -i -theme launcher | xargs rbw get | wl-copy
 dunstify -t 3000 "Password stored in the clipboard, available only for 30 seconds."
 sleep 30
 wl-copy --clear

@@ -6,7 +6,7 @@
     "modules-right": [
       "custom/pacman-hypr",
       "network",
-      "pulseaudio",
+      "wireplumber",
       "idle_inhibitor",
       "battery",
       "tray",
@@ -14,7 +14,8 @@
     ],
     "modules-left": [
       "custom/menu-hypr",
-      "custom/gammastep"
+      "custom/gammastep",
+      "hyprland/submap"
     ],
     "modules-center": [
       "wlr/workspaces"
@@ -32,7 +33,7 @@
     "modules-right": [
       "custom/pacman-hypr",
       "network",
-      "pulseaudio",
+      "wireplumber",
       "idle_inhibitor",
       "tray",
       "clock"

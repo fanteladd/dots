@@ -1,0 +1,35 @@
+#!/bin/sh
+
+event_createworkspace()
+{
+  case "$WORKSPACENAME" in
+    "term") hyprctl dispatch exec handlr launch x-scheme-handler/terminal;;
+    "browser") hyprctl dispatch exec handlr launch x-scheme-handler/https;;
+    "code") hyprctl dispatch exec code;;
+    *) return 2
+    esac
+}
+
+CURRENT_SUBMAP="${CURRENT_SUBMAP:=}"
+
+resize_enter='keyword decoration:dim_inactive 1;keyword general:col.active_border 0xFFFF9E64'
+resize_exit='keyword decoration:dim_inactive 0;keyword general:col.active_border 0xFFBB9AF7'
+
+event_submap()
+{
+  case "$SUBMAPNAME" in
+    "r")
+      CURRENT_SUBMAP='r'
+      hyprctl --batch "$resize_enter"
+      ;;
+    "")
+      case "$CURRENT_SUBMAP" in
+        "r")
+          CURRENT_SUBMAP=''
+          hyprctl --batch "$resize_exit"
+          ;;
+      esac
+      ;;
+    *) return 2
+  esac
+}

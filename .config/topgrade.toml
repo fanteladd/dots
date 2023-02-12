@@ -2,7 +2,7 @@
 #assume_yes = true
 
 # Disable specific steps - same options as the command line flag
-disable = ["gnome_shell_extensions", "containers", "config_update"]
+disable = ["pip3","gnome_shell_extensions", "containers", "config_update"]
 
 # Ignore failures for these steps
 #ignore_failures = ["powershell"]
@@ -36,8 +36,6 @@ cleanup = false
 
 [git]
 max_concurrency = 5
-# Additional git repositories to pull
-repos = ["~/repos/Orchis-theme/"]
 
 # Don't pull the predefined git repos
 #predefined_repos = false

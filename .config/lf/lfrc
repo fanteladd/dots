@@ -306,11 +306,9 @@ map gr cd ~/repos
 # Uni
 map gun cd ~/uni/
 map gul cd ~/uni/libri
-map gud cd ~/uni/anno2/database
-map guf cd ~/uni/anno1/fisica
+map guf cd "~/uni/anno1/fi"
 map gua cd ~/uni/anno3/asd2
-map gui cd ~/uni/anno3/is
-map guc cd ~/uni/anno3/crx
+map gui cd ~/uni/anno3/isw
 
 # System
 map gbn cd ~/.local/bin

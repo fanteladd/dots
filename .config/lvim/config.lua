@@ -204,12 +204,24 @@ require("lvim.lsp.manager").setup("bashls", bash_opts)
 -- }
 
 -- Additional Plugins
--- lvim.plugins = {
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
--- }
+lvim.plugins = {
+  {
+    "NvChad/nvim-colorizer.lua",
+    config = function()
+      require("colorizer").setup({
+        user_default_options = {
+          mode = "background",
+          tailwind = true,
+          RGB = true,
+          RRGGBB = true,
+          names = true,
+          RRGGBBAA = false,
+          AARRGGBB = false
+        },
+      })
+    end,
+  }
+}
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 vim.api.nvim_create_autocmd("BufEnter", {

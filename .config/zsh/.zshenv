@@ -24,13 +24,12 @@ export VIDEO="mpv"
 export IMAGE="imv"
 export READER="zathura"
 export OPENER="$HOME/.local/bin/open"
-export PAGER="less"
+export PAGER="bat -p"
 
 #
 export XKB_DEFAULT_LAYOUT=it
 
 
-# Programs Settings
 export LIBVA_DRIVER_NAME="i965"
 export DOAS_ASKPASS="$HOME/.local/bin/dmenupass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenupass"
@@ -77,6 +76,8 @@ export XAUTHORITY="${XDG_CONFIG_HOME:-$HOME/.config}/X11/Xauthority"
 export IPYTHONDIR="$XDG_CONFIG_HOME/jupyter"
 export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME/jupyter"
 export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
+export _ZL_DATA="$XDG_DATA_HOME/zlua"
+export PIP_REQUIRE_VIRTUALENV=1
 
 # Java env
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -89,12 +90,3 @@ export JDK_JAVA_OPTIONS="
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 export JAVA_HOME="$(readlink -f /usr/bin/java | sed "s:/bin/java::")"
 export JAVA_FONTS=/usr/share/fonts/TTF
-
-# lf icons
-LF_ICONS=$(sed ~/.config/lf/diricons \
-            -e '/^[ \t]*#/d'       \
-            -e '/^[ \t]*$/d'       \
-            -e 's/[ \t]\+/=/g'     \
-            -e 's/$/ /')
-LF_ICONS=${LF_ICONS//$'\n'/:}
-export LF_ICONS

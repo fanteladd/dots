@@ -3,7 +3,7 @@
 
 set -eu
 
-pss="$(ps -u "$USER" -o pid,%mem,%cpu,comm | sort -b -k2 -r |  awk 'NR>1 {print $4 $5 $6}' | dmenu -p "killing what?" -i)" || exit 1
+pss="$(ps -u "$USER" -o pid,%mem,%cpu,comm | sort -b -k2 -r |  awk 'NR>1 {print $4 $5 $6}' | dmenu -p "killing what?" -i -theme launcher)" || exit 1
 pid=$(echo "$pss" | awk '{print $1}')
 proc=$(echo "$pss" | awk '{print $4}')
 

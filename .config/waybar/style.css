@@ -69,13 +69,14 @@ button:hover {
 #cpu,
 #battery,
 #pulseaudio,
+#wireplumber,
 #memory,
 #custom-weather,
 #custom-language,
 #custom-gammastep,
 #network,
 #temperature {
-  font-family: SF Mono, Material Design Icons Desktop;
+  font-family: SF Mono, FontAwesome;
   font-size: 18px;
   margin: 6px 10px;
 }
