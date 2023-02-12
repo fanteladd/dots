@@ -229,11 +229,5 @@
     "on-update": "",
     "exec": "sleep 0.05; gammastep.sh",
     "on-click": "gammastep.sh toggle"
-  },
-  "custom/gpu": {
-    "format": "{}",
-    "interval": 10.0,
-    "exec": "gpu-temp.sh",
-    "tooltip": false
   }
 }
