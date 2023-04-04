@@ -2,23 +2,25 @@
 [
   {
     "output": "eDP-1",
-    "width": 46,
+    "height": 32,
     "modules-right": [
-      "custom/pacman-hypr",
-      "network",
-      "wireplumber",
+      "cpu",
+      "memory",
+      "temperature",
       "idle_inhibitor",
+      "custom/gammastep",
+      "network",
       "battery",
-      "tray",
-      "clock"
+      "bluetooth",
+      "tray"
     ],
     "modules-left": [
-      "custom/menu-hypr",
-      "custom/gammastep",
-      "hyprland/submap"
+      "wlr/workspaces",
+      "hyprland/window"
     ],
     "modules-center": [
-      "wlr/workspaces"
+      "clock",
+      "custom/weather"
     ],
     "include": [
       "/home/davide/.config/waybar/modules.jsonc"
@@ -29,21 +31,24 @@
       "DP-1",
       "DP-3"
     ],
-    "width": 50,
+    "height": 34,
     "modules-right": [
-      "custom/pacman-hypr",
-      "network",
-      "wireplumber",
+      "cpu",
+      "memory",
+      "temperature",
       "idle_inhibitor",
-      "tray",
-      "clock"
+      "custom/gammastep",
+      "network",
+      "bluetooth",
+      "tray"
     ],
     "modules-left": [
-      "custom/menu-hypr",
-      "custom/gammastep"
+      "wlr/workspaces",
+      "hyprland/window"
     ],
     "modules-center": [
-      "wlr/workspaces"
+      "clock",
+      "custom/weather"
     ],
     "include": [
       "/home/davide/.config/waybar/modules.jsonc"

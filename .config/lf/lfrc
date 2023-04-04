@@ -1,4 +1,3 @@
-# vim: syntax=sh
 # Preview
 set previewer '~/.config/lf/scripts/preview'
 set cleaner '~/.config/lf/scripts/clean_kitty'
@@ -28,7 +27,35 @@ map sudo $(pkexec env EDITOR=nvim lf -config="$HOME/.config/lf/lfrc" -command 's
 %[ $LF_LEVEL -eq 1 ] || notify-send "Warning!" "You're in a nested lf instance!"
 
 cmd on-cd &{{
-    printf "\033]0; $(pwd | sed "s|$HOME|~|") - lf\007" > /dev/tty
+    printf "\033]0;$(pwd | sed "s|$HOME|~|") - lf\007" > /dev/tty
+}}
+
+cmd open_with ${{
+	ftype=$(xdg-mime query filetype "$f")
+	open_with=$(grep "$ftype" "${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list" | head -n 1 | sed -e 's/^.*=//' -e 's/\.desktop;/\n/g' | fzf)
+	OLD_IFS=$IFS
+	IFS=:
+	for dir in $XDG_DATA_HOME:$XDG_DATA_DIRS; do
+		IFS=$OLD_IFS
+		# TODO search subdirs as well
+		desktop_entry="$dir/applications/$open_with.desktop" 
+		if [ -f "$desktop_entry" ]; then
+			echo INFO: reading from "$desktop_entry"
+			exe=$(awk '/^Exec=/{sub("^Exec=", ""); print}' "$desktop_entry")
+			if [ -n "$exe" ]; then
+				# TODO shell escape $f
+				# TODO maybe use $fx for %F?
+        cmd=$(echo "$exe" | sed -e "s#%f#$fx#g" -e "s#%F#$fx#g" -e "s#%u#file://$fx#g" -e "s#%U#file://$fx#g" )
+				grep 'Terminal=true' "$desktop_entry" && exec $cmd
+				$cmd 2> /dev/null > /dev/null & disown
+				exit 0
+			else
+				echo "\x1b[31mERROR\x1b[0m:can't find Exec in $desktop_entry"
+			fi
+		fi
+	done
+	printf "\x1b[31mERROR\x1b[0m: can't find desktop entry $open_with.desktop\n"
+	exit 1
 }}
 
 cmd autoratios ${{
@@ -47,7 +74,6 @@ cmd autoratios ${{
         lf -remote "send $id set preview"
     fi
 }}
-autoratios
 
 # drag n drop
 
@@ -152,12 +178,8 @@ cmd fzf_jump ${{
 
 # extract archive
 cmd extract ${{
-	clear; tput cup $(($(tput lines)/3)); tput bold
-	set -f
-	printf "%s\n\t" "$fx"
-	printf "extract? [y/N]"
-	read ans
-	[ $ans = "y" ] && extract $fx
+	extract "$f"
+  lf -remote "send $id reload"
 }}
 
 # compress current file or selected files with zip
@@ -290,7 +312,7 @@ map W $setsid -f $TERMINAL >/dev/null 2>&1
 map Y $printf "%s" "$fx" | wl-copy
 map i $preview
 map n dragndrop
-map zd calcdirsize
+map du calcdirsize
 
 
 ## MOVEMENT ##
@@ -307,7 +329,6 @@ map gr cd ~/repos
 map gun cd ~/uni/
 map gul cd ~/uni/libri
 map guf cd "~/uni/anno1/fi"
-map gua cd ~/uni/anno3/asd2
 map gui cd ~/uni/anno3/isw
 
 # System

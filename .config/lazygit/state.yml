@@ -1,10 +1,8 @@
 lastupdatecheck: 0
 recentrepos:
-- /home/davide/uni/anno2/database/appunti/tex
-- /home/davide/repos/adguard_unbound
-- /home/davide/repos/arch-install-script
-- /home/davide/repos/dmenu
-- /home/davide/repos/akwa
+- /home/davide
+- /home/davide/repos/linear_cryptanalysis_attack
+- /home/davide/repos/differential_cryptanalysis_attack
 startuppopupversion: 5
 customcommandshistory: []
 hidecommandlog: false

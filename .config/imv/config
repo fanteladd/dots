@@ -2,7 +2,7 @@
 # Default config for imv
 
 [options]
-background = #121212
+background = #24283b
 initial_pan = 0 0
 title_text =${imv_current_file##*/}, \($imv_width\x$imv_height\),\ $imv_scale%, \($imv_current_index/$imv_file_count\)
 
@@ -10,8 +10,8 @@ title_text =${imv_current_file##*/}, \($imv_width\x$imv_height\),\ $imv_scale%, 
 overlay = true
 overlay_position_bottom = true
 overlay_font = Imvfont:16
-overlay_text_color = fa8005
-overlay_background_color = 181818
+overlay_text_color = c0caf5
+overlay_background_color = 24283b
 overlay_background_alpha = ee
 overlay_text =\ ${imv_current_file##*/}, \($imv_width\x$imv_height\),\ $imv_scale%, \($imv_current_index/$imv_file_count\)
 

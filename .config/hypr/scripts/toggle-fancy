@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+if [ "$(hyprctl getoption decoration:blur | awk 'NR==2 {print $2}')" = "0" ]; then
+  hyprctl keyword decoration:blur 1
+  hyprctl keyword animations:enabled 1
+  dunstify -t 5000 "Decorations are on"
+else
+  hyprctl keyword decoration:blur 0
+  hyprctl keyword animations:enabled 0
+  dunstify -t 5000 "Decorations are off"
+fi
+

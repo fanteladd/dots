@@ -34,7 +34,7 @@ export LIBVA_DRIVER_NAME="i965"
 export DOAS_ASKPASS="$HOME/.local/bin/dmenupass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenupass"
 export MOZ_USE_XINPUT2="1"
-export LS_COLORS="di=00;33:ex=00;32:ln=00;34:fi=00;37:bd=32"
+export LS_COLORS="di=00;35:ex=00;32:ln=00;34:fi=00;37:bd=32"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export LESSHISTFILE=-

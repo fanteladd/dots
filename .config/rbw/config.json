@@ -1,7 +1,7 @@
 {
   "email": "davidetoni@protonmail.com",
-  "base_url": "https://passwd.fanteladd.site",
+  "base_url": "https://passwd.fanteladd.online",
   "identity_url": null,
-  "lock_timeout": 34560000,
-  "pinentry": "/usr/bin/pinentry-rofi"
+  "lock_timeout": 86400,
+  "pinentry": "/usr/bin/pinentry-gnome3"
 }

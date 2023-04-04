@@ -1,45 +1,42 @@
 {
   "layer": "top",
   "gtk-layer-shell": true,
-  "position": "right",
+  "position": "bottom",
   "fixed-center": true,
   "clock": {
     "timezone": "Europe/Rome",
-    "format": "{:%H\n%M}",
-    "format-alt": "{:<span font_size='x-small'>%a</span>\n%d}",
+    "format": "{:%A %d, %H:%M}",
+    "format-alt": "{:%A %d %B %Y, %H:%M:%S}",
     "interval": 1,
     "tooltip": true,
     "locale": "it_IT.UTF-8",
-    "tooltip-format": "<big>{:%a %d %B %Y}</big>\n<tt><big>{calendar}</big></tt>"
-  },
-  "sway/language": {
-    "format": "{shortDescription}",
-    "tooltip": false,
-    "on-click": "swaymsg input '1:1:AT_Translated_Set_2_keyboard' xkb_switch_layout next"
-  },
-  "sway/workspaces": {
-    "on-click": "activate",
-    "format": "{icon}",
-    "sort-by-name": true,
-    "format-icons": {
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+    "tooltip-format": "<tt><big>{calendar}</big></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "on-scroll": 1,
+      "on-click-right": "mode",
+      "format": {
+        "months": "<span color='#c0caf5'><b>{}</b></span>",
+        "days": "<span color='#c0caf5'><b>{}</b></span>",
+        "weeks": "<span color='#9ece6a'><b>W{}</b></span>",
+        "weekdays": "<span color='#bb9af7'><b>{}</b></span>",
+        "today": "<span color='#7dcfff'><b>{}</b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
     }
   },
   "wlr/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
     "on-click": "activate",
-    "format": "{icon}",
-    "on-scroll-up": "hyprctl dispatch workspace e+1",
-    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "format": "{name}",
+    "on-scroll-up": "hyprctl dispatch workspace m+1 > /dev/null",
+    "on-scroll-down": "hyprctl dispatch workspace m-1 > /dev/null",
     "format-icons": {
       "1": "1",
       "2": "2",
@@ -54,30 +51,22 @@
       "default": "1"
     }
   },
-  "backlight": {
-    "interval": 5,
+  "wlr/taskbar": {
     "format": "{icon}",
-    "format-icons": [
-      "󰃞",
-      "󰃟",
-      "󰃟",
-      "󰃟",
-      "󰃠",
-      "󰃠",
-      "󰃠"
-    ],
-    "on-scroll-up": "brightnessctl -c backlight set +3%",
-    "on-scroll-down": "brightnessctl -c backlight set 3%-"
+    "icon-size": 16,
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-right": "minimize"
   },
   "network": {
-    "interface": "wlan0",
     "format-wifi": "{icon}",
     "interval": 5,
-    "format-ethernet": "󰈀  {ifname}",
+    "format-ethernet": "󰈀",
     "format-linked": "󰤫",
-    "format-disconnected": "󰤮",
-    "tooltip-format": "󰇚 {bandwidthDownOctets} 󰕒 {bandwidthUpOctets}",
-    "on-click": "wifi -c",
+    "format-disconnected": "",
+    "tooltip-format-wifi": "SSID: {essid}\nIP: {ipaddr}\n\n󰇚 {bandwidthDownOctets}  󰕒 {bandwidthUpOctets}",
+    "tooltip-format-ethernet": "IP: {ipaddr}\n\n󰇚 {bandwidthDownOctets}  󰕒 {bandwidthUpOctets}",
+    "tooltip-format-disconnected": "No connection at all",
     "format-icons": [
       "󰤟",
       "󰤢",
@@ -85,12 +74,16 @@
       "󰤨"
     ]
   },
+  "hyprland/window": {
+    "max-length": 50,
+    "separate-outputs": true
+  },
   "tray": {
-    "icon-size": 18,
+    "icon-size": 16,
     "spacing": 10
   },
   "cpu": {
-    "format": "󰓅",
+    "format": "[CPU {usage}%",
     "interval": 1,
     "states": {
       "warning": 50,
@@ -107,7 +100,7 @@
     "tooltip": false
   },
   "memory": {
-    "format": "󰍛 ",
+    "format": "RAM {percentage}%",
     "interval": 1,
     "states": {
       "warning": 50,
@@ -116,8 +109,7 @@
     "tooltip": false
   },
   "temperature": {
-    "format": "󰔏 ",
-    "thermal-zone": 13,
+    "format": "TEMP {temperatureC}°C]",
     "interval": 1,
     "critical-threshold": 75,
     "tooltip": false
@@ -128,8 +120,8 @@
       "good": 100,
       "critical": 10
     },
-    "format": "{icon}",
-    "format-charging": "󰂄",
+    "format": "{capacity}%",
+    "format-charging": "{capacity}% ",
     "format-icons": [
       "󰁺",
       "󰁻",
@@ -143,82 +135,22 @@
       "󰁹"
     ],
     "tooltip": true,
-    "tooltip-format": "{timeTo}",
-    "format-alt": "<span font_size='small'>{capacity}</span>",
-    "format-charging-alt": "<span font_size='small'>{capacity}</span>"
+    "tooltip-format": "{timeTo}"
   },
-  "pulseaudio": {
-    "format": "{icon}",
-    "format-bluetooth": "{icon}",
-    "format-muted": "󰸈",
-    "format-headset": "{icon}",
-    "format-icons": {
-      "headphones": "󰋋",
-      "handsfree": "",
-      "headset": "󰋋",
-      "phone": "",
-      "portable": "",
-      "car": "",
-      "default": [
-        "󰕿",
-        "󰖀",
-        "󰖀",
-        "󰖀",
-        "󰕾",
-        "󰕾"
-      ]
-    },
-    "tooltip": true,
-    "tooltip-format": "{volume}",
-    "on-click": "pulsemixer --toggle-mute"
-  },
-  "wireplumber": {
-    "format": "{icon}",
-    "format-muted": "󰸈",
-    "on-click": "helvum",
-    "format-icons": [
-      "󰕿",
-      "󰖀",
-      "󰖀",
-      "󰖀",
-      "󰕾",
-      "󰕾"
-    ]
-  },
-  "hyprland/submap": {
-    "format": "{}",
-    "max-length": 1,
-    "tooltip": false
-  },
-  "custom/pacman-hypr": {
-    "format": "{}",
-    "interval": 3600,
-    "exec": "checkupd.sh",
-    "exec-if": "exit 0",
-    "on-click": "hyprctl dispatch exec '$TERMINAL -a floating paru && pkill -SIGRTMIN+8 waybar' ",
-    "signal": 8
-  },
-  "custom/pacman-sway": {
-    "format": "{}",
-    "interval": 3600,
-    "exec": "checkupd.sh",
-    "exec-if": "exit 0",
-    "on-click": "swaymsg exec '$TERMINAL -a floating paru && pkill -SIGRTMIN+8 waybar' ",
-    "signal": 8
-  },
-  "custom/menu-hypr": {
-    "format": "󰍜",
-    "on-click": "hyprctl dispatch exec 'rofi -modi drun -show drun -drun-display-format {name} -theme launcher | xargs swaymsg exec --'",
-    "tooltip": false
-  },
-  "custom/menu-sway": {
-    "format": "󰍜",
-    "on-click": "swaymsg exec exec 'rofi -modi drun -show drun -drun-display-format {name} -theme dark | xargs swaymsg exec --'",
-    "tooltip": false
+  "bluetooth": {
+    "format-off": "󰂲",
+    "format-disabled": "󰂲",
+    "format-on": "",
+    "format-connected": "",
+    "format-connected-battery": "",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
   },
   "custom/weather": {
     "format": "{}",
-    "format-alt": "<span font_size='x-small' >{alt}</span>",
+    "format-alt": "{alt}",
     "return-type": "json",
     "exec": "weather.sh",
     "interval": 3600

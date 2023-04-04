@@ -12,12 +12,13 @@ set -C -f
 IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
 
 image() {
-   chafa "$1" -f sixel -s "$(($2-2))x$3" | sed 's/#/\n#/g'
+	geometry="$(($2-2))x$3"
+	chafa "$1" -f sixel -s "$geometry" --animate false | fold -w 65535
 }
 
 image_kitty() {
-    kitty +icat --silent --transfer-mode file --place "${2}x${3}@${4}x${5}" "$1"
-    exit 1
+  kitten icat --silent --transfer-mode memory --stdin no --place "$((${2}-2))x${3}@${4}x${5}" "$1" < /dev/null > /dev/tty
+  exit 1
 }
 
 case "$1" in

@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+killall -SIGUSR1 waybar
+
+if [ "$(hyprctl getoption general:gaps_in | awk 'NR==2 {print $2}')" = "0" ]; then
+  hyprctl keyword general:gaps_in 3
+  hyprctl keyword general:gaps_out 5
+else
+  hyprctl keyword general:gaps_in 0
+  hyprctl keyword general:gaps_out 0
+fi

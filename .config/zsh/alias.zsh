@@ -59,21 +59,21 @@ fi
 alias \
     grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}" \
     diff="diff --color=auto" \
-    du="du -ch" \
+    du="uu-du -ch" \
     v="$EDITOR" \
-    cp="cp -vari --reflink=auto" \
+    cp="uu-cp -vari --reflink=auto" \
     mv="uu-mv -iv" \
-    df="df -h" \
+    df="uu-df -h" \
     free="free -h" \
     nb="newsboat" \
     mkdir="uu-mkdir -pv" \
     rm="uu-rm -vIr" \
-    mysql="mysql -u davide -p" \
     ex="extract" \
-    weather="curl wttr.in" \
     o="open" \
     chmod="uu-chmod --preserve-root" \
-    ytdl="yt-dlp"
+    ytdl="yt-dlp" \
+    mpv-nvidia="prime-run mpv --hwdec=nvdec"
+
 
 # git
 alias \
@@ -96,8 +96,6 @@ alias \
     grs="git remote show" \
     lg="lazygit"
 
-# Nvidia-settings
-alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"
 
 # Dotfiles
 alias dt="lazygit -g $DOTFILES -w $HOME"

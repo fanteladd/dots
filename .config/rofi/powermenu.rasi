@@ -13,8 +13,8 @@ configuration {
     border-colour:               var(selected);
     background-colour:           var(background-transparent);
     foreground-colour:           var(foreground);
-    alternate-background:        var(selected-pw);
-    alternate-foreground:		     var(background);
+    alternate-background:        var(selected);
+    alternate-foreground:		 var(background);
 
     font:                        "sans-serif 16";
 }
@@ -47,7 +47,7 @@ mainbox {
     enabled:                     true;
     spacing:                     20px;
     margin:                      0px;
-    padding:                     40%;
+    padding:                     35%;
     border:                      0px solid;
     border-radius:               0px 0px 0px 0px;
     border-color:                @border-colour;

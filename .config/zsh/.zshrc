@@ -43,3 +43,5 @@ local PLUGINS="$SHARE/zsh/plugins"
 [ -f "$PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source "$PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh"
 [ -f "$PLUGINS/zsh-you-should-use/you-should-use.plugin.zsh" ] && source "$PLUGINS/zsh-you-should-use/you-should-use.plugin.zsh"
 [ -f "$PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && source "$PLUGINS/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+export ZSH_AUTOSUGGEST_USE_ASYNC=1

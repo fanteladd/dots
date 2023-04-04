@@ -1,14 +1,5 @@
 #!/bin/sh
 
-event_createworkspace()
-{
-  case "$WORKSPACENAME" in
-    "term") hyprctl dispatch exec handlr launch x-scheme-handler/terminal;;
-    "browser") hyprctl dispatch exec handlr launch x-scheme-handler/https;;
-    "code") hyprctl dispatch exec code;;
-    *) return 2
-    esac
-}
 
 CURRENT_SUBMAP="${CURRENT_SUBMAP:=}"
 

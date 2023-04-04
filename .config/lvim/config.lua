@@ -252,3 +252,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   pattern = { "*" },
   command = [[if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]],
 })
+vim.api.nvim_create_autocmd("BufWritePost,FileWritePost", {
+  pattern = { "*config-hypr.jsonc", "*modules.jsonc", "*style.css" },
+  command = "silent! ! killall -SIGUSR2 waybar",
+})

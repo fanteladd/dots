@@ -1,5 +1,6 @@
 export KEYTIMEOUT=1
 bindkey "^?" backward-delete-char # Fix backspace bug when switching modes
+zle_highlight=( region:bg=white,fg=black )
 
 # Change cursor shape for different vi modes.
 cursor_mode() {

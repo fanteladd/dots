@@ -17,7 +17,7 @@ configuration {
     alternate-background:        var(selected);
     alternate-foreground:		 var(background);
 
-    font:                        "sans-serif 15";
+    font:                        "sans-serfi 15";
 }
 
 /*****----- Main Window -----*****/

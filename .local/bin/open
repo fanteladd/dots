@@ -1,8 +1,6 @@
 #!/bin/sh
 # Open: opener script replacing xdg-open for some file type
 
-set -eu
-
 redirect() {
   exec </dev/null 1>&0 2>&0
 }
@@ -14,6 +12,12 @@ fork() {
 spawn() {
   redirect
   fork "$@"
+}
+
+[[ -z "$1" ]] && {
+    echo "$( basename "$0" ): opener script replacing xdg-open for some file type"
+    echo "Usage: $( basename "$0" ) FILEPATH"
+    exit 0
 }
 
 MIMETYPE="$(file --mime-type "$1" -bL)"
@@ -32,8 +36,7 @@ case $MIMETYPE in
    text/*|application/json) $EDITOR "$1";;
    image/vnd.djvu|application/pdf|application/octet-stream|application/postscript) spawn zathura --fork -- "$1" ;;
    video/*) spawn mpv --msg-level=all=no -- "$1" ;;
-   image/gif) spawn swayimg "$1" || spawn nsxiv "$@" ;;
-   image/*) spawn imv-dir "$1" || spawn nsxiv "$@";;
+   audio/*) spawn mpv --audio-display=no "$1" ;;
    *youtube.com/watch*|*jelly*|*youtu.be*|*odysee.com*|*youtube.com/playlist)
        spawn mpv --msg-level=all=no -- "$1" ;;
    *) spawn xdg-open "$1" && disown ;;

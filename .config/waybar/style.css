@@ -1,28 +1,24 @@
 * {
-  border: none;
-  font-weight: 500;
-  border-radius: 0;
-  margin: 0px;
-}
+  transition: none;  
+  box-shadow: none;
+ }
 
-window#waybar {
-  background-color: rgba(26, 27, 38, 0.85);
+#waybar {
+  font-family: SF Mono, monospace;
+  font-size: 1em;
+  font-weight: 500;
   color: #c0caf5;
-  animation-name: fadeIn;
-  animation-duration: 1s;
+  background: rgba(36, 40, 59, 0.5);
 }
 
 tooltip {
-  background-color: rgba(26, 27, 38, 0.85);
+  background: rgb(36, 40, 59);
+  padding: 20px;
   border-radius: 10px;
   font-family: sans-serif;
   color: #c0caf5;
   animation-name: fadeIn;
   animation-duration: 0.5s;
-}
-
-window#waybar.hidden {
-    opacity: 0.2;
 }
 
 #tags {
@@ -36,87 +32,94 @@ window#waybar.hidden {
   to {opacity: 1;}
 }
 
+#workspaces {
+  margin: 0 5px;
+}
+
 #workspaces button {
   box-shadow: inset 0 -3px transparent;
-  color: #666c86;
+  color: #c0caf5;
   background: transparent;
-  /* padding: 2px 2px 2px 1px; */
-  font-family: sans-serif;
-  font-size: 16px;
+  margin: 5px 0;
+  padding: 0 5px;
 }
 
+#workspaces button.active,
 #workspaces button:hover {
-  background: rgba(51, 70, 124, 0.2);
-  color: #c0caf5;
-}
-
-#workspaces button.active {
-  color: #c0caf5;
-  /* padding: 2px 2px 2px 1px; */
+  color: rgba(36, 40, 59, 0.7);
+  background: #c0caf5;
+  border-radius: 4px;
 }
 
 #workspaces button.focused {
   color: #c0caf5;
-  /* padding: 2px 2px 2px 1px; */
 }
 
 button:hover {
   background: rgba(51, 70, 124, 0.2);
 }
 
+.modules-center, .modules-right, .modules-left {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
 #mode,
 #backlight,
 #cpu,
+#clock,
 #battery,
 #pulseaudio,
 #wireplumber,
 #memory,
+#bluetooth,
 #custom-weather,
 #custom-language,
 #custom-gammastep,
 #network,
+#idle_inhibitor,
 #temperature {
-  font-family: SF Mono, FontAwesome;
-  font-size: 18px;
-  margin: 6px 10px;
+  color: #c0caf5;
+  /* margin: 5px 10px; */
+  margin: 5px 0;
+  padding: 0 10px;
 }
 
-#clock {
-  margin: 10px 10px 15px 10px;
-  font-family: SF Mono;
-  font-size: 16px;
+#idle_inhibitor,#custom-gammastep,#bluetooth,#network,#battery {
+  background: #c0caf5;
+  color: rgba(36, 40, 59, 0.7);
 }
-
 #idle_inhibitor {
-  margin: 6px 10px 6px 4px;
-  font-size: 16px;
+  border-radius: 5px 0 0 5px;
+}
+#bluetooth {
+  border-radius: 0 5px 5px 0;
 }
 
-#custom-menu-sway, #custom-menu-hypr {
-  font-size: 22px;
-  margin: 15px 10px 6px 10px;
+#bluetooth.connected {
+  color: #7aa2f7;
 }
 
-#language {
-  font-family: sans-serif;
-  font-size: 16px;
+#temperature {
+  margin-right: 18px;
 }
 
-#custom-pacman-sway, #custom-pacman-hypr {
-  margin: 8px 10px;
+#window {
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-#custom-gpu {
-  margin: 5px 10px;
-}
-
-#tray{
-  margin: 5px 10px;
-  font-size: small;
+#tray {
+  margin: 5px;
+  padding: 0 5px;
+  border-radius: 5px;
+  background: #c0caf5;
 }
 
 #tray menu {
-  background-color: rgba(26, 27, 38, 0.85);
+  background-color: rgb(26, 27, 38);
+  padding: 6px;
   border-radius: 10px;
   font-family: sans-serif;
   color: #c0caf5;
@@ -137,7 +140,7 @@ button:hover {
 
 #battery.charging {
   animation-name: pulse-green;
-  animation-duration: 2s;
+  animation-duration: 1s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
@@ -151,7 +154,7 @@ button:hover {
 
 #battery.warning:not(.charging) {
     animation-name: pulse-red;
-    animation-duration: 2s;
+    animation-duration: 1s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-direction: alternate;

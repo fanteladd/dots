@@ -5,16 +5,16 @@ indicator-caps-lock
 clock
 indicator
 font=sans-serif
-fade-in=0.1
+# fade-in=0.1
 hide-keyboard-layout
-grace=2
+grace=1
 
 # Ring
 indicator-radius=130
 indicator-thickness=8
 # effect
-effect-blur=7x5
 effect-vignette=0.5:0.5
+effect-blur=10x1
 
 # line-uses-ring
 color=1a1b26a6

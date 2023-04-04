@@ -1,0 +1,15 @@
+#!/bin/env bash
+
+if hyprctl monitors | grep -q "Dell Inc. DELL U3419W FWJB6T2 (DP-1)"; then
+  if grep -q open /proc/acpi/button/lid/LID0/state; then
+    hyprctl dispatch dpms "on eDP-1"
+    hyprctl keyword monitor eDP-1,preferred,3440x0,1
+  else
+    hyprctl dispatch dpms "off eDP-1"
+    hyprctl keyword monitor eDP-1,disable
+  fi
+  sleep 0.5
+  swww img ~/.local/share/background
+else
+  exit
+fi

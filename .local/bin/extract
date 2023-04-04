@@ -52,10 +52,10 @@ if [ -f "$archive" ] ; then
             7z) 7z x "$archive" ;;
             xz) unxz "$archive" ;;
             exe) cabextract "$archive" ;;
-            *) printf "extract: '%s' - unknown archive method\\n" "$archive" ;;
+            *) printf "\x1b[33m %s\x1b[0m cannot be extracted\n" "$archive" ;;
     esac
 else
-    printf "File \"%s\" not found.\\n" "$archive"
+    printf "\x1b[31m %s\x1b[0m is not a valid file\n" "$archive"
 fi
 
 [ -n "$clean" ] && mv -f "$archive" "$TRASHBIN"
