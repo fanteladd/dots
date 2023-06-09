@@ -8,7 +8,7 @@ set -eu
 
 unmountusb() {
     [ -z "$usbdrives" ] && exit
-    chosen="$(echo "$usbdrives" | dmenu -p "Unmount which drive? 󱁋 " -i -theme dark-dmenu)" || exit 0
+    chosen="$(echo "$usbdrives" | tofi -c .config/tofi/gruvbox-menu.ini --placeholder-text "Unmount which drive? 󱁋 ")" || exit 0
     chosen="$(echo "$chosen" | awk '{print $1}')"
     [ -z "$chosen" ] && exit
     udisksctl unmount --no-user-interaction -b "$chosen" && notify-send "󱁌 USB unmounting" "$chosen unmounted."

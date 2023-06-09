@@ -17,18 +17,14 @@ rm "$HOME/.cache/*.wob"
 if [[ "$1" == "nvidia" ]]; then
   export $(systemctl --user show-environment)
   export QT_QPA_PLATFORM="wayland;xcb"
-	export __GLX_VENDOR_LIBRARY_NAME=nvidia
 	export GBM_BACKEND=nvidia-drm
 	export WLR_NO_HARDWARE_CURSORS=1
-	export LIBVA_DRIVER_NAME=nvidia
   systemd-cat -t hyprland Hyprland
   swww kill
   systemctl --user stop graphical-session.target
   systemctl --user unset-environment DISPLAY WAYLAND_DISPLAY
 else
   export $(systemctl --user show-environment)
-  export QT_QPA_PLATFORM="wayland;xcb"
-  export EGL_PLATFORM="wayland"
   systemd-cat -t hyprland Hyprland
   swww kill
   systemctl --user stop graphical-session.target

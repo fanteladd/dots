@@ -16,13 +16,19 @@ set nodrawbox
 set icons true
 set ignorecase true
 set incsearch
-set timefmt '_2 Jan 2006 15:04'
+set timefmt "[2/03/2006 15:04:05]"
 set promptfmt "\033[1;35m[ lf ] \033[1;32m%u \033[38;5;15min \033[34m%w\033[0m"
-set dircounts
+set dircounts on
 set truncatechar "…"
 set autoquit on
+set tabstop 2
 
 map sudo $(pkexec env EDITOR=nvim lf -config="$HOME/.config/lf/lfrc" -command 'set drawbox true')
+
+map u :{{
+  clear
+  unselect
+}}
 
 %[ $LF_LEVEL -eq 1 ] || notify-send "Warning!" "You're in a nested lf instance!"
 
@@ -156,7 +162,7 @@ cmd sudomkfile ${{
 
 # rename current dir files
 cmd bulk-rename ${{
-    vimv --git -- *
+    vimv -- *
 
     lf -remote "send $id load"
     lf -remote "send $id unselect"
@@ -178,17 +184,35 @@ cmd fzf_jump ${{
 
 # extract archive
 cmd extract ${{
-	extract "$f"
-  lf -remote "send $id reload"
+	unp -U "$f" || lf -remote "send $id %printf 'failed to extract \x1b[33m %s\x1b[0m' '$f'"
+	lf -remote "send $id reload"
 }}
 
 # compress current file or selected files with zip
 cmd zip ${{
-    set -f
-    mkdir $1
-    cp -r $fx $1
-    zip -r $1.zip $1
-    rm -rf $1
+	zipfile="${fx%.zip}.zip"
+	printf 'give archive name (default \033[32m%s\033[0m): ' "$(basename "$zipfile")"
+	read ans
+	ans="$(tr -d '\000-\011\013\014\016-\037' <<< "$ans")"
+	[ -n "$ans" ] && zipfile="$ans"
+	echo $zipfile
+   load=$(cat ~/.local/share/lf/files)
+   mode=$(echo "$load" | sed -n '1p')
+   rel_targets=$(echo "$load" | sed '1d' | sed "s|$PWD/||g")
+	if [ -z "$rel_targets" ]; then
+		lf -remote "send $id echo no files selected! use copy/cut to select files."
+	fi
+	(
+		IFS='
+'
+		if zip -r "$zipfile" $rel_targets; then
+			[ "$mode" = move ] && rm -r $rel_targets
+		else
+			lf -remote "send $id echo $(printf '\033[31mzip failed!\033[0m')"
+		fi
+	)
+	action="${mode//y/ie}d" # => 'moved' or 'copied'
+   lf -remote "send $id :echo $action $(echo "$rel_targets" | wc -l) files into $zipfile; clear"
 }}
 
 # compress current file or selected files with tar and gunzip
@@ -312,7 +336,7 @@ map W $setsid -f $TERMINAL >/dev/null 2>&1
 map Y $printf "%s" "$fx" | wl-copy
 map i $preview
 map n dragndrop
-map du calcdirsize
+map du :set info size; calcdirsize
 
 
 ## MOVEMENT ##

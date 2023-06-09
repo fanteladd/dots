@@ -220,6 +220,12 @@ lvim.plugins = {
         },
       })
     end,
+  },
+  {
+    "fladson/vim-kitty",
+    config = function()
+        ft = "kitty"
+    end,
   }
 }
 

@@ -3,9 +3,14 @@
 killall -SIGUSR1 waybar
 
 if [ "$(hyprctl getoption general:gaps_in | awk 'NR==2 {print $2}')" = "0" ]; then
-  hyprctl keyword general:gaps_in 3
-  hyprctl keyword general:gaps_out 5
+  hyprctl --batch \
+    "keyword general:gaps_in 3; \
+     keyword general:gaps_out 5; \
+     keyword layerrule blur,waybar;"
 else
-  hyprctl keyword general:gaps_in 0
-  hyprctl keyword general:gaps_out 0
+  hyprctl --batch \
+    "keyword general:gaps_in 0;\
+     keyword general:gaps_out 0;\
+     keyword layerrule unset,waybar;\
+     keyword layerrule blur,rofi;"
 fi

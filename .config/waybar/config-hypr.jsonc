@@ -10,8 +10,8 @@
       "idle_inhibitor",
       "custom/gammastep",
       "network",
-      "battery",
       "bluetooth",
+      "battery",
       "tray"
     ],
     "modules-left": [
@@ -33,6 +33,7 @@
     ],
     "height": 34,
     "modules-right": [
+      "mpris",
       "cpu",
       "memory",
       "temperature",

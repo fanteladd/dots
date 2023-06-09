@@ -5,7 +5,7 @@
 set -eu
 
 mountusb() {
-  chosen="$(printf '%s %s\n' "$usbdrives" | dmenu -p "Mount which drive? 󱁋 " -i -theme dark-dmenu )" || exit 1
+  chosen="$(printf '%s %s\n' "$usbdrives" | rofi -dmenu -p "Mount which drive? 󱁋 ")" || exit 1
   [ -z "$chosen" ] && exit 1
   chosen="$(echo "$chosen" | awk '{print $1}')"
   udisksctl mount --no-user-interaction -b "$chosen" 2>/dev/null && \
@@ -13,12 +13,33 @@ mountusb() {
 
 }
 
+mountios() {
+  chosen="$(printf '%s \n' "$iosdevices" | rofi -dmenu -p "Mount which device? ")" || exit 1
+  [ -z "$chosen" ] && exit 1
+  choosen="$(echo "$chosen" | awk -F"[()]" '{print $2}')"
+  ifuse -u "$choosen" --documents stream.yattee.app mnt
+  notify-send "iDevice Mounting" "$chosen device mounted." && exit 0
+}
 
 usbdrives="$(lsblk -rpo "name,type,size,label,mountpoint,fstype" | grep -v crypto_LUKS | grep 'part\|rom' | sed 's/ /:/g' | awk -F':' '$5==""{printf "%s (%s) %s\n",$1,$3,$4}')"
+iosdevices="$(for f in $(idevice_id -l); do ideviceinfo -u $f | grep -i devicename | sed 's/^DeviceName: //' | sed "s/\$/ ($f)/" ; done)"
 
-if [ -z "$usbdrives" ] ; then
-    dunstify -t 5000 "No USB drive detected" && exit
-else
+if [ -n "$usbdrives" ] && [ -n "$iosdevices" ] ; then
+  choose="$(printf '%s\n%s\n' "drive" "device" | rofi  -dmenu -p "Mount which?")" || exit 1
+  [ -z "$choose" ] && exit 1
+  if [ "$choose" = "drive" ]; then
     echo "USB drive(s) detected."
     mountusb
+  else
+    echo "iOS device(s) detected."
+    mountios
+  fi
+elif [ -z "$usbdrives" ] && [ -n "$iosdevices" ] ; then 
+    echo "iOS device(s) detected."
+    mountios
+elif [ -n "$usbdrives" ] && [ -z "$iosdevices" ] ; then 
+    echo "USB drive(s) detected."
+    mountusb
+else
+    dunstify -t 5000 "No USB drive or iOS device detected" && exit
 fi

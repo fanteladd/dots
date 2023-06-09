@@ -34,22 +34,10 @@
     "disable-scroll": true,
     "all-outputs": true,
     "on-click": "activate",
-    "format": "{name}",
+    "format": "{icon}",
+    "sort-by-number": true,
     "on-scroll-up": "hyprctl dispatch workspace m+1 > /dev/null",
     "on-scroll-down": "hyprctl dispatch workspace m-1 > /dev/null",
-    "format-icons": {
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "default": "1"
-    }
   },
   "wlr/taskbar": {
     "format": "{icon}",
@@ -79,12 +67,12 @@
     "separate-outputs": true
   },
   "tray": {
-    "icon-size": 16,
+    "icon-size": 18,
     "spacing": 10
   },
   "cpu": {
     "format": "[CPU {usage}%",
-    "interval": 1,
+    "interval": 3,
     "states": {
       "warning": 50,
       "critical": 90
@@ -94,14 +82,14 @@
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
-      "activated": "",
-      "deactivated": ""
+      "activated": "",
+      "deactivated": ""
     },
     "tooltip": false
   },
   "memory": {
     "format": "RAM {percentage}%",
-    "interval": 1,
+    "interval": 3,
     "states": {
       "warning": 50,
       "critical": 90
@@ -110,7 +98,8 @@
   },
   "temperature": {
     "format": "TEMP {temperatureC}°C]",
-    "interval": 1,
+    "thermal-zone": 13,
+    "interval": 3,
     "critical-threshold": 75,
     "tooltip": false
   },
@@ -154,6 +143,20 @@
     "return-type": "json",
     "exec": "weather.sh",
     "interval": 3600
+  },
+  "mpris": {
+    "format": "{player_icon} {artist} - {title}",
+    "format-paused": "{status_icon} {artist} - {title}",
+    "player-icons": {
+      "default": "󰐍",
+      "mpv": "󰐌",
+      "firefox": "",
+      "chromium": ""
+    },
+    "status-icons": {
+      "paused": "󰏦"
+    },
+    "ignored-players": ["chromium"]
   },
   "custom/gammastep": {
     "format": "{}",

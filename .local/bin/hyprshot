@@ -37,22 +37,13 @@ function Print() {
     1>&2 printf "$@" 
 }
 
-function send_notification_save() {
+function send_notification() {
     if [ $SILENT -eq 1 ]; then
         return 0
     fi
     notify-send "Screenshot saved" \
                 "Image saved in <i>${1}</i> and copied to the clipboard." \
                 -i "${1}" -a Hyprshot
-}
-
-function send_notification_copy() {
-    if [ $SILENT -eq 1 ]; then
-        return 0
-    fi
-    notify-send "Screenshot saved" \
-                "Image copied to the clipboard." \
-                 -a Hyprshot
 }
 
 function save_geometry() {
@@ -66,13 +57,12 @@ function save_geometry() {
         # outside the monitor
         convert $output -trim +repage $output
         wl-copy < "$output"
-        send_notification_save $output
+        send_notification $output
         [ -z "$COMMAND" ] || {
             "$COMMAND" "$output"
         }
     else
         wl-copy < <(grim -g "${1}" - | convert - -trim +repage -)
-        send_notification_copy
     fi
 }
 
@@ -165,13 +155,11 @@ fi
 CLIPBOARD=0
 DEBUG=0
 SILENT=0
-DATE="$(date +%Y%m%d-%H%M%S)"
-FILENAME="screenshot-$DATE.png"
-[ -z "$HYPRSHOT_DIR" ] && SAVEDIR=${XDG_SCREENSHOTS_DIR:=~} || SAVEDIR=${HYPRSHOT_DIR}
+FILENAME="$(date +'%Y-%m-%d-%H%M%S_hyprshot.png')"
+[ -z "$HYPRSHOT_DIR" ] && SAVEDIR=${XDG_PICTURES_DIR:=~} || SAVEDIR=${HYPRSHOT_DIR}
 
 args $0 "$@"
 
 SAVE_FULLPATH="$SAVEDIR/$FILENAME"
 [ $CLIPBOARD -eq 0 ] && Print "Saving in: %s\n" "$SAVE_FULLPATH"
 begin_grab $OPTION
-

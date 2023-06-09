@@ -6,7 +6,7 @@
   # Geometry
   width = (0, 1400)
   origin = bottom-left
-  offset = 6x6
+  offset = 4x4
   notification_limit = 3
 
   transparency = 3

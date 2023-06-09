@@ -4,7 +4,7 @@
  }
 
 #waybar {
-  font-family: SF Mono, monospace;
+  font-family: SF Mono, monospace, Symbols Nerd Font Mono;
   font-size: 1em;
   font-weight: 500;
   color: #c0caf5;
@@ -75,14 +75,16 @@ button:hover {
 #bluetooth,
 #custom-weather,
 #custom-language,
+#custom-nowplaying,
 #custom-gammastep,
 #network,
 #idle_inhibitor,
+#mpris,
 #temperature {
   color: #c0caf5;
   /* margin: 5px 10px; */
   margin: 5px 0;
-  padding: 0 10px;
+  padding: 0 8px;
 }
 
 #idle_inhibitor,#custom-gammastep,#bluetooth,#network,#battery {
@@ -92,7 +94,7 @@ button:hover {
 #idle_inhibitor {
   border-radius: 5px 0 0 5px;
 }
-#bluetooth {
+#battery {
   border-radius: 0 5px 5px 0;
 }
 
@@ -102,6 +104,10 @@ button:hover {
 
 #temperature {
   margin-right: 18px;
+}
+
+#cpu {
+  margin-left: 18px;
 }
 
 #window {

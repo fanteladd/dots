@@ -7,14 +7,15 @@ reload-threads              50
 text-width                  110
 browser                     "setsid -f -- $BROWSER %u"
 macro w set browser "setsid -f -- mpv --no-terminal" ; open-in-browser ; set browser "setsid -f -- $BROWSER %u"
+download-full-page          yes
 
 # Freshrss config
-urls-source "freshrss"
-freshrss-url "https://rss.fanteladd.site/api/greader.php"
-freshrss-login "davide"
-freshrss-passwordeval "gpg --decrypt ~/.config/newsboat/password.gpg"
-freshrss-min-items 100
-freshrss-flag-star "s"
+# urls-source "freshrss"
+# freshrss-url "https://rss.fanteladd.site/api/greader.php"
+# freshrss-login "davide"
+# freshrss-passwordeval "gpg --decrypt ~/.config/newsboat/password.gpg"
+# freshrss-min-items 100
+# freshrss-flag-star "s"
 
 # bind keys
 bind-key , macro-prefix

@@ -1,7 +1,7 @@
 include colors.config
 
 set selection-clipboard clipboard
-set font "SFPro Text 12"
+set font "SF Pro Text 12"
 set page-padding 1
 set statusbar-v-padding 2
 set statusbar-h-padding 20

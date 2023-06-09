@@ -18,14 +18,15 @@ image/png=imv-dir.desktop;
 image/jpeg=imv-dir.desktop;
 application/pdf=zathura.desktop;
 inode/directory=lf.desktop;
+inode/x-empty=lvim.desktop;
 application/x.bittorrent=aria2t.desktop;
 x-scheme-handler/magnet=aria2t.desktop;
-x-scheme-handler/tg=userapp-Telegram Desktop-9X6EW1.desktop;
+x-scheme-handler/tg=org.telegram.desktop.desktop
 image/vnd.djvu=zathura.desktop;
 application/x-youtube=mpv.desktop;
-x-scheme-handler/postman=Postman.desktop;
 application/x-xdg-protocol-tg=telegramdesktop.desktop;
 application/octet-stream=mpv.desktop;
+application/postscript=zathura.desktop
 
 [Added Associations]
 x-scheme-handler/http=firefox.desktop;
@@ -38,3 +39,4 @@ application/x-extension-shtml=firefox.desktop;
 application/xhtml+xml=firefox.desktop;
 application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
+x-scheme-handler/tg=org.telegram.desktop.desktop;

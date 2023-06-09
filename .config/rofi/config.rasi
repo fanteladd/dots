@@ -2,6 +2,8 @@ configuration {
     modi: "drun,run";
     matching: "fuzzy";
     display-run: "";
+    drun-display-format: "{name}";
+    drun-match-fields: "name";
 }
 
 @theme "~/.config/rofi/launcher.rasi"

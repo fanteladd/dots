@@ -13,7 +13,7 @@ IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
 
 image() {
 	geometry="$(($2-2))x$3"
-	chafa "$1" -f sixel -s "$geometry" --animate false | fold -w 65535
+	chafa "$1" -f sixel -s "$geometry"
 }
 
 image_kitty() {
@@ -36,18 +36,20 @@ case "$1" in
     mediainfo "$1"
     exit 0
     ;;
+  *.md)
+    glow --style=all "$1" && exit 0
+    ;;
 esac
 
 case "$(file --dereference --brief --mime-type -- "$1")" in
+  inode/symlink) 
+    printf "Symbolic link to: \e[34m%s\e[0m." "$(readlink "$1")"
+    ;;
   text/troff)
     man -- "$1" | col -b
     ;;
   image/*)
-    if [ "$TERM" == "xterm-kitty" ]; then
       image_kitty $1 $2 $3 $4 $5
-    else
-      image $1 $2 $3 $4 $5
-    fi
    ;;
   video/*)
     mediainfo "$1"
@@ -64,10 +66,10 @@ case "$(file --dereference --brief --mime-type -- "$1")" in
 	*/pdf)
 		CACHE="/tmp/thumb.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | cut -d' ' -f1)"
 		[ ! -f "$CACHE.jpg" ] && pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
-    if [ "$TERM" == "xterm-kitty" ]; then
-      image_kitty "$CACHE.jpg" $2 $3 $4 $5
-    else
+    if [ "$TERM" == "xterm-foot" ]; then
       image "$CACHE.jpg" $2 $3 $4 $5
+    else
+      image_kitty "$CACHE.jpg" $2 $3 $4 $5
     fi
     ;;
 	audio/* | application/octet-stream)
