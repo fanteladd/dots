@@ -145,6 +145,7 @@
     "interval": 3600
   },
   "mpris": {
+    "max-length": 50,
     "format": "{player_icon} {artist} - {title}",
     "format-paused": "{status_icon} {artist} - {title}",
     "player-icons": {

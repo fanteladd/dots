@@ -2,8 +2,9 @@
 [
   {
     "output": "eDP-1",
-    "height": 32,
+    "height": 30,
     "modules-right": [
+      "mpris",
       "cpu",
       "memory",
       "temperature",
@@ -31,7 +32,7 @@
       "DP-1",
       "DP-3"
     ],
-    "height": 34,
+    "height": 32,
     "modules-right": [
       "mpris",
       "cpu",

@@ -36,6 +36,11 @@ cmd on-cd &{{
     printf "\033]0;$(pwd | sed "s|$HOME|~|") - lf\007" > /dev/tty
 }}
 
+cmd edit-config ${{
+    $EDITOR ~/.config/lf/lfrc
+    lf -remote "send $id source ~/.config/lf/lfrc"
+}}
+
 cmd open_with ${{
 	ftype=$(xdg-mime query filetype "$f")
 	open_with=$(grep "$ftype" "${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list" | head -n 1 | sed -e 's/^.*=//' -e 's/\.desktop;/\n/g' | fzf)
@@ -351,9 +356,8 @@ map gr cd ~/repos
 
 # Uni
 map gun cd ~/uni/
-map gul cd ~/uni/libri
 map guf cd "~/uni/anno1/fi"
-map gui cd ~/uni/anno3/isw
+map gut cd ~/uni/thesis
 
 # System
 map gbn cd ~/.local/bin

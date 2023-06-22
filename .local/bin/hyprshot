@@ -37,6 +37,13 @@ function Print() {
     1>&2 printf "$@" 
 }
 
+function getTargetDirectory() {
+  test -f "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs" && \
+    . "${XDG_CONFIG_HOME:-$HOME/.config}/user-dirs.dirs"
+
+  echo "${XDG_SCREENSHOTS_DIR:-${XDG_PICTURES_DIR:-$HOME}}"
+}
+
 function send_notification() {
     if [ $SILENT -eq 1 ]; then
         return 0
@@ -156,7 +163,7 @@ CLIPBOARD=0
 DEBUG=0
 SILENT=0
 FILENAME="$(date +'%Y-%m-%d-%H%M%S_hyprshot.png')"
-[ -z "$HYPRSHOT_DIR" ] && SAVEDIR=${XDG_PICTURES_DIR:=~} || SAVEDIR=${HYPRSHOT_DIR}
+SAVEDIR=$(getTargetDirectory)
 
 args $0 "$@"
 

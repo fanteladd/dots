@@ -1,9 +1,10 @@
+#!/usr/bin/env xdg-open
 [Desktop Entry]
 Type=Application
 Name=lf
 GenericName=File Manager
 Comment=Terminal File Manager
-Exec=/usr/bin/footclient -T lf lf %U
+Exec=/usr/bin/kitty -T lf lf %U
 Terminal=false
 Icon=system-file-manager
 MimeType=inode/directory
