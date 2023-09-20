@@ -1,62 +1,54 @@
-# Feed settings
-confirm-exit                no
-prepopulate-query-feeds     yes
-refresh-on-startup          yes
-auto-reload                 yes
-reload-threads              50
-text-width                  110
-browser                     "setsid -f -- $BROWSER %u"
-macro w set browser "setsid -f -- mpv --no-terminal" ; open-in-browser ; set browser "setsid -f -- $BROWSER %u"
-download-full-page          yes
+# vim:ft=conf
 
-# Freshrss config
-# urls-source "freshrss"
-# freshrss-url "https://rss.fanteladd.site/api/greader.php"
-# freshrss-login "davide"
-# freshrss-passwordeval "gpg --decrypt ~/.config/newsboat/password.gpg"
-# freshrss-min-items 100
-# freshrss-flag-star "s"
+feedlist-title-format "%N (%u/%t)"
+feedlist-format "%t"
+articlelist-title-format "%N - %T (%u/%t)"
+articlelist-format "%-6L %D  %t"
+itemview-title-format "%N - %F - %T"
 
-# bind keys
-bind-key , macro-prefix
-bind-key j down
-bind-key k up
-bind-key j next articlelist
-bind-key k prev articlelist
-bind-key J next-feed articlelist
-bind-key K prev-feed articlelist
-bind-key G end
-bind-key g home
-bind-key d pagedown
-bind-key u pageup
-bind-key h quit
+download-full-page yes
+
+bind-key h toggle-show-read-feeds
+bind-key s sort
+bind-key ^W hard-quit
+bind-key r reload
+bind-key R reload-all
+bind-key O open-all-unread-in-browser-and-mark-read
+bind-key o open-in-browser
 bind-key l open
-bind-key a toggle-article-read
-bind-key n next-unread
-bind-key N prev-unread
-bind-key D pb-download
-bind-key U show-urls
-bind-key x pb-delete
+bind-key h quit
+bind-key k up
+bind-key j down
+bind-key g home
+bind-key G end
+bind-key ^U halfpageup
+bind-key ^D halfpagedown
+bind-key ^F pagedown
+bind-key ^B pageup
+bind-key ? help
 
-# Colors
-color listnormal            color15 default
-color listnormal_unread     color5  default
-color listfocus             color0  color5
-color listfocus_unread      color0  color5
-color info                  color0  color3
-color article               color15 default
+# COLORS
+# NOTE: color0 through 15 are the terminal colors
+# color <element> <foreground color> <background color> [<attribute> ...]
 
-# Separator
-highlight feedlist "-----.*-----"                       color4  default bold
-highlight feedlist ".*0/0.."                            default default invis
+color title               color5   default
+color background          color15  default
+color article             color15  default
+color info                color208 color235 bold
 
-highlight article "(^Feed:.*|^Title:.*|^Author:.*)"     color14 default bold
-highlight article "(^Link:.*|^Date:.*)"                 default default
-highlight article "https?://[^ ]+"                      yellow  default
-highlight article "^(Title):.*$"                        blue    default
-highlight article "\\[[0-9][0-9]*\\]"                   magenta default bold
-highlight article "\\[image\\ [0-9]+\\]"                green   default bold
-highlight article "\\[embedded flash: [0-9][0-9]*\\]"   green   default bold
-highlight article ":.*\\(link\\)$"                      cyan    default
-highlight article ":.*\\(image\\)$"                     blue    default
-highlight article ":.*\\(embedded flash\\)$"            magenta default
+color listnormal          color8   default
+color listfocus           color8   color237 bold
+color listnormal_unread   color10  default
+color listfocus_unread    color10  color237 bold
+
+color hint-key            color14  color235 bold
+color hint-keys-delimiter color6   color235 dim
+color hint-separator      color6   color235 dim
+color hint-description    color6   color235
+
+highlight article "^(Title|Date|Author|Feed):.*$" color7  default dim
+highlight article "^Link: http.*$"                color7  default dim
+highlight article "https?://[^ ]+"                color13 default underline
+highlight article "\\[image\\ [0-9]+.*\\]"        color12 default bold
+highlight article "\\[[0-9]+\\]"                  color11 default bold
+

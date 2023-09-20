@@ -1,13 +1,16 @@
 // vim: ft=json
 [
   {
-    "output": "eDP-1",
+    "output": [
+      "eDP-1"
+    ],
     "height": 30,
     "modules-right": [
-      "mpris",
+      "custom/rightbrack",
       "cpu",
       "memory",
       "temperature",
+      "custom/leftbrack",
       "idle_inhibitor",
       "custom/gammastep",
       "network",
@@ -16,7 +19,7 @@
       "tray"
     ],
     "modules-left": [
-      "wlr/workspaces",
+      "hyprland/workspaces",
       "hyprland/window"
     ],
     "modules-center": [
@@ -35,9 +38,11 @@
     "height": 32,
     "modules-right": [
       "mpris",
+      "custom/rightbrack",
       "cpu",
       "memory",
       "temperature",
+      "custom/leftbrack",
       "idle_inhibitor",
       "custom/gammastep",
       "network",
@@ -45,7 +50,7 @@
       "tray"
     ],
     "modules-left": [
-      "wlr/workspaces",
+      "hyprland/workspaces",
       "hyprland/window"
     ],
     "modules-center": [

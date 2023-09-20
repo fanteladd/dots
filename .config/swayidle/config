@@ -1,5 +1,5 @@
 timeout 270 'brightnessctl -s s 2%' resume 'brightnessctl -r'
-timeout 300 'waylock -init-color 0x15161e -input-color 0x24283b -fail-color 0xf7768e'
+timeout 300 'swaylock -dfF'
 timeout 315 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
 before-sleep 'waylock -init-color 0x15161e -input-color 0x24283b -fail-color 0xf7768e'
-lock 'waylock -init-color 0x15161e -input-color 0x24283b -fail-color 0xf7768e'
+lock 'swaylock -dfF'

@@ -59,20 +59,22 @@ fi
 alias \
   grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}" \
   diff="diff --color=auto" \
-  du="uu-du -ch" \
+  du="du -ch" \
   v="$EDITOR" \
-  cp="uu-cp -vari --reflink=auto" \
-  mv="uu-mv -iv" \
-  df="uu-df -h" \
+  cp="cp --reflink=auto -vari" \
+  mv="mv -iv" \
+  df="df -h" \
   free="free -h" \
   nb="newsboat" \
-  mkdir="uu-mkdir -pv" \
-  rm="uu-rm -vIr" \
+  mkdir="mkdir -pv" \
+  rm="rm -vIr" \
   ex="extract" \
   o="open" \
-  chmod="uu-chmod --preserve-root" \
+  chmod="chmod --preserve-root" \
   ytdl="yt-dlp" \
-  mpv-nvidia="prime-run mpv --hwdec=nvdec"
+  mpv-nvidia="prime-run mpv --hwdec=nvdec" \
+  ssh="kitten ssh"
+
 
 
 # git

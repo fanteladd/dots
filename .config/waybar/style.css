@@ -44,15 +44,19 @@ tooltip {
   padding: 0 5px;
 }
 
-#workspaces button.active,
-#workspaces button:hover {
+#workspaces button.active {
   color: rgba(36, 40, 59, 0.7);
   background: #c0caf5;
   border-radius: 4px 4px 0 0;
 }
+#workspaces button:hover {
+  color: rgba(36, 40, 59, 0.7);
+  background: rgba(192, 202, 245, 0.7);
+  border-radius: 4px 4px 0 0;
+}
 
 #workspaces button.focused {
-  color: #c0caf5;
+  background: #c0caf5;
 }
 
 button:hover {
@@ -73,17 +77,34 @@ button:hover {
 #wireplumber,
 #memory,
 #bluetooth,
-#custom-weather,
 #custom-language,
 #custom-nowplaying,
 #custom-gammastep,
 #network,
 #idle_inhibitor,
 #mpris,
+#window,
 #temperature {
   color: #c0caf5;
   margin: 5px 0 0 0;
-  padding: 0 8px;
+  padding: 0 7px;
+}
+
+#custom-weather {
+  color: #c0caf5;
+  margin: 5px 0 0 0;
+  padding: 0 2px;
+}
+
+#window {
+  padding: 0 14px;
+}
+
+#custom-leftbrack,
+#custom-rightbrack {
+  color: #c0caf5;
+  margin: 5px 0 0 0;
+  padding: 0;
 }
 
 #idle_inhibitor,#custom-gammastep,#bluetooth,#network,#battery {
@@ -93,26 +114,25 @@ button:hover {
 #idle_inhibitor {
   border-radius: 4px 0 0 0;
 }
+
 #battery {
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 4px 0 0;
+}
+
+window#waybar.DP-1 #bluetooth {
+  border-radius: 0 4px 0 0;
 }
 
 #bluetooth.connected {
   color: #7aa2f7;
 }
 
-#temperature {
+#custom-leftbrack {
   margin-right: 18px;
 }
 
-#cpu {
+#custom-rightbrack {
   margin-left: 18px;
-}
-
-#window {
-  border-radius: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 #tray {
@@ -137,19 +157,19 @@ button:hover {
   -gtk-icon-effect: highlight;
 }
 
-@keyframes pulse-green {
-  to {
-    color: #9ece6a;
-  }
-}
+/* @keyframes pulse-green { */
+/*   to { */
+/*     color: #9ece6a; */
+/*   } */
+/* } */
 
-#battery.charging {
-  animation-name: pulse-green;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
+/* #battery.charging { */
+/*   animation-name: pulse-green; */
+/*   animation-duration: 1s; */
+/*   animation-timing-function: linear; */
+/*   animation-iteration-count: infinite; */
+/*   animation-direction: alternate; */
+/* } */
 
 @keyframes pulse-red {
   to {

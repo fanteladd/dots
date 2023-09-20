@@ -2,11 +2,14 @@
   "layer": "top",
   "gtk-layer-shell": true,
   "position": "bottom",
+  "mod": "dock",
+  "exclusive": true,
+  "passtrought": false,
   "fixed-center": true,
   "clock": {
     "timezone": "Europe/Rome",
-    "format": "{:%A %d, %H:%M}",
-    "format-alt": "{:%A %d %B %Y, %H:%M:%S}",
+    "format": "{:%A %d, %H:%M} |",
+    "format-alt": "{:%A %d, %H:%M:%S} |",
     "interval": 1,
     "tooltip": true,
     "locale": "it_IT.UTF-8",
@@ -30,11 +33,11 @@
       "on-scroll-down": "shift_down"
     }
   },
-  "wlr/workspaces": {
+  "hyprland/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
     "on-click": "activate",
-    "format": "{icon}",
+    "format": "{id}",
     "sort-by-number": true,
     "on-scroll-up": "hyprctl dispatch workspace m+1 > /dev/null",
     "on-scroll-down": "hyprctl dispatch workspace m-1 > /dev/null",
@@ -63,6 +66,7 @@
     ]
   },
   "hyprland/window": {
+    "format": "{initialTitle}",
     "max-length": 50,
     "separate-outputs": true
   },
@@ -71,7 +75,7 @@
     "spacing": 10
   },
   "cpu": {
-    "format": "[CPU {usage}%",
+    "format": "CPU {usage}%",
     "interval": 3,
     "states": {
       "warning": 50,
@@ -97,8 +101,8 @@
     "tooltip": false
   },
   "temperature": {
-    "format": "TEMP {temperatureC}°C]",
-    "thermal-zone": 13,
+    "format": "TEMP {temperatureC}°C",
+    "thermal-zone": 12,
     "interval": 3,
     "critical-threshold": 75,
     "tooltip": false
@@ -110,7 +114,7 @@
       "critical": 10
     },
     "format": "{capacity}%",
-    "format-charging": "{capacity}% ",
+    "format-charging": "󰚥",
     "format-icons": [
       "󰁺",
       "󰁻",
@@ -124,25 +128,28 @@
       "󰁹"
     ],
     "tooltip": true,
-    "tooltip-format": "{timeTo}"
+    "tooltip-format": "{timeTo} - {power:>4.1f}W",
+    "tooltip-format-charging": "{capacity}% - {power:>4.1f}W"
   },
   "bluetooth": {
     "format-off": "󰂲",
     "format-disabled": "󰂲",
-    "format-on": "",
-    "format-connected": "",
-    "format-connected-battery": "",
+    "format-no-controller": "n/a",
+    "format-on": "󰂯",
+    "format-connected": "󰂯",
+    "format-connected-battery": "󰂯",
+    "on-click-right": "if bluetoothctl show | grep -q 'Powered: yes'; then bluetoothctl power off; else bluetoothctl power on; fi",
     "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-off": "off",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
     "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
   },
   "custom/weather": {
-    "format": "{}",
-    "format-alt": "{alt}",
-    "return-type": "json",
-    "exec": "weather.sh",
-    "interval": 3600
+    "format": "{}°",
+    "exec": "curl --no-progress-meter \"https://www.3bmeteo.com/meteo/roma\"  | sed -n \"/tattuale/p\" | sed -e \"s/ 'tattuale': '//\" | sed -e \"s/[[']....*[]']*//g\"",
+    "interval": 3600,
+    "tooltip": false
   },
   "mpris": {
     "max-length": 50,
@@ -158,6 +165,14 @@
       "paused": "󰏦"
     },
     "ignored-players": ["chromium"]
+  },
+  "custom/rightbrack": {
+    "format": "[",
+    "tooltip": false
+  },
+  "custom/leftbrack": {
+    "format": "]",
+    "tooltip": false
   },
   "custom/gammastep": {
     "format": "{}",

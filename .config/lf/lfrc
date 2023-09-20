@@ -1,3 +1,5 @@
+# vim:fileencoding=utf-8:foldmethod=marker:foldmarker={{,}}
+
 # Preview
 set previewer '~/.config/lf/scripts/preview'
 set cleaner '~/.config/lf/scripts/clean_kitty'
@@ -6,42 +8,69 @@ set cleaner '~/.config/lf/scripts/clean_kitty'
 set shell zsh
 set shellopts '-euy'
 set ifs "\n"
-set mouse
+set mouse true
 set findlen 0
 set smartcase
 set info "size"
 set period 1
 set scrolloff 8
-set nodrawbox
+set drawbox false
 set icons true
 set ignorecase true
 set incsearch
-set timefmt "[2/03/2006 15:04:05]"
+set timefmt "[02 Jan 2006, 15:04:05]"
 set promptfmt "\033[1;35m[ lf ] \033[1;32m%u \033[38;5;15min \033[34m%w\033[0m"
+set statfmt  "\033[36m%p\033[0m| %u| %g| %S| %t| -> %l"
 set dircounts on
 set truncatechar "…"
 set autoquit on
 set tabstop 2
+set rulerfmt "  cut: %m|  copy: %c|  select: %s"
 
-map sudo $(pkexec env EDITOR=nvim lf -config="$HOME/.config/lf/lfrc" -command 'set drawbox true')
-
-map u :{{
-  clear
-  unselect
-}}
 
 %[ $LF_LEVEL -eq 1 ] || notify-send "Warning!" "You're in a nested lf instance!"
 
 cmd on-cd &{{
-    printf "\033]0;$(pwd | sed "s|$HOME|~|") - lf\007" > /dev/tty
+  printf "\033]0;$(pwd | sed "s|$HOME|~|") - lf\007" > /dev/tty
+}}
+on-cd
+
+# Color-paged commands {{
+
+cmd maps color-pager maps
+cmd cmds color-pager cmds
+cmd jumps color-pager jumps
+cmd history color-pager history
+
+# }}
+
+cmd color-pager ${{
+  AWK_SCRIPT=$(cat << "EOF"
+BEGIN {
+    FS = "\t"
+    OFS = "\t"
+}
+NR == 1 {
+    print "\033[35m" $0
+}
+NR > 1 {
+    sub(/^> /, "\033[33m> \033[34m", $1)
+    $1 = "\033[34m" $1
+    $NF = "\033[32m" $NF
+    print $0
+}
+EOF
+)
+
+  lf -remote "query $id $1" | awk "$AWK_SCRIPT" | less -XR
 }}
 
 cmd edit-config ${{
-    $EDITOR ~/.config/lf/lfrc
-    lf -remote "send $id source ~/.config/lf/lfrc"
+  $EDITOR ~/.config/lf/lfrc
+  lf -remote "send $id source ~/.config/lf/lfrc"
 }}
 
-cmd open_with ${{
+cmd open-with ${{
 	ftype=$(xdg-mime query filetype "$f")
 	open_with=$(grep "$ftype" "${XDG_CONFIG_HOME:-$HOME/.config}/mimeapps.list" | head -n 1 | sed -e 's/^.*=//' -e 's/\.desktop;/\n/g' | fzf)
 	OLD_IFS=$IFS
@@ -70,67 +99,46 @@ cmd open_with ${{
 }}
 
 cmd autoratios ${{
-    w=$(tput cols)
-    if [ $w -le 60 ]; then
-        lf -remote "send $id set nopreview"
-        lf -remote "send $id set ratios 1"
-    elif [ $w -le 80 ]; then
-        lf -remote "send $id set ratios 1:2"
-        lf -remote "send $id set preview"
-    elif [ $w -le 160 ]; then
-        lf -remote "send $id set ratios 1:2:3"
-        lf -remote "send $id set preview"
-    else
-        lf -remote "send $id set ratios 2:3:5"
-        lf -remote "send $id set preview"
-    fi
+  w=$(tput cols)
+  if [ $w -le 60 ]; then
+      lf -remote "send $id set nopreview"
+      lf -remote "send $id set ratios 1"
+  elif [ $w -le 80 ]; then
+      lf -remote "send $id set ratios 1:2"
+      lf -remote "send $id set preview"
+  elif [ $w -le 160 ]; then
+      lf -remote "send $id set ratios 1:2:3"
+      lf -remote "send $id set preview"
+  else
+      lf -remote "send $id set ratios 2:3:5"
+      lf -remote "send $id set preview"
+  fi
 }}
 
-# drag n drop
+cmd open ${{
+	# check for empty file
+	if [ ! -s "$f" ]; then
+		exec $EDITOR "$f"
+	fi
 
-cmd dragndrop %{{
-  ripdrag -H 460 -W 600 -x * 
+   case $(file --mime-type "$f" -bL) in
+      text/*|application/json) exec $EDITOR "$f";;
+      *) exec setsid -f -- xdg-open "$f" 1>/dev/null 2>/dev/null & disown;;
+   esac
 }}
 
-# opener script
-cmd open $open "$f"
-
-# decrypt gpg encryptes files
-cmd decrypt !{{
-    gpg --decrypt -o "${f%.*}" "$f"
-}}
-
-# verify signature
-cmd check-sig !{{
-    gpg --verify "$f"
-}}
-
-# encrypt file with gpg
-cmd encrypt !{{
-    printf "User ID for signing: "
-    read local_uid
-    gpg --encrypt --sign -u "$local_uid" -o "${f}.gpg"
-}}
-
-# encrypt file with gpg but armored
-cmd encrypt-armored !{{
-    printf "User ID for signing: "
-    read local_uid
-    gpg --encrypt --sign --armor -u "$local_uid" -o "${f}.asc"
-}}
-
-# make new directory
 cmd mkdir %{{
-    set -f
-    printf " Directory Name: "
-    read ans
-    mkdir -p -- "$ans"
-    mv -- $fs "$ans"
-    lf -remote "send $id select \"$ans\""
+  # make new directory
+  set -f
+  printf " Directory Name: "
+  read ans
+  mkdir -p -- "$ans"
+  mv -- $fs "$ans"
+  lf -remote "send $id select \"$ans\""
 }}
 
-# make new file
 cmd new %{{
+  # make new file
 	printf "File/Directory Name: "
 	read ans
 	
@@ -145,57 +153,118 @@ cmd new %{{
 	lf -remote "send $id :select $focus; reload"
 }}
 
-# change permission
+cmd mkfile ${{
+ printf "File Name: "
+ read ans
+ $EDITOR "$ans"
+}}
+
 cmd chmod %{{
-   IFS=$'\n'
-   printf "$(stat -c " %a \033[32mMode Bits: \033[0m" $f)"
-   read ans
+  # change permission
+  IFS=$'\n'
+  printf "$(stat -c " %a \033[32mMode Bits: \033[0m" $f)"
+  read ans
 
-   chmod "$ans" $fx
+  chmod "$ans" $fx
 
-   lf -remote 'send unselect'
-   lf -remote 'send reload'
+  lf -remote 'send unselect'
+  lf -remote 'send reload'
 }}
 
-# make new file with privileges
 cmd sudomkfile ${{
-    printf "File Name: "
-    read ans
-    pkexec touch $ans
-    sudoedit $ans
+  # make new file with privileges
+  printf "File Name: "
+  read ans
+  pkexec touch $ans
+  sudoedit $ans
 }}
 
-# rename current dir files
+cmd copy-location %{{
+  # NOTE --paste-once and --no-fork is to workaround wl-copy not exiting after copying
+  # idk how to fix
+  wl-copy --trim-newline --paste-once --no-fork "$f" || echo 'failed to copy location'
+  lf -remote "send $id echo copied location to clipboard: $f"
+}}
+
 cmd bulk-rename ${{
-    vimv -- *
+  # rename current dir files
+  vimv -- *
 
-    lf -remote "send $id load"
-    lf -remote "send $id unselect"
+  lf -remote "send $id load"
+  lf -remote "send $id unselect"
 }}
 
-# move in file system with fzf
-cmd fzf_jump ${{
-    res="$(fd . -H --maxdepth=8 --exclude .git --exclude .cache | fzf --reverse --header='Jump to location')" || exit 0
-    if [ -f "$res" ]; then
-        cmd="select"
-        lf -remote "send $id $cmd \"$res\""
-        lf -remote "send $id open"
-    elif [ -d "$res" ]; then
-        cmd="cd"
-        lf -remote "send $id $cmd \"$res\""
+cmd hist-search ${{
+    clear
+    cmd=$(
+        lf -remote "query $id history" |
+        awk -F'\t' 'NR > 1 { print $NF}' |
+        sort -u |
+        fzf --reverse --prompt='Execute command: ' || exit 0
+    )
+    lf -remote "send $id $cmd"
+}}
+
+cmd jump-search ${{
+    clear
+    dir=$(
+        lf -remote "query $id jumps" |
+        awk -F'\t' 'NR > 1 { print $NF}' |
+        sort -u |
+        fzf --reverse --prompt='Jump to location: ' || exit 0
+    )
+    if [ -d "$dir" ]; then
+        lf -remote "send $id cd \"$dir\""
     fi
-    lf -remote "send $id 'redraw'"
 }}
 
-# extract archive
-cmd extract ${{
+cmd fzf-jump ${{
+  # move in file system with fzf
+  res="$(fd . -H --maxdepth=8 --exclude .git --exclude .cache | fzf --reverse --header='Jump to location')" || exit 0
+  if [ -f "$res" ]; then
+      cmd="select"
+      lf -remote "send $id $cmd \"$res\""
+      lf -remote "send $id open"
+  elif [ -d "$res" ]; then
+      cmd="cd"
+      lf -remote "send $id $cmd \"$res\""
+  fi
+  lf -remote "send $id 'redraw'"
+}}
+
+cmd fzf-grep ${{
+	RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+	INITIAL_QUERY="${*:-}"
+	: | fzf --ansi --disabled --query "$INITIAL_QUERY" \
+		 --bind "start:reload:$RG_PREFIX {q}" \
+		 --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+		 --delimiter : \
+		 --preview 'bat --color=always {1} --highlight-line {2}' \
+		 --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
+		 --bind "enter:become($EDITOR {1} +{2})"
+}}
+
+cmd grep-pdf ${{
+	printf "\033[33mregexp: \033[0m"
+	read keyword
+
+	files="./*.pdf"
+
+	{
+		for f in $files ; do
+			pdftotext "$f" - 2>/dev/null | rg --smart-case --color=always "$keyword" && printf '\x1b[33;1m  %s\x1b[0m\n' "$f" || true
+		done
+	} | bat --paging=always
+}}
+
+cmd unarchive ${{
 	unp -U "$f" || lf -remote "send $id %printf 'failed to extract \x1b[33m %s\x1b[0m' '$f'"
 	lf -remote "send $id reload"
 }}
 
-# compress current file or selected files with zip
 cmd zip ${{
-	zipfile="${fx%.zip}.zip"
+  # compress current file or selected files with zip
+	zipfile="${f%.zip}.zip"
 	printf 'give archive name (default \033[32m%s\033[0m): ' "$(basename "$zipfile")"
 	read ans
 	ans="$(tr -d '\000-\011\013\014\016-\037' <<< "$ans")"
@@ -220,75 +289,141 @@ cmd zip ${{
    lf -remote "send $id :echo $action $(echo "$rel_targets" | wc -l) files into $zipfile; clear"
 }}
 
-# compress current file or selected files with tar and gunzip
 cmd targz ${{
-    set -f
-    mkdir $1
-    cp -r $fx $1
-    tar czf $1.tar.gz $1
-    rm -rf $1
+  # compress current file or selected files with tar and gunzip
+  set -f
+  mkdir $1
+  cp -r $fx $1
+  tar czf $1.tar.gz $1
+  rm -rf $1
 }}
 
-# open dua in current dir
-cmd du !dua i "${f%/*}"
+cmd trash &{{
+  files=$(printf "$fx" | tr '\n' ';')
+  failed=0
+  failmsg=''
+  while [ "$files" ]; do
+    # extract the substring from start of string up to delimiter.
+    # this is the first "element" of the string.
+    file=${files%%;*}
+    #lf -remote "send $id echo Moving $file to trash"
+    #lf -remote "send $id unselect"
 
-# Trash cli bindings
-cmd trash ${{
-    files=$(printf "$fx" | tr '\n' ';')
-    while [ "$files" ]; do
-        file=${files%%;*}
-        trash-put "$(basename "$file")"
-        if [ "$files" = "$file" ]; then
-            files=''
-        else
-            files="${files#*;}"
-        fi
-    done
+    trash-put "$(basename "$file")"
+    # if there's only one element left, set `files` to an empty string.
+    # this causes us to exit this `while` loop.
+    # else, we delete the first "element" of the string from files, and move onto the next.
+    if [ "$files" = "$file" ]; then
+       files=''
+    else
+       files="${files#*;}"
+    fi
+  done
+
+  if (( $failed == 0 )); then
+    lf -remote "send $id echo 'Moved to trash'"
+  else
+    lf -remote "send $id echo $failed files not moved to trash; last error msg"
+  fi
+
+  lf -remote "send $id :unselect; up; reload"
 }}
-cmd clear_trash %trash-empty
-cmd restore_trash $trash-restore
 
-# Open file in editor (new window)
-cmd edit $setsid -f $TERMINAL -e $EDITOR "$f"
+cmd clear-trash %{{
+  trash-empty
+}}
 
-# progress in paste command
+cmd restore-trash ${{
+  trash-restore
+}}
+
+cmd edit ${{
+  # Open file in editor (new window)
+  setsid -f $TERMINAL -e $EDITOR "$f"
+}}
+
 cmd paste &{{
-    IFS='
+  # progress in paste command
+  IFS='
 '
-    set -- $(cat ~/.local/share/lf/files)
-    mode="$1"
-    shift
-    printf "%s\n" "$@" | while read -r i; do
-        case "$mode" in
-            copy)
-                rsync -av --ignore-existing --progress -- "$i" . |
-                stdbuf -i0 -o0 -e0 tr '\r' '\n' |
-                while IFS= read -r line; do
-                    lf -remote "send $id echo $line"
-                done
-                ;;
-            move) mv -n -- "$i" .;;
-        esac
-    done
-    rm ~/.local/share/lf/files
-    lf -remote "send clear"
+  set -- $(cat ~/.local/share/lf/files)
+  mode="$1"
+  shift
+  printf "%s\n" "$@" | while read -r i; do
+      case "$mode" in
+          copy)
+              rsync -av --ignore-existing --progress -- "$i" . |
+              stdbuf -i0 -o0 -e0 tr '\r' '\n' |
+              while IFS= read -r line; do
+                  lf -remote "send $id echo $line"
+              done
+              ;;
+          move) mv -n -- "$i" .;;
+      esac
+  done
+  rm ~/.local/share/lf/files
+  lf -remote "send clear"
 }}
 
+cmd ripdrag %{{
+	IFS='
+'
+   ripdrag $@ $fx
+}}
 
-## BINDINGS ##
+# GPG {{
 
-# Remove some defaults
+cmd decrypt !{{
+  # decrypt gpg encryptes files
+  gpg --decrypt -o "${f%.*}" "$f"
+}}
+
+cmd check-sig !{{
+  # verify signature
+  gpg --verify "$f"
+}}
+
+cmd encrypt !{{
+  # encrypt file with gpg
+  printf "User ID for signing: "
+  read local_uid
+  gpg --encrypt --sign -u "$local_uid" -o "${f}.gpg"
+}}
+
+cmd encrypt-armored !{{
+  # encrypt file with gpg but armored
+  printf "User ID for signing: "
+  read local_uid
+  gpg --encrypt --sign --armor -u "$local_uid" -o "${f}.asc"
+}}
+
+# }}
+
+## Bindings {{
+
+# Remove some defaults {{
+
 map m
 map n
 map d
 map c
 map e
+map t
+map f 
 
-# cmd line mappings {{
+# }}
+
+# Cmdline mapping {{
+
 cmap <backspace> cmd-delete-unix-word
+
 # }}
 
 # File Openers {{
+
+map sudo ${{
+  pkexec env EDITOR=nvim lf -config="$HOME/.config/lf/lfrc" -command 'set drawbox true'
+}}
 map ee edit && lf -remote "send $id unselect"
 map es $sudoedit "$f" && lf -remote "send $id unselect"
 map ed ${{
@@ -297,44 +432,70 @@ map ed ${{
 	nvim -d $fx && lf -remote "send $id unselect"
 }}
 map I $view "$f"
-map o open
+map o $(xdg-open "$f" 1>/dev/null 2>/dev/null & disown)
 map O open_with
 map cv $(lvim "$PWD")
 map cd &(LF_LEVEL=0 $TERMINAL lf $PWD)
+map <c-g> $lazygit
+
 # }}
 
-# Trash Mappings
-map dd trash
-map dc clear_trash
-map dr restore_trash
+# Trash Mappings {{
 
-# Basic Functions
+map dd trash
+map <delete> trash
+map tc clear-trash
+map tr restore-trash
+
+# }}
+
+# Archive Mappings {{
+
+map Az zip
+map At tar
+map Ag targz
+map Ab targz
+map Au unarchive
+
+# }}
+
+# Ripdrag mappings {{
+
+map dr ripdrag --all --and-exit 
+map ds ripdrag --all
+map di ripdrag
+
+# }}
+
+# Basic Functions {{
+
 map . set hidden!
-map D delete
-map p paste
+map u :{{
+  clear
+  unselect
+}}
+map <c-o> jump-prev
+map <c-i> jump-next
+map <tab> jump-next
+map DD delete
+map p paste; clear
 map x cut
 map y copy
 map <enter> open
-map <delete> trash
-map mf new
+map mf mkfile
 map mr sudomkfile
 map md mkdir
 map ch chmod
-map f fzf_jump
-map r bulk-rename
+map a new
+map J :toggle; down
+map K :toggle; up
+map r rename
 map H top
 map L bottom
-map R reload; redraw
+map R bulk-rename
+map <c-r> reload; redraw
 map C clear
 map U unselect
-map <m-up>    up
-map <m-down>  down
-map <m-1> open
-map <m-2> updir
-map <m-3> $$SHELL
-map gi $lazygit .
-map au autoratios
-map ae extract
 map zp set preview!
 map <esc> cmd-escape
 map W $setsid -f $TERMINAL >/dev/null 2>&1
@@ -342,9 +503,37 @@ map Y $printf "%s" "$fx" | wl-copy
 map i $preview
 map n dragndrop
 map du :set info size; calcdirsize
+map * tag-toggle
+map cl copy_location
+map g! !"$f"
+map g$ $"$f"
+map g% %"$f"
+map g& &"$f"
+map <a-f> jump-search
+map <a-h> hist-search
 
+# }}
 
-## MOVEMENT ##
+# Mouse mappings {{
+
+map <m-up>    up
+map <m-down>  down
+map <m-1>     open
+map <m-2>     updir
+map <m-3>     $$SHELL
+
+# }}
+
+# Search Mappings {{
+
+map ff fzf-jump
+map f/ fzf-grep
+map fp grep-pdf "pdf"
+map F filter
+
+# }}
+
+# Movements {{
 
 # Home
 map gv cd ~/vids
@@ -356,8 +545,6 @@ map gr cd ~/repos
 
 # Uni
 map gun cd ~/uni/
-map guf cd "~/uni/anno1/fi"
-map gut cd ~/uni/thesis
 
 # System
 map gbn cd ~/.local/bin
@@ -370,3 +557,6 @@ map gUs cd /usr/share
 map gtr cd ~/.local/share/Trash/files
 map gus $lf -remote "send $id cd /run/media/$USER"
 
+# }}
+
+# }}

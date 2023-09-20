@@ -3,7 +3,7 @@
 
 ICON="/usr/share/icons/Papirus-Dark/64x64/apps/nvidia.svg"
 
-if [ "$(cat /sys/bus/pci/devices/0000:00:01.0/power/runtime_status)" = 'active' ]; then
+if [ "$(/usr/bin/cat /sys/bus/pci/devices/0000:00:01.0/power/runtime_status)" = 'active' ]; then
     echo "GPU in use"
     if ps -C dunst >/dev/null 2>&1 ; then
         dunstify -t 5000 "GPU in use!" "Can't turn it off" -i "$ICON"
@@ -11,7 +11,7 @@ if [ "$(cat /sys/bus/pci/devices/0000:00:01.0/power/runtime_status)" = 'active' 
     exit 1
 fi
 
-if ! /usr/bin/uu-cat /usr/share/glvnd/egl_vendor.d/10_nvidia.json ; then
+if ! /usr/bin/cat /usr/share/glvnd/egl_vendor.d/10_nvidia.json ; then
     sudo /usr/bin/mv /usr/share/glvnd/egl_vendor.d/10_nvidia.json.bak /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 
     echo "GPU turned on"

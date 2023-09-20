@@ -1,28 +1,69 @@
-# From zprezto - https://github.com/sorin-ionescu/prezto
+#
+# Sets completion options.
+#
+
+# Add zsh-completions to $fpath.
+fpath=(${0:h}/external/src $fpath)
+
 #
 # Options
 #
 
-setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
-setopt ALWAYS_TO_END       # Move cursor to the end of a completed word.
-setopt PATH_DIRS           # Perform path search even on command names with slashes.
-setopt AUTO_MENU           # Show completion menu on a successive tab press.
-setopt AUTO_LIST           # Automatically list choices on ambiguous completion.
-setopt AUTO_PARAM_SLASH    # If completed parameter is a directory, add a trailing slash.
-setopt EXTENDED_GLOB       # Needed for file modification glob modifiers with compinit
-setopt MENU_COMPLETE     # Do not autoselect the first completion entry.
-unsetopt FLOW_CONTROL      # Disable start/stop characters in shell editor.
+setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
+setopt ALWAYS_TO_END        # Move cursor to the end of a completed word.
+setopt PATH_DIRS            # Perform path search even on command names with slashes.
+setopt AUTO_MENU            # Show completion menu on a successive tab press.
+setopt AUTO_LIST            # Automatically list choices on ambiguous completion.
+setopt AUTO_PARAM_SLASH     # If completed parameter is a directory, add a trailing slash.
+setopt EXTENDED_GLOB        # Needed for file modification glob modifiers with compinit.
+unsetopt MENU_COMPLETE      # Do not autoselect the first completion entry.
+unsetopt FLOW_CONTROL       # Disable start/stop characters in shell editor.
 
-# Treat these characters as part of a word
+#
+# Variables
+#
+
+# Standard style used by default for 'list-colors'
+LS_COLORS=${LS_COLORS:-'di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'}
+
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>|'
+
+#
+# Initialization
+#
+
+# Load and initialize the completion system ignoring insecure directories with a
+# cache time of 20 hours, so it should almost always regenerate the first time a
+# shell is opened each day.
+autoload -Uz compinit
+_comp_path="${XDG_CACHE_HOME:-$HOME/.cache}/prezto/zcompdump"
+# #q expands globs in conditional expressions
+if [[ $_comp_path(#qNmh-20) ]]; then
+  # -C (skip function check) implies -i (skip security check).
+  compinit -C -d "$_comp_path"
+else
+  mkdir -p "$_comp_path:h"
+  compinit -i -d "$_comp_path"
+  # Keep $_comp_path younger than cache time even if it isn't regenerated.
+  touch "$_comp_path"
+fi
+unset _comp_path
+
+#
+# Styles
+#
+
+# Defaults.
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:default' list-prompt '%S%M matches%s'
 
 # Use caching to make completion for commands such as dpkg and apt usable.
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "$XDG_CACHE_HOME/.zcompcache"
+zstyle ':completion::complete:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/prezto/zcompcache"
 
-# Case-insensitive completion
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-unsetopt CASE_GLOB
+# Case-insensitive (all), partial-word, and then substring completion.
+zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+setopt CASE_GLOB
 
 # Group matches and describe.
 zstyle ':completion:*:*:*:*:*' menu select
@@ -30,10 +71,9 @@ zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*:options' description 'yes'
 zstyle ':completion:*:options' auto-description '%d'
 zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
-zstyle ':completion:*:descriptions' format ' %F{green}-- %d --%f'
+zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
 zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
 zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
-zstyle ':completion:*:default' list-prompt '%S%M matches%s'
 zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
@@ -54,18 +94,23 @@ zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 
 # Directories
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
 zstyle ':completion:*' squeeze-slashes true
-zstyle ':completion:*' special-dirs true
+
+# History
+zstyle ':completion:*:history-words' stop yes
+zstyle ':completion:*:history-words' remove-all-dups yes
+zstyle ':completion:*:history-words' list false
+zstyle ':completion:*:history-words' menu yes
 
 # Environment Variables
 zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-value-*]#*,}%%,*}:#-*-}
 
 # Populate hostname completion. But allow ignoring custom entries from static
 # */etc/hosts* which might be uninteresting.
+zstyle -a ':prezto:module:completion:*:hosts' etc-host-ignores '_etc_host_ignores'
 
 zstyle -e ':completion:*:hosts' hosts 'reply=(
   ${=${=${=${${(f)"$(cat {/etc/ssh/ssh_,~/.ssh/}known_hosts(|2)(N) 2> /dev/null)"}%%[#| ]*}//\]:[0-9]*/ }//,/ }//\[/ }
@@ -76,7 +121,7 @@ zstyle -e ':completion:*:hosts' hosts 'reply=(
 # Don't complete uninteresting users...
 zstyle ':completion:*:*:*:users' ignored-patterns \
   adm amanda apache avahi beaglidx bin cacti canna clamav daemon \
-  dbus distcache docker dovecot fax ftp games gdm gkrellmd gopher \
+  dbus distcache dovecot fax ftp games gdm gkrellmd gopher \
   hacluster haldaemon halt hsqldb ident junkbust ldap lp mail \
   mailman mailnull mldonkey mysql nagios \
   named netdump news nfsnobody nobody nscd ntp nut nx openvpn \
@@ -84,19 +129,11 @@ zstyle ':completion:*:*:*:users' ignored-patterns \
   rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs '_*'
 
 # ... unless we really want to.
-# zstyle '*' single-ignored show
+zstyle '*' single-ignored show
 
 # Ignore multiple entries.
 zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
 zstyle ':completion:*:rm:*' file-patterns '*:all-files'
-
-# SSH/SCP/RSYNC
-zstyle ':completion:*:(ssh|scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
-zstyle ':completion:*:(scp|rsync):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
-zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hosts-ipaddr
-zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
-zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
-zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 
 # Kill
 zstyle ':completion:*:*:*:*:processes' command 'ps -u $LOGNAME -o pid,user,command -w'
@@ -115,15 +152,19 @@ zstyle ':completion:*:*:mpg321:*' file-patterns '*.(mp3|MP3):mp3\ files *(-/):di
 zstyle ':completion:*:*:ogg123:*' file-patterns '*.(ogg|OGG|flac):ogg\ files *(-/):directories'
 zstyle ':completion:*:*:mocp:*' file-patterns '*.(wav|WAV|mp3|MP3|ogg|OGG|flac):ogg\ files *(-/):directories'
 
-# autocomplete hidden files & alias
-_comp_options+=(globdots)
+# Mutt
+if [[ -s "$HOME/.mutt/aliases" ]]; then
+  zstyle ':completion:*:*:mutt:*' menu yes select
+  zstyle ':completion:*:mutt:*' users ${${${(f)"$(<"$HOME/.mutt/aliases")"}#alias[[:space:]]}%%[[:space:]]*}
+fi
 
-# Use vim keys in tab complete menu:
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'left' vi-backward-char
-bindkey -M menuselect 'down' vi-down-line-or-history
-bindkey -M menuselect 'up' vi-up-line-or-history
-bindkey -M menuselect 'right' vi-forward-char
+# SSH/SCP/RSYNC
+zstyle ':completion:*:(ssh|scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+zstyle ':completion:*:(scp|rsync):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
+zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hosts-ipaddr
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
+
+# Autocomplete hidden files & aliases
+_comp_options+=(globdots)

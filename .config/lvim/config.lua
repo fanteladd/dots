@@ -226,6 +226,9 @@ lvim.plugins = {
     config = function()
         ft = "kitty"
     end,
+  },
+  {
+    "VebbNix/lf-vim"
   }
 }
 

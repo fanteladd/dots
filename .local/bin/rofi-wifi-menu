@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+CARD=$(ip link | grep -o 'wl.\w*')
+
+run() { iwctl station "$CARD" "$@"; }
+
+# Get a list of available wifi connections and morph it into a nice-looking list
+wifi_list=$(run get-networks \
+        | sed '1,4d; $d; s/\x1b\[[0-9;]*m\**//; s/\x1b\[[0-9;]*m//g; s/^  [ >] //' \
+        | sed -E "s/psk*.?\S/ /g")
+
+power=$(iwctl adapter phy0 show)
+if [[ "$power" =~ "off" ]]; then
+	toggle="󰖩  Enable Wi-Fi"
+elif [[ "$power" =~ "on" ]]; then
+	toggle="󰖪  Disable Wi-Fi"
+fi
+
+# Use rofi to select wifi network
+chosen_network="$(printf '%s\n%s' "$toggle" "$wifi_list" | rofi -dmenu -i -selected-row 1 -p "Wi-Fi SSID: " )"
+# Get name of connection
+chosen_id="$(printf "%s\n" "$chosen_network" | awk  -F '   .*' '{print $1}' | xargs)"
+
+if [ "$chosen_network" = "" ]; then
+  exit
+elif [ "$chosen_network" = "󰖩  Enable Wi-Fi" ]; then
+	iwctl adapter phy0 set-property Powered on 
+elif [ "$chosen_network" = "󰖪  Disable Wi-Fi" ]; then
+	iwctl adapter phy0 set-property Powered off 
+else
+	# Message to show when connection is activated successfully
+	success_message="You are now connected to the Wi-Fi network \"$chosen_id\"."
+	# Get saved connections
+	if iwctl known-networks list | grep -w "$chosen_id" > /dev/null ; then
+		iwctl station wlan0 connect "$chosen_id" && notify-send "Connection Established" "$success_message"
+	else
+		if [[ "$chosen_network" =~ "" ]]; then
+			wifi_password=$(rofi -dmenu -p "Password: " )
+		fi
+    iwctl --passphrase="$wifi_password" station wlan0 connect "$chosen_id" && notify-send "Connection Established" "$success_message"
+	fi
+fi
